@@ -56,7 +56,7 @@ class SpecialMechanismService {
   }
 
   // 添加gaokao特殊机制处理函数
-  async gaokao(choice: Choice, card: Card): Promise<void> {
+  async gaokao(_choice: Choice, _card: Card): Promise<void> {
     const totalScore = this.examAll();
     const rank = await rankService.queryRank(totalScore);
     
@@ -75,7 +75,6 @@ class SpecialMechanismService {
       </div>
     `;
 
-    // 触发游戏结束
     window.dispatchEvent(new CustomEvent('gameEnd', { 
       detail: { 
         type: 'gaokao',

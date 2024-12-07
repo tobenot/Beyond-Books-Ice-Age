@@ -53,7 +53,7 @@ class DateService {
       const currentPath = path ? `${path}.${key}` : key;
 
       if ('value' in value) {
-        if (value.value !== 0) {
+        if (typeof value.value === 'number' && value.value !== 0) {
           tagService.updateTag(currentPath, value.value);
         }
       } else {

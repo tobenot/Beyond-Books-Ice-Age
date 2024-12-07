@@ -1,4 +1,4 @@
-import { TagsConfig } from '../types';
+import { TagsConfig, Tag } from '../types';
 
 class TagService {
   private tags: TagsConfig = {};
@@ -38,16 +38,19 @@ class TagService {
 
   getTagValue(path: string): number {
     const keys = path.split('.');
-    let current = this.tags;
+    let current: Tag | TagsConfig = this.tags;
     
     for (const key of keys) {
-      if (!current[key]) {
+      if (!current || typeof current !== 'object' || !(key in current)) {
         return 0;
       }
       current = current[key];
     }
     
-    return current.value || 0;
+    if ('value' in current && typeof current.value === 'number') {
+      return current.value;
+    }
+    return 0;
   }
 
   getTags(): TagsConfig {
