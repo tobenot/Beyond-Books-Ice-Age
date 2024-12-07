@@ -1,0 +1,757 @@
+[
+    {
+        "id": "1",
+        "name": "语数英课",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "主科。",
+        "baseWeight": 3.0,
+        "choices": [
+            {
+                "text": "认真听",
+                "effects": [
+                    "技能.语文.100",
+                    "技能.数学.25",
+                    "技能.英语.400",
+                    "状态.精力.-60"
+                ],
+                "description": "数学不会，不会就是不会。"
+            },
+            {
+                "text": "玩",
+                "effects": [
+                    "状态.快乐.40"
+                ],
+                "description": "这就是快乐所在。"
+            }
+        ]
+    },
+    {
+        "id": "4",
+        "name": "课外活动",
+        "type": "event",
+        "cardSet": "基础",
+        "requireTags": {
+            "状态.精力": "<20"
+        },
+        "description": "天涯何处无芳草。",
+        "baseWeight": 0.2,
+        "choices": [
+            {
+                "text": "认真参与",
+                "effects": [
+                    "状态.快乐.40"
+                ],
+                "description": "散时如梦一场。"
+            },
+            {
+                "text": "摸鱼休息",
+                "effects": [
+                    "状态.精力.20"
+                ],
+                "description": "我就不去了。"
+            }
+        ]
+    },
+    {
+        "id": "5",
+        "name": "图书馆学习",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "陪着几位同学。",
+        "baseWeight": 0.3,
+        "choices": [
+            {
+                "text": "专心学习主科",
+                "effects": [
+                    "技能.数学.25",
+                    "技能.语文.100",
+                    "技能.英语.100",
+                    "状态.快乐.-20",
+                    "状态.精力.-20"
+                ],
+                "description": "都学学。"
+            },
+            {
+                "text": "专心学习副科",
+                "effects": [
+                    "技能.物理.100",
+                    "技能.化学.100",
+                    "技能.生物.100",
+                    "状态.快乐.-20",
+                    "状态.精力.-20"
+                ],
+                "description": "都学学。"
+            },
+            {
+                "text": "看课外书",
+                "effects": [
+                    "状态.快乐.20",
+                    "状态.精力.20"
+                ],
+                "description": "放假是放假，上学是上学。"
+            }
+        ]
+    },
+    {
+        "id": "6",
+        "name": "体育课",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "少有的体育课，什么时候放自由活动呢。",
+        "baseWeight": 0.6,
+        "choices": [
+            {
+                "text": "简单锻炼",
+                "requireTags": {
+                    "状态.精力": ">2"
+                },
+                "effects": [
+                    "状态.快乐.20",
+                    "状态.精力.20"
+                ],
+                "description": "虽然开始是很难的，但是运动带来了多巴胺。"
+            },
+            {
+                "text": "拼命锻炼",
+                "requireTags": {
+                    "状态.快乐": ">3",
+                    "状态.精力": ">3"
+                },
+                "effects": [
+                    "状态.快乐.-40",
+                    "状态.精力.30"
+                ],
+                "description": "受不了了！但是还要向前！"
+            },
+            {
+                "text": "回教室休息",
+                "requireTags": {
+                    "状态.精力": "<4"
+                },
+                "effects": [
+                    "状态.精力.20"
+                ],
+                "description": "精力不太够，还是回去吹空调吧。"
+            }
+        ]
+    },
+    {
+        "id": "7",
+        "name": "引子",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "我是苏祁镜，飞雁市第一中学的奥赛生。",
+        "mustDraw": true,
+        "priority": 1000,
+        "timeConsumption": 0,
+        "choices": [
+            {
+                "text": "没错。",
+                "effects": [
+                    "状态.精力.40",
+                    "状态.快乐.80"
+                ],
+                "consumeCard": true,
+                "description": "我生命的燃料……不可或缺。<br><br><i>右边展示的'精力'和'快乐'有一个归零的话，就会浪费时间。</i>"
+            }
+        ]
+    },
+    {
+        "id": "16",
+        "name": "生活",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "我准时在零点睡觉，六点半起来去上课。",
+        "mustDraw": true,
+        "priority": 999,
+        "timeConsumption": 0,
+        "choices": [
+            {
+                "text": "每日如此。",
+                "effects": [
+                    "变化.状态.精力.10",
+                    "变化.状态.快乐.-11",
+                    "变化.技能.语文.-8",
+                    "变化.技能.数学.-2",
+                    "变化.技能.英语.-8",
+                    "变化.技能.物理.-8",
+                    "变化.技能.化学.-4",
+                    "变化.技能.生物.-8"
+                ],
+                "consumeCard": true,
+                "description": "每3天都会自然恢复1点精力，但是也会遗忘一些知识。对于快乐值有持续的需求。"
+            }
+        ]
+    },
+    {
+        "id": "8",
+        "name": "现状",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "2019年8月12，这是高三开学的日子。",
+        "mustDraw": true,
+        "priority": 998,
+        "timeConsumption": 0,
+        "choices": [
+            {
+                "text": "还记得在高二上的期末考……",
+                "effects": [
+                    "技能.语文.1666",
+                    "技能.数学.1206",
+                    "技能.英语.2124",
+                    "技能.物理.1338",
+                    "技能.化学.1111",
+                    "技能.生物.1316"
+                ],
+                "consumeCard": true,
+                "description": "语文{{exam150:技能.语文}}，数学{{exam150:技能.数学}}，英语{{exam150:技能.英语}}，物理{{exam100:技能.物理}}，化学{{exam100:技能.化学}}，生物{{exam100:技能.生物}}。总共{{examAll:总分}}分。在最高的尖子班里倒数第二，真辛苦还有一位同学帮我垫着。</b>"
+            }
+        ]
+    },
+    {
+        "id": "9",
+        "name": "高考",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "持续两天的高考开始了。",
+        "mustDraw": true,
+        "priority": 985,
+        "timeConsumption": 0,
+        "dateRestrictions": {
+            "after": "2019-07-07"
+        },
+        "choices": [
+            {
+                "text": "这是最后一战。",
+                "effects": [],
+                "specialMechanism": "gaokao",
+                "consumeCard": true,
+                "description": "渡海……"
+            }
+        ]
+    },
+    {
+        "id": "10",
+        "name": "物化生课",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "副科。",
+        "baseWeight": 3.0,
+        "choices": [
+            {
+                "text": "认真听",
+                "effects": [
+                    "技能.物理.200",
+                    "技能.化学.50",
+                    "技能.生物.100",
+                    "状态.精力.-60"
+                ],
+                "description": "物理课还算好懂。化学就有点难以理解了。"
+            },
+            {
+                "text": "玩",
+                "effects": [
+                    "技能.物理.50",
+                    "状态.快乐.40"
+                ],
+                "description": "物理课确实很有趣。"
+            }
+        ]
+    },
+    {
+        "id": "13",
+        "name": "崩溃：快乐归零",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "道心破碎。",
+        "requireTags": {
+            "状态.快乐": "<1"
+        },
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 900,
+        "timeConsumption": 6,
+        "choices": [
+            {
+                "text": "玩",
+                "effects": [
+                    "状态.快乐.68"
+                ],
+                "description": "我需要休息。"
+            }
+        ]
+    },
+    {
+        "id": "14",
+        "name": "崩溃：精力归零",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "疲惫不堪。",
+        "requireTags": {
+            "状态.精力": "<1"
+        },
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 900,
+        "timeConsumption": 6,
+        "choices": [
+            {
+                "text": "睡",
+                "effects": [
+                    "状态.精力.10"
+                ],
+                "description": "我需要休息。"
+            }
+        ]
+    },
+    {
+        "id": "15",
+        "name": "考试",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "有一场常规考试。",
+        "baseWeight": 0.2,
+        "choices": [
+            {
+                "text": "好好考试",
+                "effects": [
+                    "技能.语文.26",
+                    "技能.数学.4",
+                    "技能.英语.50",
+                    "技能.物理.50",
+                    "技能.化学.20",
+                    "技能.生物.26",
+                    "状态.精力.-40",
+                    "状态.快乐.-40"
+                ],
+                "description": "语文{{exam150:技能.语文}}，数学{{exam150:技能.数学}}，英语{{exam150:技能.英语}}，物理{{exam100:技能.物理}}，化学{{exam100:技能.化学}}，生物{{exam100:技能.生物}}。总共{{examAll:总分}}分。"
+            },
+            {
+                "text": "尽快写完",
+                "effects": [
+                    "状态.精力.20",
+                    "状态.快乐.40"
+                ],
+                "description": "提前一个半小时写完了英语，趴着睡了好久。"
+            }
+        ]
+    },
+    {
+        "id": "17",
+        "name": "镜子",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "看着镜子…… 现在该想什么了？",
+        "baseWeight": 0.5,
+        "choices": [
+            {
+                "text": "反思",
+                "effects": [
+                    "状态.精力.40"
+                ],
+                "description": "我应该能做的更好的。"
+            },
+            {
+                "text": "自夸",
+                "effects": [
+                    "状态.精力.20",
+                    "状态.快乐.40"
+                ],
+                "description": "我如此年轻，还有力气，有无数的希望在。"
+            }
+        ]
+    },
+    {
+        "id": "18",
+        "name": "熟悉的天花板",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "天…… 才五点呢。",
+        "baseWeight": 0.5,
+        "choices": [
+            {
+                "text": "起来学数学",
+                "effects": [
+                    "技能.数学.100",
+                    "状态.快乐.10"
+                ],
+                "description": "在别人还没起床的时候偷偷学习。"
+            },
+            {
+                "text": "回笼觉",
+                "effects": [
+                    "状态.精力.20",
+                    "状态.快乐.40"
+                ],
+                "description": "中间醒了一下，反而休息的更好了。回笼梦里面我拿着激光枪在射击入侵的敌人。"
+            }
+        ]
+    },
+    {
+        "id": "19",
+        "name": "早餐",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "吃啥？",
+        "baseWeight": 2,
+        "choices": [
+            {
+                "text": "肠粉",
+                "effects": [
+                    "状态.精力.20",
+                    "状态.快乐.10"
+                ],
+                "description": "好吃。虽然有点想吃炒面……"
+            },
+            {
+                "text": "炒面",
+                "effects": [
+                    "状态.精力.10",
+                    "状态.快乐.20"
+                ],
+                "description": "好吃。就是有点干。"
+            },
+            {
+                "text": "不吃",
+                "effects": [
+                    "状态.精力.5",
+                    "状态.快乐.40"
+                ],
+                "description": "去教室玩。"
+            }
+        ]
+    },
+    {
+        "id": "20",
+        "name": "早读",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "天天都读语文英语。",
+        "baseWeight": 0.5,
+        "choices": [
+            {
+                "text": "认真早读",
+                "effects": [
+                    "技能.语文.100",
+                    "技能.英语.100",
+                    "状态.精力.-20"
+                ],
+                "description": "跟着读反正不费神，就是早上起来实在是困。"
+            },
+            {
+                "text": "冥想",
+                "effects": [
+                    "状态.精力.20"
+                ],
+                "description": "天天都是读这些。"
+            }
+        ]
+    },
+    {
+        "id": "21",
+        "name": "下课",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "终于下课了。",
+        "baseWeight": 2,
+        "choices": [
+            {
+                "text": "专心学习主科",
+                "effects": [
+                    "技能.数学.12",
+                    "技能.语文.50",
+                    "技能.英语.50",
+                    "状态.快乐.-20",
+                    "状态.精力.-10"
+                ],
+                "description": "时间太短了。"
+            },
+            {
+                "text": "专心学习副科",
+                "effects": [
+                    "技能.物理.50",
+                    "技能.化学.50",
+                    "技能.生物.50",
+                    "状态.快乐.-20",
+                    "状态.精力.-10"
+                ],
+                "description": "时间太短了。"
+            },
+            {
+                "text": "休息放松",
+                "effects": [
+                    "状态.精力.10",
+                    "状态.快乐.40"
+                ],
+                "description": "玩玩。"
+            }
+        ]
+    },
+    {
+        "id": "22",
+        "name": "大课间",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "大课间活动是一个比较长的课间。",
+        "baseWeight": 0.5,
+        "choices": [
+            {
+                "text": "锻炼去",
+                "effects": [
+                    "状态.精力.40",
+                    "状态.快乐.20"
+                ],
+                "description": "大家都这么做。"
+            },
+            {
+                "text": "专心学习主科",
+                "effects": [
+                    "技能.数学.25",
+                    "技能.语文.100",
+                    "技能.英语.100",
+                    "状态.快乐.-20",
+                    "状态.精力.-20"
+                ],
+                "description": "有时间当然是学习。"
+            },
+            {
+                "text": "专心学习副科",
+                "effects": [
+                    "技能.物理.100",
+                    "技能.化学.100",
+                    "技能.生物.100",
+                    "状态.快乐.-20",
+                    "状态.精力.-20"
+                ],
+                "description": "有时间当然是学习。"
+            },
+            {
+                "text": "休息放松",
+                "effects": [
+                    "状态.精力.20",
+                    "状态.快乐.50"
+                ],
+                "description": "大玩特玩。"
+            }
+        ]
+    },
+    {
+        "id": "23",
+        "name": "中晚餐",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "中餐晚餐是一样的餐线…… 吃啥？",
+        "baseWeight": 2,
+        "choices": [
+          {
+            "text": "红烧肉",
+            "effects": [
+              "状态.精力.18",
+              "状态.快乐.14"
+            ],
+            "description": "香气四溢，肥而不腻，满足。"
+          },
+          {
+            "text": "鱼香肉丝",
+            "effects": [
+              "状态.精力.19",
+              "状态.快乐.12"
+            ],
+            "description": "甜甜的鱼香肉丝，完美。"
+          },
+          {
+            "text": "宫保鸡丁",
+            "effects": [
+              "状态.精力.16",
+              "状态.快乐.18"
+            ],
+            "description": "甜甜的宫保鸡丁，好。"
+          },
+          {
+            "text": "清蒸鱼",
+            "effects": [
+              "状态.精力.22",
+              "状态.快乐.6"
+            ],
+            "description": "鲜嫩多汁的清蒸鱼，清淡美味，就是骨头有点多。"
+          },
+          {
+            "text": "麻婆豆腐",
+            "effects": [
+              "状态.精力.15",
+              "状态.快乐.20"
+            ],
+            "description": "豆腐嫩滑，幸好它不辣。"
+          },
+          {
+            "text": "回锅肉",
+            "effects": [
+              "状态.精力.14",
+              "状态.快乐.22"
+            ],
+            "description": "外焦里嫩的回锅肉。"
+          },
+          {
+            "text": "西红柿炒鸡蛋",
+            "effects": [
+              "状态.精力.24",
+              "状态.快乐.2"
+            ],
+            "description": "酸甜可口的西红柿炒鸡蛋。"
+          },
+          {
+            "text": "青椒炒牛肉",
+            "effects": [
+              "状态.精力.13",
+              "状态.快乐.24"
+            ],
+            "description": "鲜嫩的牛肉搭配脆爽的青椒，味道绝佳。"
+          },
+          {
+            "text": "白菜豆腐汤",
+            "effects": [
+              "状态.精力.12",
+              "状态.快乐.26"
+            ],
+            "description": "清淡爽口的白菜豆腐汤，温暖而舒心。"
+          },
+          {
+            "text": "蒜蓉菠菜",
+            "effects": [
+              "状态.精力.20",
+              "状态.快乐.10"
+            ],
+            "description": "清新脆嫩的蒜蓉菠菜，美味。"
+          }
+        ]
+      }, 
+    {
+        "id": "24",
+        "name": "小卖部",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "晚修快开始了。",
+        "baseWeight": 1,
+        "choices": [
+            {
+                "text": "糖糖糖",
+                "effects": [
+                    "状态.精力.20",
+                    "状态.快乐.40"
+                ],
+                "description": "我的生命线。"
+            },
+            {
+                "text": "不买",
+                "effects": [
+                    "状态.精力.20"
+                ],
+                "description": "不去小卖部，保持精力。"
+            }
+        ]
+    },
+    {
+        "id": "25",
+        "name": "晚自习",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "晚自习时间。",
+        "baseWeight": 3,
+        "choices": [
+            {
+                "text": "认真学习",
+                "effects": [
+                    "技能.语文.100",
+                    "技能.数学.100",
+                    "技能.英语.100",
+                    "技能.物理.100",
+                    "技能.化学.100",
+                    "技能.生物.100",
+                    "状态.精力.-40",
+                    "状态.快乐.-80"
+                ],
+                "description": "不管是什么办法都好……"
+            },
+            {
+                "text": "摸鱼学习",
+                "effects": [
+                    "技能.语文.50",
+                    "技能.数学.50",
+                    "技能.英语.50",
+                    "技能.物理.50",
+                    "技能.化学.50",
+                    "技能.生物.50",
+                    "状态.精力.-20",
+                    "状态.快乐.-20"
+                ],
+                "description": "我爱摸鱼。"
+            },
+            {
+                "text": "全摸了！",
+                "effects": [
+                    "状态.精力.20",
+                    "状态.快乐.40"
+                ],
+                "description": "写点小说，设计点游戏什么的。"
+            }
+        ]
+    },
+    {
+        "id": "26",
+        "name": "手机",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "在空闲时间里，我都在手机上看什么呢？",
+        "baseWeight": 1,
+        "choices": [
+            {
+                "text": "看七奈的视频",
+                "effects": [
+                    "状态.快乐.80",
+                    "状态.精力.-10"
+                ],
+                "description": "可爱，单推。"
+            },
+            {
+                "text": "看其他虚拟主播",
+                "effects": [
+                    "状态.快乐.80",
+                    "状态.精力.-10"
+                ],
+                "description": "可爱，单推。"
+            },
+            {
+                "text": "看番剧",
+                "effects": [
+                    "状态.快乐.160",
+                    "状态.精力.-30"
+                ],
+                "description": "快乐，唾手可得。就是有点停不下来。"
+            },
+            {
+                "text": "云游戏",
+                "effects": [
+                    "状态.快乐.160",
+                    "状态.精力.-30"
+                ],
+                "description": "快乐，唾手可得。就是有点停不下来。"
+            },
+            {
+                "text": "随便刷刷",
+                "effects": [
+                    "状态.快乐.40"
+                ],
+                "description": "漫无目的。"
+            },
+            {
+                "text": "克制住",
+                "effects": [
+                    "状态.精力.10",
+                    "状态.快乐.-80"
+                ],
+                "description": "想玩……"
+            }
+        ]
+    }
+]

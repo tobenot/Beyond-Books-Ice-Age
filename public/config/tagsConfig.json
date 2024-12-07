@@ -1,0 +1,34 @@
+{
+  "状态": {
+    "快乐": {
+      "value": 0,
+      "priority": 10,
+      "color": "green"
+    },
+    "精力": {
+      "value": 0,
+      "priority": 5,
+      "color": "orange"
+    }
+  },
+  "技能": {
+    "语文": {
+      "color": "brown"
+    },
+    "数学": {
+      "color": "blue"
+    },
+    "英语": {
+      "color": "red"
+    },
+    "物理": {
+      "color": "red"
+    },
+    "化学": {
+      "color": "purple"
+    },
+    "生物": {
+      "color": "green"
+    }
+  }
+}
