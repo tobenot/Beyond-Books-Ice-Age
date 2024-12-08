@@ -420,7 +420,7 @@
         "name": "大课间",
         "type": "event",
         "cardSet": "基础",
-        "description": "大课间活动是一个比较长的课间。",
+        "description": "大课间活动是一个比较长的课间��",
         "baseWeight": 0.5,
         "choices": [
             {
@@ -459,7 +459,7 @@
                     "状态.精力.20",
                     "状态.快乐.50"
                 ],
-                "description": "大玩特玩。"
+                "description": "大家特玩。"
             }
         ]
     },
@@ -788,58 +788,51 @@
         "mustDraw": true,
         "priority": 200,
         "requireTags": {
-            "目标.寻找角色": "!empty"
+            "目标.交互角色": "!empty"
         },
         "choices": [
             {
-                "text": "闲聊",
+                "text": "交谈",
                 "effects": [
                     "状态.精力.-5"
                 ],
-                "description": "进行一些日常对话。",
-                "requireTags": {
-                    "目标.寻找角色": "!empty"
-                }
+                "specialMechanism": "characterInteraction",
+                "description": "进行一些日常对话。"
             },
             {
-                "text": "询问情况",
+                "text": "没什么",
                 "effects": [
-                    "状态.精力.-10"
-                ],
-                "description": "了解{{charName}}的近况。",
-                "requireTags": {
-                    "目标.寻找角色": "!empty",
-                    "目标.寻找角色.faction": "复苏队"
-                }
-            },
-            {
-                "text": "打探消息",
-                "effects": [
-                    "状态.精力.-10"
-                ],
-                "description": "小心地询问冰河派的动向。",
-                "requireTags": {
-                    "目标.寻找角色": "!empty",
-                    "目标.寻找角色.faction": "冰河派"
-                }
-            },
-            {
-                "text": "请求帮助",
-                "effects": [
-                    "状态.精力.-15"
-                ],
-                "description": "寻求一些援助。",
-                "requireTags": {
-                    "目标.寻找角色": "!empty",
-                    "目标.寻找角色.attitude": "友好"
-                }
-            },
-            {
-                "text": "结束交谈",
-                "effects": [
-                    "目标.寻找角色.empty"
+                    "目标.交互角色.empty"
                 ],
                 "description": "结束当前对话。"
+            }
+        ]
+    },
+    {
+        "id": "suYuQing_chat_1",
+        "name": "与苏雨晴的对话",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "苏雨晴正在整理资料。",
+        "baseWeight": 10.0,
+        "requireTags": {
+            "目标.交谈角色": "suYuQing"
+        },
+        "choices": [
+            {
+                "text": "询问复苏队的情况",
+                "effects": [
+                    "状态.精力.-10"
+                ],
+                "description": "了解复苏队的近况。"
+            },
+            {
+                "text": "闲聊",
+                "effects": [
+                    "状态.精力.-5",
+                    "目标.交谈角色.empty"
+                ],
+                "description": "聊了一些日常话题。"
             }
         ]
     }

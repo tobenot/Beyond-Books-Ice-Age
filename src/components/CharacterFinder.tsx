@@ -12,14 +12,14 @@ export const CharacterFinder: React.FC<CharacterFinderProps> = ({ onClose }) => 
     .filter(char => !characterService.isPlayer(char.id));
 
   const handleCharacterSelect = (characterId: string) => {
-    characterService.updatePlayerTag('目标.寻找角色', characterId);
+    characterService.updatePlayerTag('目标.交互角色', characterId);
     onClose();
   };
 
   return (
     <div className="bg-charcoal p-4 rounded-lg">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="text-lg font-bold">寻找角色</h3>
+        <h3 className="text-lg font-bold">交互角色</h3>
         <button
           onClick={onClose}
           className="p-2 bg-rose-quartz rounded hover:bg-opacity-80"

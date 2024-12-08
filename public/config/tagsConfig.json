@@ -41,8 +41,7 @@
       "type": "equipment",
       "slot": "身体",
       "effects": {
-        "状态.生命值": 20,
-        "状态.熵减抗性": 10
+        "状态.生命值": 20
       },
       "defaultValue": 0
     },
@@ -75,9 +74,15 @@
     }
   },
   "目标": {
-    "寻找角色": {
+    "交互角色": {
       "color": "purple",
       "priority": 1,
+      "type": "string",
+      "defaultValue": ""
+    },
+    "交谈角色": {
+      "color": "blue", 
+      "priority": 2,
       "type": "string",
       "defaultValue": ""
     }

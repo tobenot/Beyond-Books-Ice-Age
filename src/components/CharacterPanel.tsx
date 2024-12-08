@@ -14,7 +14,7 @@ export const CharacterPanel: React.FC = () => {
     .filter(rel => characterService.getCharacterTagValue(rel.character.id, '位置.当前地点') === currentLocation);
 
   const handleFindCharacter = (characterId: string) => {
-    characterService.updatePlayerTag('目标.寻找角色', characterId);
+    characterService.updatePlayerTag('目标.交互角色', characterId);
   };
 
   const renderCharacterStats = (character: Character) => (
