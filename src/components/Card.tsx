@@ -136,6 +136,19 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
       .map((choice, index) => {
         const available = isChoiceAvailable(choice);
         
+        // 根据选项的位置和类型选择不同的背景色
+        const getButtonColor = () => {
+          if (!available) return 'bg-charcoal opacity-50';
+          
+          // 如果选项会消耗卡片或有特殊机制，使用不同的颜色
+          if (choice.consumeCard) return 'bg-coral hover:bg-opacity-80';
+          if (choice.specialMechanism) return 'bg-amber hover:bg-opacity-80';
+          
+          // 根据选项的位置循环使用不同的颜色
+          const colors = ['bg-sage', 'bg-sky-blue', 'bg-royal-purple'];
+          return `${colors[index % colors.length]} hover:bg-opacity-80`;
+        };
+        
         return (
           <div 
             key={index}
@@ -144,11 +157,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
             <button
               onClick={() => available && handleChoice(choice)}
               disabled={!available}
-              className={`w-full p-2 ${
-                available
-                  ? 'bg-moss-green hover:bg-opacity-80'
-                  : 'bg-gray-600 cursor-not-allowed opacity-50'
-              } rounded`}
+              className={`w-full p-2 ${getButtonColor()} rounded transition-colors duration-200`}
             >
               {choice.text}
             </button>

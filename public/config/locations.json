@@ -1,7 +1,7 @@
 {
   "hibernation_center": {
     "name": "冬眠中心",
-    "description": "你苏醒的地方，这里有完整的生命维持系统。",
+    "description": "你苏醒的地方，不论如何，它已经是\"前\"冬眠中心了。",
     "connections": ["revival_base", "ice_faction", "wasteland"],
     "tags": {
       "建筑完整度": 80,

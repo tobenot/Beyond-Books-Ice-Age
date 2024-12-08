@@ -10,6 +10,13 @@ interface CharacterPanelProps {
 }
 
 export const CharacterPanel: React.FC<CharacterPanelProps> = ({ onSkipCard }) => {
+  // 检查是否解锁
+  const isPanelUnlocked = characterService.getPlayerTagValue('系统.角色面板') === '已解锁';
+  
+  if (!isPanelUnlocked) {
+    return null;
+  }
+  
   const currentLocation = characterService.getPlayerTagValue('位置.当前地点') as string;
   
   const characters = useMemo(() => 

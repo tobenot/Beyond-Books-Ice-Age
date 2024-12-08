@@ -171,6 +171,14 @@ class SpecialMechanismService {
       }
     }));
   }
+
+  unlockLocationPanel(choice: Choice, card: Card): void {
+    characterService.updatePlayerTag('系统.地点面板', '已解锁');
+  }
+
+  unlockCharacterPanel(choice: Choice, card: Card): void {
+    characterService.updatePlayerTag('系统.角色面板', '已解锁');
+  }
 }
 
 export const specialMechanismService = new SpecialMechanismService(); 

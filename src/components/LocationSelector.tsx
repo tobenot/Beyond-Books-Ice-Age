@@ -22,6 +22,13 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({
   locations, 
   onSkipCard 
 }) => {
+  // 检查是否解锁
+  const isPanelUnlocked = characterService.getPlayerTagValue('系统.地点面板') === '已解锁';
+  
+  if (!isPanelUnlocked) {
+    return null;
+  }
+  
   const currentLocation = characterService.getPlayerTagValue('位置.当前地点');
   const targetLocation = characterService.getPlayerTagValue('位置.目标地点');
   const [locationIllustrations, setLocationIllustrations] = React.useState<Record<string, string>>({});

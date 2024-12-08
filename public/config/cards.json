@@ -1,5 +1,74 @@
 [
     {
+        "id": "game_start",
+        "name": "苏醒",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你感觉你做了一个很长很长很长的梦... 浑身僵硬，意识逐渐恢复...\n\n你看到面前是一块打开了的舱门，你躺在一个冬眠仓里面！你并不能想起来你是什么时候冬眠的，冬眠之前发生了什么事，你为什么会冬眠，但你知道有人叫你【镜子】。",
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 9999,
+        "illustration": "loc_wasteland",
+        "requireTags": {
+            "位置.当前地点": "hibernation_center"
+        },
+        "choices": [
+            {
+                "text": "坐起来",
+                "consumeCard": true,
+                "effects": [
+                ],
+                "specialMechanism": "unlockCharacterPanel",
+                "description": "你缓缓撑住冬眠仓的底部坐起来，观察四周。"
+            }
+        ]
+    },
+    {
+        "id": "first_meet_suyuqing",
+        "name": "首次接触",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "一个身着白色制服的机器人正站在舱门旁边，她的目光中透露着关切。\"请不要惊慌。我是复苏队的苏雨晴，负责这片区域的搜救工作。\"\n\n她的声音温和而平静：\"你是什么时候冬眠的？\"",
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 9998,
+        "illustration": "suYuQing",
+        "requireTags": {
+            "位置.当前地点": "hibernation_center"
+        },
+        "choices": [
+            {
+                "text": "我记不清楚了... 你说搜救？为什么是搜救？",
+                "consumeCard": true,
+                "effects": [],
+                "description": "她说：\"世界已经毁灭，简单来说，我们是来拯救人类世界的机器人。\"她扶着你的肩膀，带你走出冬眠仓。"
+            }
+        ]
+    },
+    {
+        "id": "first_meet_suyuqing_2",
+        "name": "熵减世界",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你走出了冬眠仓，走出了冬眠中心的大门。你看到外面是一片荒芜的废墟。看着苍茫的废墟，你顿时迷茫了起来。她说：\"你可以去任何你想去的地方。我们只负责唤醒你。\"",
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 9997,
+        "illustration": "loc_hibernation_center",
+        "requireTags": {
+            "位置.当前地点": "hibernation_center"
+        },
+        "choices": [
+            {
+                "text": "这冰天雪地的，我上哪去？",
+                "consumeCard": true,
+                "effects": [],
+                "specialMechanism": "unlockLocationPanel",
+                "description": "她说：\"去复苏队基地吧。\" 她给你了一张地图，并给你勾画了几个地点，她说：\"那里你会很熟悉的，那是你认为的人类世界。\""
+            }
+        ]
+    },
+    {
         "id": "location_change",
         "name": "前往新地点",
         "type": "event",
@@ -77,7 +146,7 @@
                     "状态.精力.-5"
                 ],
                 "specialMechanism": "characterInteraction",
-                "description": "进行一些日常对话。"
+                "description": "{{charName}} 做出在听的样子。"
             },
             {
                 "text": "发起攻击",
@@ -105,7 +174,7 @@
         "name": "与苏雨晴的对话",
         "type": "event",
         "cardSet": "基础",
-        "description": "苏雨晴正在整理资料。她是一位机器人,但举止非常人性化。",
+        "description": "苏雨晴双手靠在腹前，摆出典雅的姿势。",
         "baseWeight": 10.0,
         "illustration": "suYuQing",
         "requireTags": {
