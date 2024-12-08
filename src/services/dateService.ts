@@ -1,5 +1,6 @@
 import { tagService } from './tagService';
 import { TagModifierConfig } from '../types';
+import { characterService } from './characterService';
 
 class DateService {
   private currentDate: Date;
@@ -42,7 +43,7 @@ class DateService {
   }
 
   private applyTagModifier(): void {
-    const playerTags = tagService.getTags();
+    const playerTags = characterService.getPlayer()?.tags;
     if (playerTags.变化) {
       this.traverseAndUpdate(playerTags.变化);
     }
@@ -54,7 +55,7 @@ class DateService {
       
       if (typeof value === 'number') {
         // 如果值是数字，直接应用修改
-        tagService.updateTag(currentPath, value);
+        characterService.updatePlayerTag(currentPath, value);
       } else if (typeof value === 'object' && value !== null) {
         // 如果值是对象，递归处理
         this.traverseAndUpdate(value, currentPath);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { tagService } from '../services/tagService';
+import { characterService } from '../services/characterService';
 import { itemService } from '../services/itemService';
 
 export const InventoryPanel: React.FC = () => {
@@ -7,7 +7,7 @@ export const InventoryPanel: React.FC = () => {
   const [showEquipDialog, setShowEquipDialog] = useState(false);
   const [selectedItem, setSelectedItem] = useState<string>('');
 
-  const playerTags = tagService.getTags();
+  const playerTags = characterService.getPlayer()?.tags;
   const tagsConfig = tagService.getTagsConfig();
 
   const renderItems = () => {

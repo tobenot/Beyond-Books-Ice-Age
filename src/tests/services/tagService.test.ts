@@ -13,8 +13,8 @@ describe('TagService', () => {
         状态: { 生命值: { value: 100 } }
       });
 
-      tagService.updateTag('状态.生命值', -30);
-      expect(tagService.getTagValue('状态.生命值')).toBe(70);
+      characterService.updatePlayerTag('状态.生命值', -30);
+      expect(characterService.getPlayerTagValue('状态.生命值')).toBe(70);
     });
 
     test('should update string tag value correctly', () => {
@@ -22,17 +22,17 @@ describe('TagService', () => {
         位置: { 当前地点: { value: '' } }
       });
 
-      tagService.updateTag('位置.当前地点', '冬眠中心');
-      expect(tagService.getTagValue('位置.当前地点')).toBe('冬眠中心');
+      characterService.updatePlayerTag('位置.当前地点', '冬眠中心');
+      expect(characterService.getPlayerTagValue('位置.当前地点')).toBe('冬眠中心');
     });
 
     test('should handle non-existent tags', () => {
-      expect(tagService.getTagValue('不存在.的路径')).toBe('');
+      expect(characterService.getPlayerTagValue('不存在.的路径')).toBe('');
     });
 
     test('should create missing tag categories', () => {
-      tagService.updateTag('新类别.新标签', 100);
-      expect(tagService.getTagValue('新类别.新标签')).toBe(100);
+      characterService.updatePlayerTag('新类别.新标签', 100);
+      expect(characterService.getPlayerTagValue('新类别.新标签')).toBe(100);
     });
 
     test('should accumulate numeric values', () => {
@@ -40,10 +40,10 @@ describe('TagService', () => {
         状态: { 生命值: { value: 50 } }
       });
 
-      tagService.updateTag('状态.生命值', 30);  // 50 + 30
-      tagService.updateTag('状态.生命值', 20);  // 80 + 20
+      characterService.updatePlayerTag('状态.生命值', 30);  // 50 + 30
+      characterService.updatePlayerTag('状态.生命值', 20);  // 80 + 20
 
-      expect(tagService.getTagValue('状态.生命值')).toBe(100);
+      expect(characterService.getPlayerTagValue('状态.生命值')).toBe(100);
     });
 
     test('should handle multiple tag updates', () => {
@@ -54,11 +54,11 @@ describe('TagService', () => {
         }
       });
 
-      tagService.updateTag('状态.生命值', -20);
-      tagService.updateTag('状态.精力', 30);
+      characterService.updatePlayerTag('状态.生命值', -20);
+      characterService.updatePlayerTag('状态.精力', 30);
 
-      expect(tagService.getTagValue('状态.生命值')).toBe(80);
-      expect(tagService.getTagValue('状态.精力')).toBe(80);
+      expect(characterService.getPlayerTagValue('状态.生命值')).toBe(80);
+      expect(characterService.getPlayerTagValue('状态.精力')).toBe(80);
     });
   });
 });

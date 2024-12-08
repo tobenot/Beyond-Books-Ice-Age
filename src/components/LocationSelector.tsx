@@ -1,5 +1,5 @@
 import React from 'react';
-import { tagService } from '../services/tagService';
+import { characterService } from '../services/characterService';
 
 interface Location {
   name: string;
@@ -15,12 +15,12 @@ interface LocationSelectorProps {
 }
 
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ locations }) => {
-  const currentLocation = tagService.getTagValue('位置.当前地点');
-  const targetLocation = tagService.getTagValue('位置.目标地点');
+  const currentLocation = characterService.getPlayerTagValue('位置.当前地点');
+  const targetLocation = characterService.getPlayerTagValue('位置.目标地点');
 
   const handleLocationSelect = (locationName: string) => {
     if (locationName !== currentLocation) {
-      tagService.updateTag('位置.目标地点', locationName);
+      characterService.updatePlayerTag('位置.目标地点', locationName);
     }
   };
 

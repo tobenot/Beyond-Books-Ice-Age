@@ -137,79 +137,6 @@
         ]
     },
     {
-        "id": "7",
-        "name": "引子",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "我是苏祁镜，飞雁市第一中学的奥赛生。",
-        "mustDraw": true,
-        "priority": 1000,
-        "timeConsumption": 0,
-        "choices": [
-            {
-                "text": "没错。",
-                "effects": [
-                    "状态.精力.40",
-                    "状态.快乐.80"
-                ],
-                "consumeCard": true,
-                "description": "我生命的燃料……不可或缺。<br><br><i>右边展示的'精力'和'快乐'有一个归零的话，就会浪费时间。</i>"
-            }
-        ]
-    },
-    {
-        "id": "16",
-        "name": "生活",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "我准时在零点睡觉，六点半起来去上课。",
-        "mustDraw": true,
-        "priority": 999,
-        "timeConsumption": 0,
-        "choices": [
-            {
-                "text": "每日如此。",
-                "effects": [
-                    "变化.状态.精力.10",
-                    "变化.状态.快乐.-11",
-                    "变化.技能.语文.-8",
-                    "变化.技能.数学.-2",
-                    "变化.技能.英语.-8",
-                    "变化.技能.物理.-8",
-                    "变化.技能.化学.-4",
-                    "变化.技能.生物.-8"
-                ],
-                "consumeCard": true,
-                "description": "每3天都会自然恢复1点精力，但是也会遗忘一些知识。对于快乐值有持续的需求。"
-            }
-        ]
-    },
-    {
-        "id": "8",
-        "name": "现状",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "2019年8月12，这是高三开学的日子。",
-        "mustDraw": true,
-        "priority": 998,
-        "timeConsumption": 0,
-        "choices": [
-            {
-                "text": "还记得在高二上的期末考……",
-                "effects": [
-                    "技能.语文.1666",
-                    "技能.数学.1206",
-                    "技能.英语.2124",
-                    "技能.物理.1338",
-                    "技能.化学.1111",
-                    "技能.生物.1316"
-                ],
-                "consumeCard": true,
-                "description": "语文{{exam150:技能.语文}}，数学{{exam150:技能.数学}}，英语{{exam150:技能.英语}}，物理{{exam100:技能.物理}}，化学{{exam100:技能.化学}}，生物{{exam100:技能.生物}}。总共{{examAll:总分}}分。在最高的尖子班里倒数第二，真辛苦还有一位同学帮我垫着。</b>"
-            }
-        ]
-    },
-    {
         "id": "9",
         "name": "高考",
         "type": "event",
@@ -854,7 +781,7 @@
         "baseWeight": 0.8,
         "choices": [
             {
-                "text": "拾���",
+                "text": "拾取",
                 "effects": [
                     "物品.能量剑.1"
                 ],
@@ -864,27 +791,6 @@
                 "text": "离开",
                 "effects": [],
                 "description": "这种武器太危险了。"
-            }
-        ]
-    },
-    {
-        "id": "debug_item_test",
-        "name": "测试物品",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "测试用物品卡",
-        "baseWeight": 0,
-        "mustDraw": true,
-        "priority": 999,
-        "choices": [
-            {
-                "text": "获得全部物品",
-                "effects": [
-                    "物品.能量电池.3",
-                    "物品.防护服.1",
-                    "物品.能量剑.1"
-                ],
-                "description": "测试用"
             }
         ]
     }

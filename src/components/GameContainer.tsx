@@ -4,7 +4,6 @@ import { Card } from './Card';
 import { TagsDisplay } from './TagsDisplay';
 import { DateDisplay } from './DateDisplay';
 import { cardService } from '../services/cardService';
-import { tagService } from '../services/tagService';
 import { dateService } from '../services/dateService';
 import { specialMechanismService } from '../services/specialMechanismService';
 import { MainMenu } from './MainMenu';
@@ -12,6 +11,10 @@ import { LocationSelector } from './LocationSelector';
 import { effectService } from '../services/effectService';
 import { SaveLoadMenu } from './SaveLoadMenu';
 import { InventoryPanel } from './InventoryPanel';
+import { CharacterPanel } from './CharacterPanel';
+import { characterService } from '../services/characterService';
+import { tagService } from '../services/tagService';
+
 
 export const GameContainer: React.FC = () => {
   const [currentCard, setCurrentCard] = useState<CardType | null>(null);
@@ -30,9 +33,10 @@ export const GameContainer: React.FC = () => {
     const initGame = async () => {
       await Promise.all([
         cardService.loadCardData(),
-        tagService.loadTagsConfig()
+        tagService.loadTagsConfig(),
+        characterService.loadCharacterData()
       ]);
-      setTags(tagService.getTags());
+      setTags(characterService.getPlayer()?.tags);
     };
 
     initGame();
@@ -108,7 +112,7 @@ export const GameContainer: React.FC = () => {
     if (!currentCard) return;
 
     // 更新标签显示
-    setTags(tagService.getTags());
+    setTags(characterService.getPlayer()?.tags);
 
     // 处理特殊机制
     if (choice.specialMechanism) {
@@ -135,7 +139,7 @@ export const GameContainer: React.FC = () => {
   };
 
   const checkGameEnd = () => {
-    const health = tagService.getTagValue('状态.生命值');
+    const health = characterService.getPlayerTagValue('状态.生命值');
     
     if (typeof health === 'number' && health <= 0) {
       setEndingType('death');
@@ -145,8 +149,8 @@ export const GameContainer: React.FC = () => {
     }
 
     // 保留原有的其他结局检查
-    const happiness = tagService.getTagValue('状态.快乐');
-    const energy = tagService.getTagValue('状态.精力');
+    const happiness = characterService.getPlayerTagValue('状态.快乐');
+    const energy = characterService.getPlayerTagValue('状态.精力');
     
     if (typeof happiness === 'number' && happiness <= 0) {
       setEndingType('bad_happiness');
@@ -172,7 +176,7 @@ export const GameContainer: React.FC = () => {
   const restoreGameState = () => {
     console.log('Starting restore game state');
     
-    const newTags = tagService.getTags();
+    const newTags = characterService.getPlayer()?.tags;
     console.log('Loading tags:', newTags);
     setTags(newTags);
     
@@ -215,9 +219,12 @@ export const GameContainer: React.FC = () => {
   return (
     <div className="grid grid-cols-12 gap-4 p-4">
       <div className="col-span-3">
-        <TagsDisplay playerTags={tagService.getTags()} />
+        <TagsDisplay playerTags={characterService.getPlayer()?.tags} />
         <div className="mt-4">
           <LocationSelector locations={locations} />
+        </div>
+        <div className="mt-4">
+          <CharacterPanel />
         </div>
         <div className="mt-4">
           <button

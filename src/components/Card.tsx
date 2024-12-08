@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Card as CardType, Choice } from '../types';
 import { specialMechanismService } from '../services/specialMechanismService';
 import { dateService } from '../services/dateService';
-import { tagService } from '../services/tagService';
+import { characterService } from '../services/characterService';
 import { effectService } from '../services/effectService';
 import { cardService } from '../services/cardService';
 

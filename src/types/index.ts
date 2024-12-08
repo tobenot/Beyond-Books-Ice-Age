@@ -65,9 +65,38 @@ export interface TagsConfig {
 }
 
 export interface PlayerTags {
-  [category: string]: {
-    [tagName: string]: number | string;
+  状态: {
+    生命值: number;
+    熵减抗性: number;
+    精力: number;
+    快乐: number;
+    [key: string]: number;
   };
+  位置: {
+    当前地点: string;
+    目标地点: string;
+    [key: string]: string;
+  };
+  装备: {
+    头部: string;
+    身体: string;
+    武器: string;
+    [key: string]: string;
+  };
+  物品: {
+    [key: string]: number;
+  };
+  属性: {
+    力量: number;
+    敏捷: number;
+    智力: number;
+    [key: string]: number;
+  };
+  关系: {
+    立场: string;
+    [key: string]: string | number;
+  };
+  [key: string]: any;
 }
 
 export interface Countdown {
@@ -85,4 +114,22 @@ export interface TagModifierConfig {
 
 export interface SpecialMechanism {
   [key: string]: (choice: Choice, card: Card) => void;
-} 
+}
+
+export interface Character {
+  id: string;
+  name: string;
+  title: string;
+  description: string;
+  faction: string;
+  tags: CharacterTags;
+  relationships: {
+    [characterId: string]: {
+      好感度: number;
+      信任度: number;
+      立场: string;
+    }
+  };
+}
+
+export interface CharacterTags extends PlayerTags {} 

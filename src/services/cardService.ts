@@ -1,4 +1,5 @@
-import { Card } from '../types';
+import { Card, Choice } from '../types';
+import { characterService } from '../services/characterService';
 import { tagService } from './tagService';
 import { dateService } from './dateService';
 
@@ -49,7 +50,7 @@ class CardService {
     // 检查标签要求
     if (card.requireTags) {
       for (const [tag, condition] of Object.entries(card.requireTags)) {
-        const tagValue = tagService.getTagValue(tag);
+        const tagValue = characterService.getPlayerTagValue(tag);
         if (!this.evaluateCondition(tagValue, condition)) {
           return false;
         }
@@ -101,7 +102,7 @@ class CardService {
         // 应用标签权重
         if (card.weightMultipliers) {
           for (const [tag, multiplier] of Object.entries(card.weightMultipliers)) {
-            const tagValue = tagService.getTagValue(tag);
+            const tagValue = characterService.getPlayerTagValue(tag);
             if (typeof tagValue === 'number') {
               weight *= Math.pow(multiplier, tagValue);
             }

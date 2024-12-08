@@ -2,6 +2,7 @@ import { tagService } from './tagService';
 import { dateService } from './dateService';
 import { cardService } from './cardService';
 import { Card } from '../types';
+import { characterService } from '../services/characterService';
 
 interface SaveData {
   tags: any;
@@ -9,6 +10,7 @@ interface SaveData {
   countdowns: Array<{name: string, date: Date}>;
   currentCard: Card | null;
   consumedCards: string[]; // 存储已消耗的卡牌ID
+  characters: any;
 }
 
 class SaveService {
@@ -16,12 +18,19 @@ class SaveService {
   
   async saveGame(slotId: number): Promise<void> {
     const saveData: SaveData = {
-      tags: tagService.getTags(),
+      tags: characterService.getPlayer()?.tags,
       date: dateService.getCurrentDate(),
       countdowns: dateService.getCountdowns(),
       currentCard: cardService.getCurrentCard(),
-      consumedCards: cardService.getConsumedCards()
+      consumedCards: cardService.getConsumedCards(),
+      characters: this.characters
     };
+    
+    console.log('Saving game state with character locations:', 
+      Object.entries(saveData.characters).map(([id, char]) => 
+        `${char.name}: ${characterService.getCharacterTagValue(id, '位置.当前地点')}`
+      )
+    );
     
     console.log('Saving game state:', {
       tags: saveData.tags,
@@ -67,7 +76,7 @@ class SaveService {
       cardService.setConsumedCards(saveData.consumedCards);
 
       console.log('Game state after loading:', {
-        tags: tagService.getTags(),
+        tags: characterService.getPlayer()?.tags,
         date: dateService.getCurrentDate(),
         countdowns: dateService.getCountdowns(),
         currentCard: cardService.getCurrentCard()?.name,

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TagsConfig, PlayerTags } from '../types';
+import { characterService } from '../services/characterService';
 import { tagService } from '../services/tagService';
 
 interface TagsDisplayProps {

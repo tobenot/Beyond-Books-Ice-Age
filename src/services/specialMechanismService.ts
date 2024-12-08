@@ -1,19 +1,20 @@
 import { Choice, Card } from '../types';
 import { tagService } from './tagService';
 import { rankService } from './rankService';
+import { characterService } from '../services/characterService';
 
 class SpecialMechanismService {
   private placeholderHandlers = {
     tagValue: (path: string) => {
-      const value = tagService.getTagValue(path);
+      const value = characterService.getPlayerTagValue(path);
       return String(value);
     },
     exam100: (path: string) => {
-      const value = tagService.getTagValue(path);
+      const value = characterService.getPlayerTagValue(path);
       return this.exam100(typeof value === 'number' ? value : 0);
     },
     exam150: (path: string) => {
-      const value = tagService.getTagValue(path);
+      const value = characterService.getPlayerTagValue(path);
       return this.exam150(typeof value === 'number' ? value : 0);
     },
     examAll: () => this.examAll()
@@ -53,7 +54,7 @@ class SpecialMechanismService {
 
   private examAll(): number {
     const getNumericValue = (path: string) => {
-      const value = tagService.getTagValue(path);
+      const value = characterService.getPlayerTagValue(path);
       return typeof value === 'number' ? value : 0;
     };
 
@@ -107,11 +108,12 @@ class SpecialMechanismService {
     }));
   }
 
-  moveToLocation(_choice: Choice, _card: Card): void {
-    const targetLocation = tagService.getTagValue('位置.目标地点');
+  moveToLocation(choice: Choice, _card: Card): void {
+    const targetLocation = characterService.getPlayerTagValue('位置.目标地点');
     if (targetLocation) {
-      tagService.updateTag('位置.当前地点', targetLocation);
-      tagService.updateTag('位置.目标地点', '');
+      console.log('Moving player to:', targetLocation);
+      characterService.updatePlayerTag('位置.当前地点', targetLocation);
+      characterService.updatePlayerTag('位置.目标地点', '');
     }
   }
 }
