@@ -24,7 +24,7 @@ class RankService {
 
   async loadScoreData(): Promise<void> {
     try {
-      const response = await fetch('/config/2020.csv');
+      const response = await fetch(import.meta.env.BASE_URL + 'config/2020.csv');
       const csv = await response.text();
       this.scoreData = this.parseCSV(csv);
     } catch (error) {

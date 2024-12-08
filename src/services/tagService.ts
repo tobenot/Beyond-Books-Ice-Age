@@ -5,7 +5,7 @@ class TagService {
 
   async loadTagsConfig(): Promise<void> {
     try {
-      const response = await fetch('/config/tagsConfig.json');
+      const response = await fetch(import.meta.env.BASE_URL + 'config/tagsConfig.json');
       const data = await response.json();
       this.tags = data;
       console.log('Tags config loaded');
