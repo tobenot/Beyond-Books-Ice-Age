@@ -1,14 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { Card as CardType, Choice } from '../types';
+import { Card as CardType } from '../types';
 import { specialMechanismService } from '../services/specialMechanismService';
 import { dateService } from '../services/dateService';
 import { effectService } from '../services/effectService';
 import { cardService } from '../services/cardService';
 import { illustrationService } from '../services/illustrationService';
+import { characterService } from '../services/characterService';
 
 interface CardProps {
   card: CardType;
   onChoice: (choice: Choice) => void;
+}
+
+// 扩展基础的选项接口
+interface Choice {
+  text: string;
+  effects: string[];
+  description?: string;
+  requireTags?: Record<string, string>;
+  consumeCard?: boolean;
+  specialMechanism?: string;
+  disabledDisplay?: string;
 }
 
 export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
@@ -94,6 +106,73 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
     ));
   };
 
+  const isChoiceAvailable = (choice: Choice): boolean => {
+    if (!choice.requireTags) return true;
+
+    for (const [tag, condition] of Object.entries(choice.requireTags)) {
+      const tagValue = characterService.getPlayerTagValue(tag);
+      
+      if (condition === '!empty') {
+        if (tagValue === '') return false;
+      } else if (condition === 'empty') {
+        if (tagValue !== '') return false;
+      } else if (typeof tagValue === 'number') {
+        const operator = condition.charAt(0);
+        const threshold = parseFloat(condition.slice(1));
+        
+        switch (operator) {
+          case '>':
+            if (!(tagValue > threshold)) return false;
+            break;
+          case '<':
+            if (!(tagValue < threshold)) return false;
+            break;
+          case '=':
+            if (!(tagValue === threshold)) return false;
+            break;
+        }
+      } else if (typeof tagValue === 'string') {
+        if (tagValue !== condition) return false;
+      }
+    }
+
+    return true;
+  };
+
+  const renderChoices = () => {
+    return card.choices
+      .filter(choice => isChoiceAvailable(choice) || choice.disabledDisplay)
+      .map((choice, index) => {
+        const available = isChoiceAvailable(choice);
+        
+        return (
+          <div 
+            key={index}
+            className="relative group"
+          >
+            <button
+              onClick={() => available && handleChoice(choice)}
+              disabled={!available}
+              className={`w-full p-2 ${
+                available
+                  ? 'bg-moss-green hover:bg-opacity-80'
+                  : 'bg-gray-600 cursor-not-allowed opacity-50'
+              } rounded`}
+            >
+              {choice.text}
+            </button>
+            {!available && choice.disabledDisplay && (
+              <div className="absolute bottom-full left-0 w-full mb-1 hidden group-hover:block z-10">
+                <div className="bg-charcoal p-2 rounded shadow-lg text-left">
+                  {choice.disabledDisplay}
+                </div>
+              </div>
+            )}
+          </div>
+        );
+      });
+  };
+
   return (
     <div className="card bg-charcoal rounded-lg p-4 shadow-lg">
       <div className="mb-4 relative h-96 overflow-hidden rounded-lg">
@@ -110,15 +189,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
       
       {!selectedChoice ? (
         <div className="choices space-y-2">
-          {card.choices.map((choice, index) => (
-            <button
-              key={index}
-              onClick={() => handleChoice(choice)}
-              className="w-full p-2 bg-moss-green hover:bg-opacity-80 rounded"
-            >
-              {choice.text}
-            </button>
-          ))}
+          {renderChoices()}
         </div>
       ) : (
         <div>

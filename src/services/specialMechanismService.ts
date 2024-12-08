@@ -146,6 +146,32 @@ class SpecialMechanismService {
     console.log('清除交互角色标签');
     characterService.updatePlayerTag('目标.交互角色', '');
   }
+
+  characterAttack(choice: Choice, card: Card): void {
+    const targetCharacter = characterService.getPlayerTagValue('目标.交互角色');
+    
+    if (targetCharacter === "suYuQing") {
+      // 设置背叛结局标签,触发背叛结局卡片
+      characterService.updatePlayerTag('结局.背叛', '1');
+    } else if (targetCharacter === "shuangYin") {
+      // 设置英雄结局标签,触发英雄结局卡片
+      characterService.updatePlayerTag('结局.英雄', '1');
+    }
+    
+    // 清除交互目标
+    characterService.updatePlayerTag('目标.交互角色', 'empty');
+    characterService.updatePlayerTag('目标.交谈角色', 'empty');
+  }
+
+  // 添加gameOver机制处理
+  gameOver(_choice: Choice, _card: Card): void {
+    window.dispatchEvent(new CustomEvent('gameEnd', { 
+      detail: { 
+        type: 'normal',
+        message: '游戏结束'
+      }
+    }));
+  }
 }
 
 export const specialMechanismService = new SpecialMechanismService(); 

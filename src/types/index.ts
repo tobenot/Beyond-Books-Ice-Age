@@ -112,4 +112,13 @@ export interface Character {
     }
   };
 }
+
+export interface GameState {
+  isGameOver: boolean;
+  endingStats?: {
+    ending: string;
+    totalTurns: number;
+    [key: string]: any;
+  };
+}
  
