@@ -64,6 +64,10 @@ class TagService {
   private saveTags(): void {
     localStorage.setItem('tags', JSON.stringify(this.tags));
   }
+
+  async loadTagsFromSave(savedTags: TagsConfig): Promise<void> {
+    this.tags = savedTags;
+  }
 }
 
 export const tagService = new TagService(); 

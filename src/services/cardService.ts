@@ -5,13 +5,15 @@ import { dateService } from './dateService';
 class CardService {
   private cardPool: Card[] = [];
   private recentDrawnCards: string[] = [];
+  private consumedCards: string[] = [];
+  private currentCard: Card | null = null;
 
   async loadCardData(): Promise<void> {
     try {
       const response = await fetch(import.meta.env.BASE_URL + 'config/cards.json');
       const data = await response.json();
       this.cardPool = data;
-      console.log('Card pool loaded');
+      console.log('Card pool loaded with', this.cardPool.length, 'cards');
     } catch (error) {
       console.error('Error loading cards:', error);
     }
@@ -89,6 +91,8 @@ class CardService {
   }
 
   drawCard(): Card | null {
+    this.removeConsumedCardsFromPool();
+
     const availableCards = this.cardPool
       .filter(card => this.canDrawCard(card))
       .map(card => {
@@ -113,7 +117,8 @@ class CardService {
       });
 
     if (availableCards.length === 0) {
-      console.warn('No available cards to draw');
+      console.log('No available cards to draw');
+      this.currentCard = null;
       return null;
     }
 
@@ -123,7 +128,8 @@ class CardService {
       .sort((a, b) => (b.card.priority || 0) - (a.card.priority || 0));
 
     if (mustDrawCards.length > 0) {
-      return mustDrawCards[0].card;
+      this.currentCard = mustDrawCards[0].card;
+      return this.currentCard;
     }
 
     // 根据权重随机抽取
@@ -133,12 +139,15 @@ class CardService {
     for (const { card, weight } of availableCards) {
       if (random < weight) {
         this.updateRecentDrawnCards(card.id);
+        this.currentCard = card;
+        console.log('Drew card:', card.name);
         return card;
       }
       random -= weight;
     }
 
     // 如果没有卡可抽，返回 null
+    this.currentCard = null;
     return null;
   }
 
@@ -146,8 +155,40 @@ class CardService {
     const index = this.cardPool.findIndex(c => c.id === card.id);
     if (index > -1) {
       this.cardPool.splice(index, 1);
-      console.log(`Card ${card.name} has been consumed`);
+      this.consumedCards.push(card.id);
+      console.log(`Card ${card.name} has been consumed. Card pool size: ${this.cardPool.length}`);
     }
+  }
+
+  getCurrentCard(): Card | null {
+    return this.currentCard;
+  }
+
+  setCurrentCard(card: Card | null): void {
+    this.currentCard = card;
+  }
+
+  getConsumedCards(): string[] {
+    return this.consumedCards;
+  }
+
+  setConsumedCards(cards: string[]): void {
+    this.consumedCards = cards;
+    this.removeConsumedCardsFromPool();
+  }
+
+  private removeConsumedCardsFromPool(): void {
+    this.cardPool = this.cardPool.filter(card => 
+      !this.consumedCards.includes(card.id)
+    );
+    console.log(`Card pool has ${this.cardPool.length} cards after removing consumed cards`);
+  }
+
+  async resetCardPool(): Promise<void> {
+    this.consumedCards = [];
+    this.recentDrawnCards = [];
+    this.currentCard = null;
+    await this.loadCardData();
   }
 }
 

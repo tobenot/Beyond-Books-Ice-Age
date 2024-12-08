@@ -3,6 +3,8 @@ import { Card as CardType, Choice } from '../types';
 import { specialMechanismService } from '../services/specialMechanismService';
 import { dateService } from '../services/dateService';
 import { tagService } from '../services/tagService';
+import { effectService } from '../services/effectService';
+import { cardService } from '../services/cardService';
 
 interface CardProps {
   card: CardType;
@@ -13,11 +15,13 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
   const [selectedChoice, setSelectedChoice] = useState<Choice | null>(null);
   const [resultText, setResultText] = useState<string>('');
   const [showContinueButton, setShowContinueButton] = useState(false);
+  const [processedDescription, setProcessedDescription] = useState<string>('');
 
   useEffect(() => {
     setSelectedChoice(null);
     setResultText('');
     setShowContinueButton(false);
+    setProcessedDescription(specialMechanismService.replacePlaceholders(card.description));
   }, [card.id]);
 
   const handleChoice = (choice: Choice) => {
@@ -25,10 +29,13 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
     
     // 先应用effects更新标签值
     choice.effects.forEach(effect => {
-      const [tagPath, valueStr] = effect.split(/(\.\-?\d+$)/);
-      const value = parseInt(valueStr.slice(1));
-      tagService.updateTag(tagPath, value);
+      effectService.applyEffect(effect);
     });
+    
+    // 如果需要消耗卡片，立即消耗
+    if (choice.consumeCard) {
+      cardService.consumeCard(card);
+    }
     
     // 构建结果文本
     let text = `
@@ -42,6 +49,9 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
     const processedText = specialMechanismService.replacePlaceholders(text);
     setResultText(processedText);
     setShowContinueButton(true);
+
+    // 选择完就立即清空当前卡牌
+    cardService.setCurrentCard(null);
   };
 
   const handleContinue = () => {
@@ -53,7 +63,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
   return (
     <div className="card bg-charcoal rounded-lg p-4 shadow-lg">
       <h2 className="text-xl font-bold mb-2">{card.name}</h2>
-      <p className="mb-4">{card.description}</p>
+      <p className="mb-4">{processedDescription}</p>
       
       {!selectedChoice ? (
         <div className="choices space-y-2">

@@ -82,6 +82,17 @@ class DateService {
   getCardTimeConsumption(card: any): number {
     return card.timeConsumption ?? this.defaultTimeConsumption;
   }
+
+  setDate(date: Date): void {
+    this.currentDate = date;
+  }
+
+  setCountdowns(countdowns: Array<{name: string, date: Date}>): void {
+    this.countdowns = countdowns.map(c => ({
+      ...c,
+      date: new Date(c.date)
+    }));
+  }
 }
 
 export const dateService = new DateService(); 

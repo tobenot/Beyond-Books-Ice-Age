@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+import type { Config } from 'tailwindcss'
+
 export default {
   content: [
     "./index.html",
@@ -7,15 +9,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        'moss-green': '#809848',
-        'charcoal': '#444554',
-        'rose-quartz': '#A68BA5',
-        'light-sky-blue': '#97C8EB',
-      },
-      fontFamily: {
-        bitmap: ['VonwaonBitmap', 'PingFang SC', 'Microsoft YaHei', 'system-ui', 'sans-serif'],
+        'ice-blue': '#CEE5F2',      // 最浅的蓝色
+        'sky-blue': '#8DBDDF',      // 第二个蓝色
+        'slate-blue': '#7C98B3',    // 第三个蓝色
+        'navy-blue': '#3B5373',     // 深蓝色
+        'royal-purple': '#AB69A8',  // 紫色
       }
     },
   },
   plugins: [],
-}
+} as Config

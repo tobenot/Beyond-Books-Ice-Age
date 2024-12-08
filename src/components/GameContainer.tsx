@@ -10,6 +10,7 @@ import { specialMechanismService } from '../services/specialMechanismService';
 import { MainMenu } from './MainMenu';
 import { LocationSelector } from './LocationSelector';
 import { effectService } from '../services/effectService';
+import { SaveLoadMenu } from './SaveLoadMenu';
 
 export const GameContainer: React.FC = () => {
   const [currentCard, setCurrentCard] = useState<CardType | null>(null);
@@ -21,6 +22,7 @@ export const GameContainer: React.FC = () => {
   const [endingMessage, setEndingMessage] = useState<string>('');
   const [showMainMenu, setShowMainMenu] = useState(true);
   const [locations, setLocations] = useState({});
+  const [showSaveMenu, setShowSaveMenu] = useState(false);
 
   useEffect(() => {
     const initGame = async () => {
@@ -103,11 +105,6 @@ export const GameContainer: React.FC = () => {
   const handleChoice = (choice: Choice) => {
     if (!currentCard) return;
 
-    // 应用选择的效果
-    choice.effects.forEach(effect => {
-      effectService.applyEffect(effect);
-    });
-
     // 更新标签显示
     setTags(tagService.getTags());
 
@@ -128,13 +125,10 @@ export const GameContainer: React.FC = () => {
       setCountdowns(dateService.getCountdowns());
     }
 
-    // 如果需要消耗卡片
-    if (choice.consumeCard) {
-      cardService.consumeCard(currentCard);
-    }
-
-    // 移除定时器，直接抽新卡和检查游戏结束
-    drawNewCard();
+    // 抽新卡并更新状态
+    const newCard = cardService.drawCard();
+    setCurrentCard(newCard);
+    
     checkGameEnd();
   };
 
@@ -161,7 +155,8 @@ export const GameContainer: React.FC = () => {
     }
   };
 
-  const handleStartGame = () => {
+  const handleStartGame = async () => {
+    await cardService.resetCardPool(); // 重置卡池
     setShowMainMenu(false);
     dateService.addCountdown("高考倒计时", "2020-07-07");
     setCountdowns(dateService.getCountdowns());
@@ -172,8 +167,47 @@ export const GameContainer: React.FC = () => {
     window.location.reload(); // 重新加载页面以重置游戏状态
   };
 
+  const restoreGameState = () => {
+    console.log('Starting restore game state');
+    
+    const newTags = tagService.getTags();
+    console.log('Loading tags:', newTags);
+    setTags(newTags);
+    
+    const newDate = dateService.getCurrentDate();
+    console.log('Loading date:', newDate);
+    setCurrentDate(newDate);
+    
+    const newCountdowns = dateService.getCountdowns();
+    console.log('Loading countdowns:', newCountdowns);
+    setCountdowns(newCountdowns);
+    
+    const savedCard = cardService.getCurrentCard();
+    console.log('Loading current card:', savedCard?.name);
+    
+    if (savedCard) {
+      setCurrentCard(savedCard);
+    } else {
+      console.log('No saved card found, drawing new card');
+      const newCard = cardService.drawCard();
+      setCurrentCard(newCard);
+    }
+    
+    console.log('Game state restored');
+  };
+
+  const handleLoadGame = () => {
+    setShowMainMenu(false);
+    restoreGameState();
+  };
+
   if (showMainMenu) {
-    return <MainMenu onStartGame={handleStartGame} />;
+    return (
+      <MainMenu 
+        onStartGame={handleStartGame} 
+        onLoadGame={handleLoadGame}
+      />
+    );
   }
 
   return (
@@ -182,6 +216,14 @@ export const GameContainer: React.FC = () => {
         <TagsDisplay tags={tags} />
         <div className="mt-4">
           <LocationSelector locations={locations} />
+        </div>
+        <div className="mt-4">
+          <button
+            onClick={() => setShowSaveMenu(true)}
+            className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
+          >
+            存档/读档
+          </button>
         </div>
       </div>
       <div className="col-span-6">
@@ -217,6 +259,17 @@ export const GameContainer: React.FC = () => {
           countdowns={countdowns}
         />
       </div>
+      {showSaveMenu && (
+        <SaveLoadMenu
+          onClose={() => setShowSaveMenu(false)}
+          isLoading={false}
+          onLoad={() => {
+            restoreGameState();
+            setShowSaveMenu(false);
+          }}
+          saveEnabled={true}
+        />
+      )}
     </div>
   );
 }; 

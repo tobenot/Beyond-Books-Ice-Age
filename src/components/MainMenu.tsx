@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { saveService } from '../services/saveService';
+import { SaveLoadMenu } from './SaveLoadMenu';
 
 interface MainMenuProps {
   onStartGame: () => void;
+  onLoadGame: () => void;
 }
 
-export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame }) => {
+export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) => {
   const [showModal, setShowModal] = React.useState(false);
   const [modalContent, setModalContent] = React.useState('');
   const [showCardList, setShowCardList] = React.useState(false);
+  const [showSaveMenu, setShowSaveMenu] = useState(false);
 
   const mainMenuButtons = {
     creator: `
@@ -46,7 +50,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-charcoal text-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-navy-blue text-white">
       {!showCardList ? (
         <>
           <h1 className="text-4xl font-bold mb-4">不止于纸上的故事</h1>
@@ -55,51 +59,57 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame }) => {
           <h4 className="text-xl mb-8">Ice Age</h4>
 
           正在做正在做，你现在看到的其实是 
-          <a href="https://tobenot.top/Beyond-Books/" className="text-moss-green hover:text-opacity-80 mr-4">
+          <a href="https://tobenot.top/Beyond-Books/" className="text-sky-blue hover:text-opacity-80 mr-4">
           幻灭篇
           </a>
 
           <div className="space-y-4">
             <button
               onClick={() => handleShowModal(mainMenuButtons.creator)}
-              className="w-48 p-3 bg-moss-green hover:bg-opacity-80 rounded"
+              className="w-48 p-3 bg-sky-blue hover:bg-opacity-80 rounded"
             >
               制作者的话
             </button>
             <button
               onClick={onStartGame}
-              className="w-48 p-3 bg-moss-green hover:bg-opacity-80 rounded"
+              className="w-48 p-3 bg-sky-blue hover:bg-opacity-80 rounded"
             >
               开始游戏
             </button>
             <button
+              onClick={() => setShowSaveMenu(true)}
+              className="w-48 p-3 bg-sky-blue hover:bg-opacity-80 rounded"
+            >
+              读取存档
+            </button>
+            <button
               onClick={() => handleShowModal(mainMenuButtons.changelog)}
-              className="w-48 p-3 bg-moss-green hover:bg-opacity-80 rounded"
+              className="w-48 p-3 bg-sky-blue hover:bg-opacity-80 rounded"
             >
               更新日志 24.07.30
             </button>
             <button
               onClick={() => handleShowModal(mainMenuButtons.attribution)}
-              className="w-48 p-3 bg-moss-green hover:bg-opacity-80 rounded"
+              className="w-48 p-3 bg-sky-blue hover:bg-opacity-80 rounded"
             >
               素材致谢
             </button>
             <button
               onClick={() => setShowCardList(true)}
-              className="w-48 p-3 bg-moss-green hover:bg-opacity-80 rounded"
+              className="w-48 p-3 bg-sky-blue hover:bg-opacity-80 rounded"
             >
               卡包列表
             </button>
           </div>
 
           <footer className="mt-8 text-sm">
-            <a href="https://tobenot.top/Beyond-Books/" className="text-moss-green hover:text-opacity-80 mr-4">
+            <a href="https://tobenot.top/Beyond-Books/" className="text-sky-blue hover:text-opacity-80 mr-4">
               同作者的异能战斗游戏
             </a>
-            <a href="https://qm.qq.com/q/pvKkFCvCFO" className="text-moss-green hover:text-opacity-80 mr-4">
+            <a href="https://qm.qq.com/q/pvKkFCvCFO" className="text-sky-blue hover:text-opacity-80 mr-4">
               加群水群
             </a>
-            <a href="https://space.bilibili.com/23122362" className="text-moss-green hover:text-opacity-80">
+            <a href="https://space.bilibili.com/23122362" className="text-sky-blue hover:text-opacity-80">
               关注B站
             </a>
           </footer>
@@ -108,7 +118,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame }) => {
         <div className="w-full max-w-2xl p-4">
           <button
             onClick={() => setShowCardList(false)}
-            className="mb-4 p-2 bg-moss-green hover:bg-opacity-80 rounded"
+            className="mb-4 p-2 bg-sky-blue hover:bg-opacity-80 rounded"
           >
             返回主菜单
           </button>
@@ -117,7 +127,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame }) => {
               <button
                 key={index}
                 onClick={() => handleShowModal(pack.description)}
-                className="w-full p-3 bg-moss-green hover:bg-opacity-80 rounded text-left"
+                className="w-full p-3 bg-sky-blue hover:bg-opacity-80 rounded text-left"
               >
                 {pack.name}
               </button>
@@ -129,16 +139,25 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame }) => {
       {/* Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-          <div className="bg-charcoal p-6 rounded-lg max-w-2xl max-h-[80vh] overflow-y-auto">
+          <div className="bg-navy-blue p-6 rounded-lg max-w-2xl max-h-[80vh] overflow-y-auto">
             <div dangerouslySetInnerHTML={{ __html: modalContent }} />
             <button
               onClick={() => setShowModal(false)}
-              className="mt-4 w-full p-2 bg-moss-green hover:bg-opacity-80 rounded"
+              className="mt-4 w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
             >
               关闭
             </button>
           </div>
         </div>
+      )}
+
+      {showSaveMenu && (
+        <SaveLoadMenu
+          onClose={() => setShowSaveMenu(false)}
+          isLoading={false}
+          onLoad={onLoadGame}
+          saveEnabled={false}
+        />
       )}
     </div>
   );
