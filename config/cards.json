@@ -137,79 +137,6 @@
         ]
     },
     {
-        "id": "7",
-        "name": "引子",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "我是苏祁镜，飞雁市第一中学的奥赛生。",
-        "mustDraw": true,
-        "priority": 1000,
-        "timeConsumption": 0,
-        "choices": [
-            {
-                "text": "没错。",
-                "effects": [
-                    "状态.精力.40",
-                    "状态.快乐.80"
-                ],
-                "consumeCard": true,
-                "description": "我生命的燃料……不可或缺。<br><br><i>右边展示的'精力'和'快乐'有一个归零的话，就会浪费时间。</i>"
-            }
-        ]
-    },
-    {
-        "id": "16",
-        "name": "生活",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "我准时在零点睡觉，六点半起来去上课。",
-        "mustDraw": true,
-        "priority": 999,
-        "timeConsumption": 0,
-        "choices": [
-            {
-                "text": "每日如此。",
-                "effects": [
-                    "变化.状态.精力.10",
-                    "变化.状态.快乐.-11",
-                    "变化.技能.语文.-8",
-                    "变化.技能.数学.-2",
-                    "变化.技能.英语.-8",
-                    "变化.技能.物理.-8",
-                    "变化.技能.化学.-4",
-                    "变化.技能.生物.-8"
-                ],
-                "consumeCard": true,
-                "description": "每3天都会自然恢复1点精力，但是也会遗忘一些知识。对于快乐值有持续的需求。"
-            }
-        ]
-    },
-    {
-        "id": "8",
-        "name": "现状",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "2019年8月12，这是高三开学的日子。",
-        "mustDraw": true,
-        "priority": 998,
-        "timeConsumption": 0,
-        "choices": [
-            {
-                "text": "还记得在高二上的期末考……",
-                "effects": [
-                    "技能.语文.1666",
-                    "技能.数学.1206",
-                    "技能.英语.2124",
-                    "技能.物理.1338",
-                    "技能.化学.1111",
-                    "技能.生物.1316"
-                ],
-                "consumeCard": true,
-                "description": "语文{{exam150:技能.语文}}，数学{{exam150:技能.数学}}，英语{{exam150:技能.英语}}，物理{{exam100:技能.物理}}，化学{{exam100:技能.化学}}，生物{{exam100:技能.生物}}。总共{{examAll:总分}}分。在最高的尖子班里倒数第二，真辛苦还有一位同学帮我垫着。</b>"
-            }
-        ]
-    },
-    {
         "id": "9",
         "name": "高考",
         "type": "event",
@@ -609,14 +536,6 @@
             "description": "鲜嫩的牛肉搭配脆爽的青椒，味道绝佳。"
           },
           {
-            "text": "白菜豆腐汤",
-            "effects": [
-              "状态.精力.12",
-              "状态.快乐.26"
-            ],
-            "description": "清淡爽口的白菜豆腐汤，温暖而舒心。"
-          },
-          {
             "text": "蒜蓉菠菜",
             "effects": [
               "状态.精力.20",
@@ -751,6 +670,127 @@
                     "状态.快乐.-80"
                 ],
                 "description": "想玩……"
+            }
+        ]
+    },
+    {
+        "id": "death_test",
+        "name": "危险的选择",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你遇到了一个危险的情况...",
+        "baseWeight": 0.5,
+        "choices": [
+            {
+                "text": "冒险一试",
+                "effects": [
+                    "状态.生命值.-50"
+                ],
+                "description": "这可能会很危险..."
+            },
+            {
+                "text": "谨慎撤退",
+                "effects": [
+                    "状态.生命值.-10"
+                ],
+                "description": "安全第一。"
+            }
+        ]
+    },
+    {
+        "id": "location_change",
+        "name": "前往新地点",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你准备前往{{tagValue:位置.目标地点}}...",
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 100,
+        "requireTags": {
+            "位置.目标地点": "!empty"
+        },
+        "choices": [
+            {
+                "text": "出发",
+                "effects": [
+                    "状态.生命值.-5",
+                    "状态.精力.-10"
+                ],
+                "specialMechanism": "moveToLocation",
+                "description": "路途遥远而危险..."
+            },
+            {
+                "text": "再等等",
+                "effects": [
+                    "位置.目标地点.empty"
+                ],
+                "description": "现在还不是时候。"
+            }
+        ]
+    },
+    {
+        "id": "item_find_energy_battery",
+        "name": "发现能量电池",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "在废墟中发现了一个复苏队标配的能量电池。",
+        "baseWeight": 1.5,
+        "choices": [
+            {
+                "text": "拾取",
+                "effects": [
+                    "物品.能量电池.1"
+                ],
+                "description": "这种能量电池可以快速恢复生命力。"
+            },
+            {
+                "text": "离开",
+                "effects": [],
+                "description": "看起来不太安全,还是别碰了。"
+            }
+        ]
+    },
+    {
+        "id": "item_find_armor",
+        "name": "发现防护服",
+        "type": "event",
+        "cardSet": "基础", 
+        "description": "在一个储物柜里发现了一套完整的防护服。",
+        "baseWeight": 1.0,
+        "choices": [
+            {
+                "text": "拾取",
+                "effects": [
+                    "物品.防护服.1"
+                ],
+                "description": "这种防护服可以有效抵御熵减环境。"
+            },
+            {
+                "text": "离开",
+                "effects": [],
+                "description": "不知道之前的主人去哪了..."
+            }
+        ]
+    },
+    {
+        "id": "item_find_energy_sword",
+        "name": "发现能量剑",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "在一具机器人残骸旁发现了一把能量剑。",
+        "baseWeight": 0.8,
+        "choices": [
+            {
+                "text": "拾取",
+                "effects": [
+                    "物品.能量剑.1"
+                ],
+                "description": "复苏队的标准武器,可以轻易切开大多数物质。"
+            },
+            {
+                "text": "离开",
+                "effects": [],
+                "description": "这种武器太危险了。"
             }
         ]
     }
