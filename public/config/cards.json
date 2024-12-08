@@ -8,6 +8,7 @@
         "baseWeight": 1.0,
         "mustDraw": true,
         "priority": 100,
+        "illustration": "{{locationIllustration}}",
         "requireTags": {
             "位置.目标地点": "!empty"
         },
@@ -58,13 +59,14 @@
     },
     {
         "id": "find_character",
-        "name": "寻找{{charName}}",
+        "name": "找人",
         "type": "event",
         "cardSet": "基础",
         "description": "你找到了{{charName}}...",
         "baseWeight": 10.0,
         "mustDraw": true,
         "priority": 200,
+        "illustration": "{{charIllustration}}",
         "requireTags": {
             "目标.交互角色": "!empty"
         },

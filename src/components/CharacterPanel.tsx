@@ -2,8 +2,14 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Character } from '../types';
 import { characterService } from '../services/characterService';
 import { illustrationService } from '../services/illustrationService';
+import { cardService } from '../services/cardService';
+import { effectService } from '../services/effectService';
 
-export const CharacterPanel: React.FC = () => {
+interface CharacterPanelProps {
+  onSkipCard: () => void;
+}
+
+export const CharacterPanel: React.FC<CharacterPanelProps> = ({ onSkipCard }) => {
   const currentLocation = characterService.getPlayerTagValue('位置.当前地点') as string;
   
   const characters = useMemo(() => 
@@ -20,6 +26,13 @@ export const CharacterPanel: React.FC = () => {
 
   const handleFindCharacter = (characterId: string) => {
     characterService.updatePlayerTag('目标.交互角色', characterId);
+    
+    // 检查当前卡是否是观察卡
+    const currentCard = cardService.getCurrentCard();
+    if (currentCard?.id.startsWith('observe_')) {
+      // 如果是观察卡,直接跳过
+      onSkipCard();
+    }
   };
 
   const renderCharacterStats = useMemo(() => (character: Character) => (

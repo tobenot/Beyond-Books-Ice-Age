@@ -222,6 +222,14 @@ export const GameContainer: React.FC = () => {
     return () => clearInterval(intervalId);
   }, [updateTags]);
 
+  // 添加一个跳过当前卡的函数
+  const skipCurrentCard = () => {
+    console.log('跳过当前卡片');
+    setCurrentCard(null);
+    const newCard = cardService.drawCard();
+    setCurrentCard(newCard);
+  };
+
   if (showMainMenu) {
     return (
       <MainMenu 
@@ -236,7 +244,10 @@ export const GameContainer: React.FC = () => {
       <div className="col-span-3">
         <TagsDisplay playerTags={characterService.getPlayer()?.tags} />
         <div className="mt-4">
-          <LocationSelector locations={locations} />
+          <LocationSelector 
+            locations={locations} 
+            onSkipCard={skipCurrentCard}
+          />
         </div>
         <div className="mt-4">
           <button
@@ -288,7 +299,7 @@ export const GameContainer: React.FC = () => {
           countdowns={countdowns}
         />
         <div className="mt-4">
-          <CharacterPanel />
+          <CharacterPanel onSkipCard={skipCurrentCard} />
         </div>
       </div>
       {showSaveMenu && (

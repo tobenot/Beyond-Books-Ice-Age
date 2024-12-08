@@ -1,6 +1,8 @@
 import React from 'react';
 import { characterService } from '../services/characterService';
 import { illustrationService } from '../services/illustrationService';
+import { cardService } from '../services/cardService';
+import { effectService } from '../services/effectService';
 
 interface Location {
   name: string;
@@ -13,9 +15,13 @@ interface Location {
 
 interface LocationSelectorProps {
   locations: Record<string, Location>;
+  onSkipCard: () => void;
 }
 
-export const LocationSelector: React.FC<LocationSelectorProps> = ({ locations }) => {
+export const LocationSelector: React.FC<LocationSelectorProps> = ({ 
+  locations, 
+  onSkipCard 
+}) => {
   const currentLocation = characterService.getPlayerTagValue('位置.当前地点');
   const targetLocation = characterService.getPlayerTagValue('位置.目标地点');
   const [locationIllustrations, setLocationIllustrations] = React.useState<Record<string, string>>({});
@@ -34,6 +40,13 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ locations })
   const handleLocationSelect = (locationName: string) => {
     if (locationName !== currentLocation) {
       characterService.updatePlayerTag('位置.目标地点', locationName);
+      
+      // 检查当前卡是否是观察卡
+      const currentCard = cardService.getCurrentCard();
+      if (currentCard?.id.startsWith('observe_')) {
+        // 如果是观察卡,直接跳过
+        onSkipCard();
+      }
     }
   };
 

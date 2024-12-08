@@ -1,6 +1,7 @@
 import { Choice, Card } from '../types';
 import { rankService } from './rankService';
 import { characterService } from '../services/characterService';
+import { cardService } from '../services/cardService';
 
 class SpecialMechanismService {
   private placeholderHandlers = {
@@ -129,6 +130,7 @@ class SpecialMechanismService {
       characterService.updatePlayerTag('位置.目标地点', '');
     }
   }
+
   characterInteraction(_choice: Choice, _card: Card): void {
     const targetCharId = characterService.getPlayerTagValue('目标.交互角色');
     console.log('目标交互角色:', targetCharId);

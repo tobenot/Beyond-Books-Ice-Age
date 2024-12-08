@@ -194,7 +194,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
               className="w-full p-2 bg-moss-green hover:bg-opacity-80 rounded"
             >
               {dateService.getCardTimeConsumption(card) > 0 
-                ? `过了${dateService.getCardTimeConsumption(card)}天` 
+                ? `过了${dateService.getCardTimeConsumption(card)}时间` 
                 : '继续'}
             </button>
           )}
