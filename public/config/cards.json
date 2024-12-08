@@ -38,7 +38,7 @@
         "description": "在一具机器人残骸旁发现了一把能量剑。",
         "baseWeight": 0.8,
         "requireTags": {
-            "位置.当前地点": "野外"
+            "位置.当前地点": "wasteland"
         },
         "choices": [
             {
@@ -93,6 +93,7 @@
         "cardSet": "基础",
         "description": "苏雨晴正在整理资料。她是一位机器人,但举止非常人性化。",
         "baseWeight": 10.0,
+        "illustration": "suYuQing",
         "requireTags": {
             "目标.交谈角色": "suYuQing"
         },
@@ -141,6 +142,7 @@
         "cardSet": "基础",
         "description": "苏雨晴耐心地解释着。",
         "baseWeight": 10.0,
+        "illustration": "suYuQing",
         "requireTags": {
             "目标.交谈角色": "suYuQing",
             "对话.苏雨晴.基本情况": "开启"
@@ -166,6 +168,7 @@
         "cardSet": "基础",
         "description": "苏雨晴谈起复苏队时充满了使命感。",
         "baseWeight": 10.0,
+        "illustration": "suYuQing",
         "requireTags": {
             "目标.交谈角色": "suYuQing",
             "对话.苏雨晴.复苏队信息": "开启"
@@ -190,6 +193,7 @@
         "cardSet": "基础",
         "description": "苏雨晴开始解释这个陌生的世界。",
         "baseWeight": 10.0,
+        "illustration": "suYuQing",
         "requireTags": {
             "目标.交谈角色": "suYuQing",
             "对话.苏雨晴.熵减世界信息": "开启"
@@ -225,12 +229,13 @@
         "description": "冬眠中心一片狼藉。大部分冬眠舱都已经被熵减力量扭曲变形,只有你所在的那个区域幸免于难。在你的冬眠舱旁边,躺着一具机器人的残骸。\n\n不远处还有另一个破损的冬眠舱,里面同样有一具机器人残骸。空气中弥漫着金属和臭氧的气味,到处都是熵减造成的几何状结晶。",
         "baseWeight": 0.1,
         "priority": 1,
+        "illustration": "loc_hibernation_center",
         "requireTags": {
-            "位置.当前地点": "冬眠中心"
+            "位置.当前地点": "hibernation_center"
         },
         "choices": [
             {
-                "text": "原地等待",
+                "text": "继续",
                 "effects": [
                     "状态.精力.5"
                 ],
@@ -262,12 +267,13 @@
         "description": "复苏队基地就像是你模糊遥远的记忆里面的现代城市一样。巨大的能量塔在中央，它抵抗着外界的熵减影响。\n\n复苏队机器人们来回穿梭,进行各种维护工作。这里是为数不多的安全区域之一。",
         "baseWeight": 0.1,
         "priority": 1,
+        "illustration": "loc_revival_base",
         "requireTags": {
-            "位置.当前地点": "复苏队基地"
+            "位置.当前地点": "revival_base"
         },
         "choices": [
             {
-                "text": "原地等待",
+                "text": "继续",
                 "effects": [
                     "状态.精力.5"
                 ],
@@ -283,12 +289,13 @@
         "description": "冰河派据点建立在一片废墟之上。紫色的晶体从建筑物表面生长而出,在阳光下折射出梦幻般的光芒。建筑物虽然扭曲变形,但仍保持着某种奇特的秩序感。\n\n这里的熵减影响使空气中带着金属的味道。身着战术装备的冰河派成员们在据点内有序地活动着。他们似乎已经适应了这种环境,甚至学会了利用熵减力量。",
         "baseWeight": 0.1,
         "priority": 1,
+        "illustration": "loc_ice_faction",
         "requireTags": {
-            "位置.当前地点": "冰河派据点"
+            "位置.当前地点": "ice_faction"
         },
         "choices": [
             {
-                "text": "原地等待",
+                "text": "继续",
                 "effects": [
                     "状态.精力.5"
                 ],
@@ -300,7 +307,37 @@
                     "状态.精力.-5",
                     "记忆.冰河派.观察.1"
                 ],
-                "description": "他们都穿着比较破烂的战术装备，身上都长了一些晶体。"
+                "description": "他们都穿着比较破烂的战术装，身上都长了一些晶体。"
+            }
+        ]
+    },
+    {
+        "id": "observe_wasteland",
+        "name": "观察废土",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "这片荒野已经被熵减力量彻底改变。扭曲的建筑残骸和紫色的几何状结晶随处可见，偶尔能看到一些机器人的残骸。\n\n空气中弥漫着金属的味道，远处不时传来奇怪的声响。这里危险重重，但也蕴藏着各种有价值的资源。",
+        "baseWeight": 0.1,
+        "priority": 1,
+        "illustration": "loc_wasteland",
+        "requireTags": {
+            "位置.当前地点": "wasteland"
+        },
+        "choices": [
+            {
+                "text": "继续",
+                "effects": [
+                    "状态.精力.5"
+                ],
+                "description": "找了个相对安全的掩体休息。虽然危险，但至少能短暂地喘口气。"
+            },
+            {
+                "text": "搜寻资源",
+                "effects": [
+                    "状态.精力.-10",
+                    "状态.生命值.-5"
+                ],
+                "description": "在废墟中翻找物资是件危险的事，但有时候能找到意想不到的好东西。"
             }
         ]
     }

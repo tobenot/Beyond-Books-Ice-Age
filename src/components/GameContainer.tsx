@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Card as CardType, Choice, PlayerTags } from '../types';
 import { Card } from './Card';
 import { TagsDisplay } from './TagsDisplay';
@@ -109,6 +109,7 @@ export const GameContainer: React.FC = () => {
   };
 
   const handleChoice = (choice: Choice) => {
+    console.log('GameContainer处理选择开始:', choice);
     if (!currentCard) return;
 
     // 更新标签显示
@@ -116,6 +117,7 @@ export const GameContainer: React.FC = () => {
 
     // 处理特殊机制
     if (choice.specialMechanism) {
+      console.log('处理特殊机制:', choice.specialMechanism);
       specialMechanismService.handleSpecialMechanism(
         choice.specialMechanism,
         choice,
@@ -126,19 +128,24 @@ export const GameContainer: React.FC = () => {
     // 更新时间
     const timeConsumption = dateService.getCardTimeConsumption(currentCard);
     if (timeConsumption > 0) {
+      console.log('更新时间:', timeConsumption, '天');
       dateService.updateDate(timeConsumption);
       setCurrentDate(dateService.getCurrentDate());
       setCountdowns(dateService.getCountdowns());
     }
 
     // 清空当前卡牌状态
+    console.log('清空当前卡牌状态');
     setCurrentCard(null);
 
     // 抽新卡并更新状态
+    console.log('准备抽取新卡');
     const newCard = cardService.drawCard();
+    console.log('抽取到新卡:', newCard?.id);
     setCurrentCard(newCard);
     
     checkGameEnd();
+    console.log('GameContainer处理选择完成');
   };
 
   const checkGameEnd = () => {
@@ -201,6 +208,20 @@ export const GameContainer: React.FC = () => {
     restoreGameState();
   };
 
+  // 使用 useCallback 优化更新函数
+  const updateTags = useCallback(() => {
+    const newTags = characterService.getPlayer()?.tags;
+    if (JSON.stringify(tags) !== JSON.stringify(newTags)) {
+      setTags(newTags || createDefaultTags());
+    }
+  }, [tags]);
+
+  // 使用 useEffect 控制标签更新的时机
+  useEffect(() => {
+    const intervalId = setInterval(updateTags, 1000); // 每秒更新一次
+    return () => clearInterval(intervalId);
+  }, [updateTags]);
+
   if (showMainMenu) {
     return (
       <MainMenu 
@@ -216,9 +237,6 @@ export const GameContainer: React.FC = () => {
         <TagsDisplay playerTags={characterService.getPlayer()?.tags} />
         <div className="mt-4">
           <LocationSelector locations={locations} />
-        </div>
-        <div className="mt-4">
-          <CharacterPanel />
         </div>
         <div className="mt-4">
           <button
@@ -269,6 +287,9 @@ export const GameContainer: React.FC = () => {
           currentDate={currentDate}
           countdowns={countdowns}
         />
+        <div className="mt-4">
+          <CharacterPanel />
+        </div>
       </div>
       {showSaveMenu && (
         <SaveLoadMenu

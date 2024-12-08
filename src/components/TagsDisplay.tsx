@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { TagsConfig, PlayerTags } from '../types';
 import { tagService } from '../services/tagService';
 import { CharacterTags } from '../types';
@@ -86,7 +86,10 @@ export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags }) => {
     return filteredTags;
   };
 
-  const tagsToDisplay = filterAttitudeTags(playerTags);
+  const tagsToDisplay = useMemo(() => 
+    filterAttitudeTags(playerTags || {}),
+    [playerTags]
+  );
 
   return (
     <div className="tags-display bg-navy-blue p-4 rounded-lg max-h-[80vh] overflow-y-auto">

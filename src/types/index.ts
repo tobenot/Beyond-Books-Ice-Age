@@ -20,6 +20,7 @@ export interface Card {
     between?: [string, string];
   };
   choices: Choice[];
+  illustration?: string;
 }
 
 export interface Choice {

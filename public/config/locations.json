@@ -1,32 +1,43 @@
 {
-  "冬眠中心": {
+  "hibernation_center": {
     "name": "冬眠中心",
     "description": "你苏醒的地方，这里有完整的生命维持系统。",
-    "connections": ["复苏队基地", "冰河派据点"],
+    "connections": ["revival_base", "ice_faction", "wasteland"],
     "tags": {
       "建筑完整度": 80,
       "熵减程度": 20,
       "安全程度": 90
     }
   },
-  "复苏队基地": {
+  "revival_base": {
     "name": "复苏队基地",
     "description": "由机器人建立的基地，这里有能量塔在运作。",
-    "connections": ["冬眠中心"],
+    "connections": ["hibernation_center", "wasteland"],
     "tags": {
       "建筑完整度": 95,
       "熵减程度": 5,
       "安全程度": 85
     }
   },
-  "冰河派据点": {
+  "ice_faction": {
     "name": "冰河派据点",
     "description": "冰河派的主要聚集地，这里充满了结晶。",
-    "connections": ["冬眠中心"],
+    "connections": ["hibernation_center", "wasteland"],
     "tags": {
       "建筑完整度": 40,
       "熵减程度": 75,
       "安全程度": 30
+    }
+  },
+  "wasteland": {
+    "name": "废土",
+    "description": "被熵减力量扭曲的荒野。这里遍布几何状结晶，偶尔能在废墟中找到一些有用的物资。",
+    "connections": ["hibernation_center", "revival_base", "ice_faction"],
+    "tags": {
+      "建筑完整度": 10,
+      "熵减程度": 60,
+      "安全程度": 20,
+      "资源丰富度": 70
     }
   }
 } 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { characterService } from '../services/characterService';
+import { illustrationService } from '../services/illustrationService';
 
 interface Location {
   name: string;
@@ -17,6 +18,18 @@ interface LocationSelectorProps {
 export const LocationSelector: React.FC<LocationSelectorProps> = ({ locations }) => {
   const currentLocation = characterService.getPlayerTagValue('位置.当前地点');
   const targetLocation = characterService.getPlayerTagValue('位置.目标地点');
+  const [locationIllustrations, setLocationIllustrations] = React.useState<Record<string, string>>({});
+
+  React.useEffect(() => {
+    const loadIllustrations = async () => {
+      const illustrations: Record<string, string> = {};
+      for (const locationId of Object.keys(locations)) {
+        illustrations[locationId] = await illustrationService.getIllustration(`loc_${locationId}`);
+      }
+      setLocationIllustrations(illustrations);
+    };
+    loadIllustrations();
+  }, [locations]);
 
   const handleLocationSelect = (locationName: string) => {
     if (locationName !== currentLocation) {
@@ -34,25 +47,70 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({ locations })
           const isAccessible = (locations[currentLocation as string]?.connections || []).includes(key);
           
           return (
-            <button
+            <div
               key={key}
-              onClick={() => handleLocationSelect(key)}
-              disabled={isCurrentLocation || (!isAccessible && !isCurrentLocation)}
-              className={`w-full p-2 rounded text-left ${
+              className={`w-full rounded overflow-hidden ${
                 isCurrentLocation 
-                  ? 'bg-moss-green'
+                  ? 'ring-2 ring-moss-green'
                   : isTargetLocation
-                    ? 'bg-rose-quartz'
-                    : isAccessible
-                      ? 'bg-charcoal hover:bg-opacity-80'
-                      : 'bg-charcoal opacity-50'
+                    ? 'ring-2 ring-rose-quartz'
+                    : ''
               }`}
             >
-              <div className="font-bold">{location.name}</div>
-              <div className="text-sm">{location.description}</div>
-              {isCurrentLocation && <div className="text-xs mt-1">(当前位置)</div>}
-              {isTargetLocation && <div className="text-xs mt-1">(目标位置)</div>}
-            </button>
+              {/* 地点立绘 */}
+              <div className="relative h-32 overflow-hidden">
+                <img 
+                  src={locationIllustrations[key]}
+                  alt={location.name}
+                  className="w-full h-full object-cover"
+                  loading="lazy"
+                />
+                {/* 状态标签 */}
+                {isCurrentLocation && (
+                  <div className="absolute top-2 right-2 bg-moss-green px-2 py-1 rounded text-xs">
+                    当前位置
+                  </div>
+                )}
+                {isTargetLocation && (
+                  <div className="absolute top-2 right-2 bg-rose-quartz px-2 py-1 rounded text-xs">
+                    目标位置
+                  </div>
+                )}
+              </div>
+              
+              {/* 地点信息 */}
+              <div className="p-2">
+                <div className="font-bold">{location.name}</div>
+                <div className="text-sm opacity-80">{location.description}</div>
+                
+                {/* 地点状态 */}
+                <div className="mt-1 text-xs space-y-1">
+                  <div className="flex justify-between">
+                    <span>熵减程度:</span>
+                    <span>{location.tags.熵减程度 || 0}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span>复苏程度:</span>
+                    <span>{location.tags.复苏程度 || 0}%</span>
+                  </div>
+                </div>
+                
+                {/* 前往按钮 */}
+                <button
+                  onClick={() => handleLocationSelect(key)}
+                  disabled={isCurrentLocation || (!isAccessible && !isCurrentLocation)}
+                  className={`w-full mt-2 p-1 rounded text-sm ${
+                    isCurrentLocation 
+                      ? 'bg-moss-green cursor-default'
+                      : isAccessible
+                        ? 'bg-sky-blue hover:bg-opacity-80'
+                        : 'bg-charcoal opacity-50 cursor-not-allowed'
+                  }`}
+                >
+                  {isCurrentLocation ? '当前位置' : isAccessible ? '前往' : '无法到达'}
+                </button>
+              </div>
+            </div>
           );
         })}
       </div>

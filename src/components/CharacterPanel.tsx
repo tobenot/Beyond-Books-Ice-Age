@@ -1,23 +1,28 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Character } from '../types';
 import { characterService } from '../services/characterService';
+import { illustrationService } from '../services/illustrationService';
 
 export const CharacterPanel: React.FC = () => {
   const currentLocation = characterService.getPlayerTagValue('位置.当前地点') as string;
-  console.log('Player current location:', currentLocation);
   
-  const characters = characterService.getCharactersAtLocation(currentLocation)
-    .filter(char => !characterService.isPlayer(char.id));
-  console.log('Characters at location:', characters.map(c => c.name));
-  
-  const playerRelationships = characterService.getPlayerRelationships()
-    .filter(rel => characterService.getCharacterTagValue(rel.character.id, '位置.当前地点') === currentLocation);
+  const characters = useMemo(() => 
+    characterService.getCharactersAtLocation(currentLocation)
+      .filter(char => !characterService.isPlayer(char.id)),
+    [currentLocation]  // 当位置改变时重新获取
+  );
+
+  const playerRelationships = useMemo(() => 
+    characterService.getPlayerRelationships()
+      .filter(rel => characterService.getCharacterTagValue(rel.character.id, '位置.当前地点') === currentLocation),
+    [currentLocation]  // 当位置改变时重新获取
+  );
 
   const handleFindCharacter = (characterId: string) => {
     characterService.updatePlayerTag('目标.交互角色', characterId);
   };
 
-  const renderCharacterStats = (character: Character) => (
+  const renderCharacterStats = useMemo(() => (character: Character) => (
     <>
       <div className="grid grid-cols-2 gap-2 mt-2">
         <div>
@@ -71,7 +76,20 @@ export const CharacterPanel: React.FC = () => {
         </div>
       </div>
     </>
-  );
+  ), []);
+
+  const [characterIllustrations, setCharacterIllustrations] = useState<Record<string, string>>({});
+
+  useEffect(() => {
+    const loadIllustrations = async () => {
+      const illustrations: Record<string, string> = {};
+      for (const character of characters) {
+        illustrations[character.id] = await illustrationService.getIllustration(character.id);
+      }
+      setCharacterIllustrations(illustrations);
+    };
+    loadIllustrations();
+  }, [characters]);
 
   if (characters.length === 0) {
     return (
@@ -87,6 +105,14 @@ export const CharacterPanel: React.FC = () => {
       <div className="space-y-4">
         {characters.map(character => (
           <div key={character.id} className="border border-gray-700 p-3 rounded">
+            <div className="mb-3 relative h-96 overflow-hidden rounded-lg">
+              <img 
+                src={characterIllustrations[character.id]}
+                alt={character.name}
+                className="w-full h-full object-contain"
+                loading="lazy"
+              />
+            </div>
             <div className="flex justify-between items-start">
               <div>
                 <h4 className="font-bold">{character.name}</h4>
@@ -128,7 +154,7 @@ export const CharacterPanel: React.FC = () => {
               onClick={() => handleFindCharacter(character.id)}
               className="mt-2 px-2 py-1 bg-sky-blue hover:bg-opacity-80 rounded"
             >
-              寻找
+              交互
             </button>
           </div>
         ))}

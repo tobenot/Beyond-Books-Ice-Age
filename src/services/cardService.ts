@@ -119,41 +119,26 @@ class CardService {
   }
 
   drawCard(): Card | null {
+    console.log('开始抽卡');
     this.removeConsumedCardsFromPool();
-    console.log('Current card pool size:', this.cardPool.length);
+    console.log('当前卡池大小:', this.cardPool.length);
 
     const availableCards = this.cardPool
-      .filter(card => this.canDrawCard(card))
+      .filter(card => {
+        const canDraw = this.canDrawCard(card);
+        console.log(`检查卡片 ${card.id} 是否可抽:`, canDraw);
+        return canDraw;
+      })
       .map(card => {
         let weight = card.baseWeight || 1;
-        
-        // 应用标签权重
-        if (card.weightMultipliers) {
-          for (const [tag, multiplier] of Object.entries(card.weightMultipliers)) {
-            const tagValue = characterService.getPlayerTagValue(tag);
-            if (typeof tagValue === 'number') {
-              weight *= Math.pow(multiplier, tagValue);
-            }
-          }
-        }
-
-        // 降低最近抽到的卡的权重
-        if (this.recentDrawnCards.includes(card.id)) {
-          weight *= 0.2;
-        }
-
-        console.log(`Card ${card.id} has weight ${weight}`);
+        console.log(`计算卡片 ${card.id} 权重, 基础权重:`, weight);
         return { card, weight };
       });
 
-    console.log('Available cards:', availableCards.map(c => ({
-      id: c.card.id,
-      weight: c.weight,
-      requireTags: c.card.requireTags
-    })));
+    console.log('可用卡片数量:', availableCards.length);
 
     if (availableCards.length === 0) {
-      console.log('No available cards to draw');
+      console.log('没有可用卡片');
       this.currentCard = null;
       return null;
     }
@@ -164,6 +149,7 @@ class CardService {
       .sort((a, b) => (b.card.priority || 0) - (a.card.priority || 0));
 
     if (mustDrawCards.length > 0) {
+      console.log('发现必抽卡片:', mustDrawCards[0].card.id);
       this.currentCard = mustDrawCards[0].card;
       return this.currentCard;
     }
@@ -171,18 +157,19 @@ class CardService {
     // 根据权重随机抽取
     const totalWeight = availableCards.reduce((sum, { weight }) => sum + weight, 0);
     let random = Math.random() * totalWeight;
+    console.log('总权重:', totalWeight, '随机值:', random);
 
     for (const { card, weight } of availableCards) {
       if (random < weight) {
         this.updateRecentDrawnCards(card.id);
         this.currentCard = card;
-        console.log('Drew card:', card.name);
+        console.log('抽到卡片:', card.id);
         return card;
       }
       random -= weight;
     }
 
-    // 如果没有卡可抽，返回 null
+    console.log('未抽到卡片');
     this.currentCard = null;
     return null;
   }
