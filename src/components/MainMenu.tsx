@@ -14,33 +14,40 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
 
   const mainMenuButtons = {
     creator: `
-      <p>一直想详细解释心灵世界相关的内容和概念，让大家了解一下心界的伟岸一角。<strong>《不止于纸上的故事：幻灭篇》</strong>就是一次尝试。"幻灭"意味着希望之火虚妄，即便如此，圣人，也即战士们，也会一直向前，一直战斗。</p>
-      <p>本作是一个抽卡做选择的游戏，需要构筑各种方法论来尽可能在最终的高考取得更好的成绩。也许像Rougelike。</p>
-      <p>我会尽力把游戏性做的好玩。同时本作偏向于严肃游戏类型，也力求对于高三生有用。</p>
-      <p><strong>鸣谢与我交流本作的玩家们：</strong>诗学者 半夏 shangui</p>
-      <p><strong>致谢与我交流心界的朋友们：</strong>Cecilia 共鸣者 诗学者 段</p>
-      <p><strong>敬谢大自然：</strong>心界三角海 无垠草地 银色星空</p>
-      <p><strong>作者：</strong>苏敬峰/tobenot</p>
+      <p>这是一个发生在后启示录世界的故事。在方格神的熵减打击之后，地球几乎毁灭。你作为一名幸存者从冬眠中被唤醒，发现自己置身于一个充满结晶和方块的废土世界。</p>
+      <p>在这个世界中，你需要探索被熵减影响的废墟，与（众多的）人们互动，并最终决定自己的命运。</p>
+      <p>你可以不站任何人的立场，你是真正的人类。</p>
+      <p>本作是一个文字冒险游戏，你的每个选择都可能影响故事的走向和最终结局。</p>
+      <p><strong>作者：</strong>[tobenot 苏敬峰]</p>
     `,
     changelog: `
       <p>只有比较大的更新在这里展示</p>
-      <p><strong>2024年7月30日</strong> 做了基础卡包的平常日程部分。</p>
-      <p><strong>2024年7月28日</strong> 做了主菜单，基本做好了基础机制，做了基础卡包里面的上课部分。你可以靠着一路崩溃考过去。</p>
-      <p><strong>2024年7月25日</strong> 抽卡和数值框架搭好</p>
-      <p><strong>2024年7月23日</strong> 开坑！</p>
+      <p><strong>2024年12月9日</strong> 开坑，从幻灭篇那里拷了抽卡和标签系统过来重构了一下</p>
+      <p><strong>2024年12月10日</strong> 最小Demo，实现基础游戏系统（地点，存档，物品，人物），美术概念生成，初版美术资源</p>
     `,
     attribution: `
       <p><strong>素材致谢：</strong></p>
-      <p>- <a href="https://www.flaticon.com/free-icons/ice-cubes" title="ice cubes icons">Ice cubes icons created by Freepik - Flaticon</a></p>
+      <p>- 游戏中使用的图片素材来源</p>
+      <p>- 所有立绘、场景图使用 Stable Diffusion 生成</p>
+      <p>- 网页图标：<a href="https://www.flaticon.com/free-icons/ice-cubes" title="ice cubes icons">Ice cubes icons created by Freepik - Flaticon</a></p>
+      <p>- 字体版权信息</p>
+      <p>- 其他第三方资源致谢</p>
     `,
   };
 
   const cardPacks = [
-    { name: "基础卡包（完善中）", description: "所有人的高三都是这样的……<br><br>含开局介绍卡，日常的所有课程，基本的可决策的时机，在几个特定的时间点会有大考验，最终以高考结束游戏。" },
-    { name: "方法论中毒卡包（制作中）", description: "有很多人会热衷于寻找方法论，就好像玩文明5的时候先点科技再出兵。<br><br>解锁学乎APP，里面有一大堆各种各样的方法论，可以在实践中慢慢养成。" },
-    { name: "自学卡包（制作中）", description: "如果你问我为什么，我只会说，我需要更多的时间……<br><br>初始解锁自学方法论，如果有'方法论中毒'卡包，可以解锁学乎APP中自学相关的方法论。" },
-    { name: "心界开拓卡包（制作中）", description: "生而为神，自诩圣人。<br><br>需要'方法论中毒'卡包，有'记忆宫殿'方法论之后，可以在学乎APP上刷到'漫游想象世界'，以开启心灵世界事件链。<br><br>包含心界开拓初期到心棱域军队时期之前的全部历史事件。" },
-    { name: "飞雁一中的同学卡包（制作中）", description: "小心情伤。<br><br>包含同桌克里琴思、前桌艾琳，前斜桌雷思丽三位同学的日常和感情线。<br><br><i>至于为什么他们的名字是英文译名，请期待《不止于纸上的故事：童年篇》。</i>" },
+    { 
+      name: "基础剧情包（完善中）", 
+      description: "包含主要剧情线和基础互动。<br><br>从冬眠中醒来后的初始剧情，与复苏队和冰河派的初次接触，以及在废土世界中生存的基本选项。" 
+    },
+    { 
+      name: "复苏队剧情包（制作中）", 
+      description: "复苏队的专属剧情。<br><br>协助复苏队重建文明，对抗熵减威胁，探索方格神的奥秘。" 
+    },
+    { 
+      name: "冰河派剧情包（制作中）", 
+      description: "冰河派的专属剧情。<br><br>追随霜隐探索永生之道，研究熵减力量，寻找晶格神的踪迹。" 
+    }
   ];
 
   const handleShowModal = (content: string) => {
@@ -56,11 +63,6 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
           <h2 className="text-2xl mb-4">Beyond Books</h2>
           <h3 className="text-3xl mb-4">冰河篇</h3>
           <h4 className="text-xl mb-8">Ice Age</h4>
-
-          正在做正在做，你现在看到的其实是 
-          <a href="https://tobenot.top/Beyond-Books/" className="text-sky-blue hover:text-opacity-80 mr-4">
-          幻灭篇
-          </a>
 
           <div className="space-y-4">
             <button
@@ -85,7 +87,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
               onClick={() => handleShowModal(mainMenuButtons.changelog)}
               className="w-48 p-3 bg-sky-blue hover:bg-opacity-80 rounded"
             >
-              更新日志 24.07.30
+              更新日志
             </button>
             <button
               onClick={() => handleShowModal(mainMenuButtons.attribution)}
@@ -102,11 +104,11 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
           </div>
 
           <footer className="mt-8 text-sm">
-            <a href="https://tobenot.top/Beyond-Books/" className="text-sky-blue hover:text-opacity-80 mr-4">
+            <a href="https://bb.tobenot.top/vue/" className="text-sky-blue hover:text-opacity-80 mr-4">
               同作者的异能战斗游戏
             </a>
             <a href="https://qm.qq.com/q/pvKkFCvCFO" className="text-sky-blue hover:text-opacity-80 mr-4">
-              加群水群
+              加群水群（母港）
             </a>
             <a href="https://space.bilibili.com/23122362" className="text-sky-blue hover:text-opacity-80">
               关注B站
@@ -115,21 +117,28 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
         </>
       ) : (
         <div className="w-full max-w-2xl p-4">
-          <button
-            onClick={() => setShowCardList(false)}
-            className="mb-4 p-2 bg-sky-blue hover:bg-opacity-80 rounded"
-          >
-            返回主菜单
-          </button>
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold">可用卡包</h2>
+            <button
+              onClick={() => setShowCardList(false)}
+              className="px-4 py-2 bg-sky-blue hover:bg-opacity-80 rounded"
+            >
+              返回主菜单
+            </button>
+          </div>
           <div className="space-y-4">
             {cardPacks.map((pack, index) => (
-              <button
+              <div 
                 key={index}
+                className="bg-charcoal p-4 rounded-lg hover:bg-opacity-80 cursor-pointer"
                 onClick={() => handleShowModal(pack.description)}
-                className="w-full p-3 bg-sky-blue hover:bg-opacity-80 rounded text-left"
               >
-                {pack.name}
-              </button>
+                <h3 className="text-xl font-bold mb-2">{pack.name}</h3>
+                <div 
+                  className="text-sm opacity-80"
+                  dangerouslySetInnerHTML={{ __html: pack.description.split('<br><br>')[0] }}
+                />
+              </div>
             ))}
           </div>
         </div>
