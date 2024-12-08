@@ -28,29 +28,33 @@ class TagService {
     return current;
   }
 
-  updateTag(path: string, value: number): void {
+  updateTag(path: string, value: number | string): void {
     const tag = this.findTag(path);
     if (tag) {
-      tag.value = (tag.value || 0) + value;
+      if (typeof value === 'string') {
+        tag.value = value;
+      } else {
+        tag.value = (typeof tag.value === 'number' ? tag.value : 0) + value;
+      }
       this.saveTags();
     }
   }
 
-  getTagValue(path: string): number {
+  getTagValue(path: string): number | string {
     const keys = path.split('.');
     let current: Tag | TagsConfig = this.tags;
     
     for (const key of keys) {
       if (!current || typeof current !== 'object' || !(key in current)) {
-        return 0;
+        return '';
       }
       current = current[key];
     }
     
-    if ('value' in current && typeof current.value === 'number') {
+    if ('value' in current) {
       return current.value;
     }
-    return 0;
+    return '';
   }
 
   getTags(): TagsConfig {

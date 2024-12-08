@@ -1,5 +1,10 @@
 {
   "状态": {
+    "生命值": {
+      "value": 100,
+      "priority": 1,
+      "color": "red"
+    },
     "快乐": {
       "value": 0,
       "priority": 10,
@@ -9,6 +14,20 @@
       "value": 0,
       "priority": 5,
       "color": "orange"
+    }
+  },
+  "位置": {
+    "当前地点": {
+      "value": "冬眠中心",
+      "priority": 1,
+      "color": "blue",
+      "type": "string"
+    },
+    "目标地点": {
+      "value": "",
+      "priority": 2,
+      "color": "purple",
+      "type": "string"
     }
   },
   "技能": {

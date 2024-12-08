@@ -753,5 +753,60 @@
                 "description": "想玩……"
             }
         ]
+    },
+    {
+        "id": "death_test",
+        "name": "危险的选择",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你遇到了一个危险的情况...",
+        "baseWeight": 0.5,
+        "choices": [
+            {
+                "text": "冒险一试",
+                "effects": [
+                    "状态.生命值.-50"
+                ],
+                "description": "这可能会很危险..."
+            },
+            {
+                "text": "谨慎撤退",
+                "effects": [
+                    "状态.生命值.-10"
+                ],
+                "description": "安全第一。"
+            }
+        ]
+    },
+    {
+        "id": "location_change",
+        "name": "前往新地点",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你准备前往{{tagValue:位置.目标地点}}...",
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 100,
+        "requireTags": {
+            "位置.目标地点": "!empty"
+        },
+        "choices": [
+            {
+                "text": "出发",
+                "effects": [
+                    "状态.生命值.-5",
+                    "状态.精力.-10"
+                ],
+                "specialMechanism": "moveToLocation",
+                "description": "路途遥远而危险..."
+            },
+            {
+                "text": "再等等",
+                "effects": [
+                    "位置.目标地点.empty"
+                ],
+                "description": "现在还不是时候。"
+            }
+        ]
     }
 ]

@@ -8,6 +8,8 @@ import { tagService } from '../services/tagService';
 import { dateService } from '../services/dateService';
 import { specialMechanismService } from '../services/specialMechanismService';
 import { MainMenu } from './MainMenu';
+import { LocationSelector } from './LocationSelector';
+import { effectService } from '../services/effectService';
 
 export const GameContainer: React.FC = () => {
   const [currentCard, setCurrentCard] = useState<CardType | null>(null);
@@ -18,6 +20,7 @@ export const GameContainer: React.FC = () => {
   const [endingType, setEndingType] = useState<string>('');
   const [endingMessage, setEndingMessage] = useState<string>('');
   const [showMainMenu, setShowMainMenu] = useState(true);
+  const [locations, setLocations] = useState({});
 
   useEffect(() => {
     const initGame = async () => {
@@ -44,6 +47,20 @@ export const GameContainer: React.FC = () => {
     return () => {
       window.removeEventListener('gameEnd', handleGameEnd as EventListener);
     };
+  }, []);
+
+  useEffect(() => {
+    const loadLocations = async () => {
+      try {
+        const response = await fetch(import.meta.env.BASE_URL + 'config/locations.json');
+        const data = await response.json();
+        setLocations(data);
+      } catch (error) {
+        console.error('Error loading locations:', error);
+      }
+    };
+    
+    loadLocations();
   }, []);
 
   const drawNewCard = () => {
@@ -88,9 +105,7 @@ export const GameContainer: React.FC = () => {
 
     // 应用选择的效果
     choice.effects.forEach(effect => {
-      const [tagPath, valueStr] = effect.split(/(\.\-?\d+$)/);
-      const value = parseInt(valueStr.slice(1));
-      tagService.updateTag(tagPath, value);
+      effectService.applyEffect(effect);
     });
 
     // 更新标签显示
@@ -124,13 +139,23 @@ export const GameContainer: React.FC = () => {
   };
 
   const checkGameEnd = () => {
+    const health = tagService.getTagValue('状态.生命值');
+    
+    if (typeof health === 'number' && health <= 0) {
+      setEndingType('death');
+      setEndingMessage('你死了...');
+      setGameEnded(true);
+      return;
+    }
+
+    // 保留原有的其他结局检查
     const happiness = tagService.getTagValue('状态.快乐');
     const energy = tagService.getTagValue('状态.精力');
     
-    if (happiness <= 0) {
+    if (typeof happiness === 'number' && happiness <= 0) {
       setEndingType('bad_happiness');
       setGameEnded(true);
-    } else if (energy <= 0) {
+    } else if (typeof energy === 'number' && energy <= 0) {
       setEndingType('bad_energy');
       setGameEnded(true);
     }
@@ -155,11 +180,17 @@ export const GameContainer: React.FC = () => {
     <div className="grid grid-cols-12 gap-4 p-4">
       <div className="col-span-3">
         <TagsDisplay tags={tags} />
+        <div className="mt-4">
+          <LocationSelector locations={locations} />
+        </div>
       </div>
       <div className="col-span-6">
         {gameEnded ? (
           <div className="bg-charcoal p-4 rounded-lg">
             <h2 className="text-xl font-bold mb-4">游戏结束</h2>
+            {endingType === 'death' && (
+              <p>你死了！<br/>{endingMessage}</p>
+            )}
             {endingType === 'bad_happiness' && (
               <p>你失败了！<br/>快乐归零，道心破碎</p>
             )}

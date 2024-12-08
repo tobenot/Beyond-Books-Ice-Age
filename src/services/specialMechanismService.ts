@@ -4,17 +4,32 @@ import { rankService } from './rankService';
 
 class SpecialMechanismService {
   private placeholderHandlers = {
-    tagValue: (path: string) => tagService.getTagValue(path),
-    exam100: (path: string) => this.exam100(tagService.getTagValue(path)),
-    exam150: (path: string) => this.exam150(tagService.getTagValue(path)),
+    tagValue: (path: string) => {
+      const value = tagService.getTagValue(path);
+      return String(value);
+    },
+    exam100: (path: string) => {
+      const value = tagService.getTagValue(path);
+      return this.exam100(typeof value === 'number' ? value : 0);
+    },
+    exam150: (path: string) => {
+      const value = tagService.getTagValue(path);
+      return this.exam150(typeof value === 'number' ? value : 0);
+    },
     examAll: () => this.examAll()
   };
 
   replacePlaceholders(template: string): string {
+    console.log('Template before replacement:', template);
     return template.replace(/\{\{(.*?)\}\}/g, (_, placeholder) => {
+      console.log('Found placeholder:', placeholder);
       const [type, path] = placeholder.split(":");
+      console.log('Split into type:', type, 'path:', path);
       const handler = this.placeholderHandlers[type as keyof typeof this.placeholderHandlers];
-      return handler ? String(handler(path)) : `{{${placeholder}}}`;
+      console.log('Handler found:', !!handler);
+      const result = handler ? String(handler(path)) : `{{${placeholder}}}`;
+      console.log('Replacement result:', result);
+      return result;
     });
   }
 
@@ -37,12 +52,17 @@ class SpecialMechanismService {
   }
 
   private examAll(): number {
-    const chinese = this.exam150(tagService.getTagValue("技能.语文"));
-    const math = this.exam150(tagService.getTagValue("技能.数学"));
-    const english = this.exam150(tagService.getTagValue("技能.英语"));
-    const physics = this.exam100(tagService.getTagValue("技能.物理"));
-    const chemistry = this.exam100(tagService.getTagValue("技能.化学"));
-    const biology = this.exam100(tagService.getTagValue("技能.生物"));
+    const getNumericValue = (path: string) => {
+      const value = tagService.getTagValue(path);
+      return typeof value === 'number' ? value : 0;
+    };
+
+    const chinese = this.exam150(getNumericValue("技能.语文"));
+    const math = this.exam150(getNumericValue("技能.数学"));
+    const english = this.exam150(getNumericValue("技能.英语"));
+    const physics = this.exam100(getNumericValue("技能.物理"));
+    const chemistry = this.exam100(getNumericValue("技能.化学"));
+    const biology = this.exam100(getNumericValue("技能.生物"));
 
     return chinese + math + english + physics + chemistry + biology;
   }
@@ -63,24 +83,36 @@ class SpecialMechanismService {
     const resultText = `
       <div>
         高考成绩：<br>
-        语文${this.exam150(tagService.getTagValue("技能.语文"))}，
-        数学${this.exam150(tagService.getTagValue("技能.数学"))}，
-        英语${this.exam150(tagService.getTagValue("技能.英语"))}，
-        物理${this.exam100(tagService.getTagValue("技能.物理"))}，
-        化学${this.exam100(tagService.getTagValue("技能.化学"))}，
-        生物${this.exam100(tagService.getTagValue("技能.生物"))}。<br>
+        语文${this.exam150(getNumericValue("技能.语文"))}，
+        数学${this.exam150(getNumericValue("技能.数学"))}，
+        英语${this.exam150(getNumericValue("技能.英语"))}，
+        物理${this.exam100(getNumericValue("技能.物理"))}，
+        化学${this.exam100(getNumericValue("技能.化学"))}，
+        生物${this.exam100(getNumericValue("技能.生物"))}。<br>
         总分：<b>${totalScore}</b><br>
         排名：<b>${rank}</b><br>
         ${totalScore >= 524 ? '达到高分优先投档批' : totalScore >= 410 ? '达到本科批' : '未达到本科批'}
       </div>
     `;
 
+    console.log('Before replacePlaceholders:', resultText);
+    const processedText = this.replacePlaceholders(resultText);
+    console.log('After replacePlaceholders:', processedText);
+
     window.dispatchEvent(new CustomEvent('gameEnd', { 
       detail: { 
         type: 'gaokao',
-        message: this.replacePlaceholders(resultText)
+        message: processedText
       }
     }));
+  }
+
+  moveToLocation(_choice: Choice, _card: Card): void {
+    const targetLocation = tagService.getTagValue('位置.目标地点');
+    if (targetLocation) {
+      tagService.updateTag('位置.当前地点', targetLocation);
+      tagService.updateTag('位置.目标地点', '');
+    }
   }
 }
 

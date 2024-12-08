@@ -57,7 +57,15 @@ class CardService {
     return true;
   }
 
-  private evaluateCondition(value: number, condition: string): boolean {
+  private evaluateCondition(value: number | string, condition: string): boolean {
+    if (condition === '!empty') {
+      return value !== '';
+    }
+    
+    if (typeof value === 'string') {
+      return value === condition;
+    }
+
     const operator = condition.charAt(0);
     const threshold = parseFloat(condition.slice(1));
     
@@ -90,7 +98,9 @@ class CardService {
         if (card.weightMultipliers) {
           for (const [tag, multiplier] of Object.entries(card.weightMultipliers)) {
             const tagValue = tagService.getTagValue(tag);
-            weight *= Math.pow(multiplier, tagValue);
+            if (typeof tagValue === 'number') {
+              weight *= Math.pow(multiplier, tagValue);
+            }
           }
         }
 
