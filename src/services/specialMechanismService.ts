@@ -8,6 +8,15 @@ class SpecialMechanismService {
       const value = characterService.getPlayerTagValue(path);
       return String(value);
     },
+    charName: () => {
+      // 获取目标角色ID
+      const targetCharId = characterService.getPlayerTagValue('目标.寻找角色');
+      if (!targetCharId) return '';
+      
+      // 获取角色信息
+      const character = characterService.getCharacter(targetCharId as string);
+      return character ? character.name : '';
+    },
     exam100: (path: string) => {
       const value = characterService.getPlayerTagValue(path);
       return this.exam100(typeof value === 'number' ? value : 0);
@@ -119,6 +128,75 @@ class SpecialMechanismService {
       characterService.updatePlayerTag('位置.当前地点', targetLocation);
       characterService.updatePlayerTag('位置.目标地点', '');
     }
+  }
+
+  characterInteraction(_choice: Choice, _card: Card): void {
+    const targetCharId = characterService.getPlayerTagValue('目标.寻找角色');
+    if (!targetCharId) return;
+
+    const character = characterService.getCharacter(targetCharId as string);
+    if (!character) return;
+
+    // 保存当前交互的角色ID,用于后续显示
+    this.currentInteractionCharId = targetCharId as string;
+
+    // 根据角色特征和关系生成不同的交互选项
+    const relationship = characterService.getCharacterRelationship(character.id, 'player');
+    const attitude = relationship?.立场 || '中立';
+    
+    let interactionOptions = [];
+    
+    // 基础选项
+    interactionOptions.push({
+      text: '闲聊',
+      effects: [
+        // 不要立即清空目标角色,而是在交互完成后清空
+        // '目标.寻找角色.empty'
+        '状态.精力.-5'
+      ],
+      description: '进行一些日常对话。'
+    });
+
+    // 根据角色阵营添加选项
+    if (character.faction === '复苏队') {
+      interactionOptions.push({
+        text: '询问复苏队的情况',
+        effects: ['状态.精力.-10'],
+        description: '了解复苏队的近况。'
+      });
+    } else if (character.faction === '冰河派') {
+      interactionOptions.push({
+        text: '打探冰河派的消息',
+        effects: ['状态.精力.-10'],
+        description: '小心地询问冰河派的动向。'
+      });
+    }
+
+    // 根据态度添加选项
+    if (attitude === '友好') {
+      interactionOptions.push({
+        text: '请求帮助',
+        effects: ['状态.精力.-15'],
+        description: '寻求一些援助。'
+      });
+    }
+
+    // 添加结束交谈选项
+    interactionOptions.push({
+      text: '结束交谈',
+      effects: [
+        '目标.寻找角色.empty'  // 只在结束交谈时清空目标角色
+      ],
+      description: '结束当前对话。'
+    });
+
+    // 触发交互选项事件
+    window.dispatchEvent(new CustomEvent('showInteractionOptions', {
+      detail: {
+        character,
+        options: interactionOptions
+      }
+    }));
   }
 }
 

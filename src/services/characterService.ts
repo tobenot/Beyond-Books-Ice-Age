@@ -62,24 +62,10 @@ class CharacterService {
   }
 
   getCharactersAtLocation(location: string): Character[] {
-    console.log('Looking for characters at location:', location);
-    console.log('Current characterTags state:', this.characterTags);
-    
-    const characters = Object.values(this.characters).filter(char => {
+    return Object.values(this.characters).filter(char => {
       const charLocation = this.getCharacterTagValue(char.id, '位置.当前地点');
-      console.log(`Character ${char.name}(${char.id}) location check:`, {
-        charTags: this.characterTags[char.id],
-        locationValue: charLocation
-      });
       return charLocation === location;
     });
-    
-    console.log('Found characters:', characters.map(c => ({
-      name: c.name,
-      id: c.id,
-      tags: this.characterTags[c.id]
-    })));
-    return characters;
   }
 
   updateCharacterTag(characterId: string, tagPath: string, value: number | string): void {
@@ -114,20 +100,9 @@ class CharacterService {
     const keys = tagPath.split('.');
     let current: any = this.characterTags[characterId];
     
-    console.log(`Getting tag value for ${characterId}, path: ${tagPath}`, {
-      characterId,
-      tagPath,
-      initialValue: current,
-      allTags: this.characterTags
-    });
-    
     for (const key of keys) {
       if (!current || typeof current !== 'object' || !(key in current)) {
-        console.warn(`Invalid path ${tagPath} for character ${characterId} at key ${key}`, {
-          current,
-          isObject: typeof current === 'object',
-          hasKey: current ? key in current : false
-        });
+        console.warn(`Invalid path ${tagPath} for character ${characterId} at key ${key}`);
         return '';
       }
       current = current[key];
@@ -184,7 +159,7 @@ class CharacterService {
       relationship.立场 = changes.立场;
     }
 
-    // 根据好感度自动调整立场
+    // 根据好��度自动调整立场
     if (relationship.好感度 >= 50) {
       relationship.立场 = "友好";
     } else if (relationship.好感度 <= -50) {

@@ -73,5 +73,13 @@
       "type": "string",
       "defaultValue": ""
     }
+  },
+  "目标": {
+    "寻找角色": {
+      "color": "purple",
+      "priority": 1,
+      "type": "string",
+      "defaultValue": ""
+    }
   }
 }

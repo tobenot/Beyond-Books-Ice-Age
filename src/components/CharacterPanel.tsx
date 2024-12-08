@@ -13,6 +13,10 @@ export const CharacterPanel: React.FC = () => {
   const playerRelationships = characterService.getPlayerRelationships()
     .filter(rel => characterService.getCharacterTagValue(rel.character.id, '位置.当前地点') === currentLocation);
 
+  const handleFindCharacter = (characterId: string) => {
+    characterService.updatePlayerTag('目标.寻找角色', characterId);
+  };
+
   const renderCharacterStats = (character: Character) => (
     <>
       <div className="grid grid-cols-2 gap-2 mt-2">
@@ -120,6 +124,12 @@ export const CharacterPanel: React.FC = () => {
                   </div>
                 </div>
               ))}
+            <button
+              onClick={() => handleFindCharacter(character.id)}
+              className="mt-2 px-2 py-1 bg-sky-blue hover:bg-opacity-80 rounded"
+            >
+              寻找
+            </button>
           </div>
         ))}
       </div>

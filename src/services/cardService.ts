@@ -1,6 +1,7 @@
 import { Card } from '../types';
 import { characterService } from '../services/characterService';
 import { dateService } from './dateService';
+import { specialMechanismService } from './specialMechanismService';
 
 class CardService {
   private cardPool: Card[] = [];
@@ -64,6 +65,28 @@ class CardService {
       return value !== '';
     }
     
+    if (condition === 'empty') {
+      return value === '';
+    }
+
+    // 检查角色属性
+    if (typeof value === 'string' && value) {
+      const targetCharId = value;
+      const character = characterService.getCharacter(targetCharId);
+      if (character) {
+        // 如果是检查阵营
+        if (condition.startsWith('faction:')) {
+          return character.faction === condition.split(':')[1];
+        }
+        // 如果是检查态度
+        if (condition.startsWith('attitude:')) {
+          const relationship = characterService.getCharacterRelationship(character.id, 'player');
+          return relationship?.立场 === condition.split(':')[1];
+        }
+      }
+    }
+
+    // 原有的数值比较逻辑
     if (typeof value === 'string') {
       return value === condition;
     }
@@ -113,6 +136,7 @@ class CardService {
           weight *= 0.2;
         }
 
+        // 不在这里处理占位符,直接返回原始卡牌
         return { card, weight };
       });
 
