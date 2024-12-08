@@ -43,9 +43,9 @@ class DateService {
   }
 
   private applyTagModifier(): void {
-    const playerTags = characterService.getPlayer()?.tags;
-    if (playerTags.变化) {
-      this.traverseAndUpdate(playerTags.变化);
+    const player = characterService.getPlayer();
+    if (player?.tags?.变化) {
+        this.traverseAndUpdate(player.tags.变化);
     }
   }
 

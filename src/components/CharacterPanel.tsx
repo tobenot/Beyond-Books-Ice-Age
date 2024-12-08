@@ -96,27 +96,13 @@ export const CharacterPanel: React.FC = () => {
               </span>
             </div>
             <p className="mt-2 text-sm">{character.description}</p>
-            <div className="mt-2 space-y-1">
-              <div className="flex justify-between text-sm">
-                <span>好感度:</span>
-                <span>{characterService.getCharacterTagValue(character.id, '状态.好感度')}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span>信任度:</span>
-                <span>{characterService.getCharacterTagValue(character.id, '状态.信任度')}</span>
-              </div>
-              <div className="flex justify-between text-sm">
-                <span>立场:</span>
-                <span>{characterService.getCharacterTagValue(character.id, '关系.立场')}</span>
-              </div>
-            </div>
             
             {renderCharacterStats(character)}
             
-            {/* 显示与玩家的双向关系 */}
+            {/* 只显示NPC对玩家的态度 */}
             {playerRelationships
               .filter(rel => rel.character.id === character.id)
-              .map(({playerToChar, charToPlayer}) => (
+              .map(({charToPlayer}) => (
                 <div key={`player-${character.id}`} className="mt-2 text-sm border-t border-gray-700 pt-2">
                   <div className="mb-2">
                     <p className="font-bold">对你的态度:</p>
@@ -132,42 +118,6 @@ export const CharacterPanel: React.FC = () => {
                       <span>立场:</span>
                       <span>{charToPlayer.立场}</span>
                     </div>
-                  </div>
-                  <div>
-                    <p className="font-bold">你对Ta的态度:</p>
-                    <div className="flex justify-between">
-                      <span>好感度:</span>
-                      <span>{playerToChar.好感度}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>信任度:</span>
-                      <span>{playerToChar.信任度}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span>立场:</span>
-                      <span>{playerToChar.立场}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-
-            {/* 显示与其他NPC的关系 */}
-            {relationships
-              .filter(r => r.from.id === character.id && !characterService.isPlayer(r.to.id))
-              .map(({to, relationship}) => (
-                <div key={`${character.id}-${to.id}`} className="mt-2 text-sm border-t border-gray-700 pt-2">
-                  <p className="font-bold">对{to.name}的态度:</p>
-                  <div className="flex justify-between">
-                    <span>好感度:</span>
-                    <span>{relationship.好感度}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>信任度:</span>
-                    <span>{relationship.信任度}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>立场:</span>
-                    <span>{relationship.立场}</span>
                   </div>
                 </div>
               ))}

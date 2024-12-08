@@ -5,9 +5,10 @@ import { tagService } from '../services/tagService';
 
 interface TagsDisplayProps {
   playerTags: PlayerTags;
+  isNPC?: boolean;
 }
 
-export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags }) => {
+export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags, isNPC = false }) => {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['状态']));
   const tagsConfig = tagService.getTagsConfig();
 
@@ -23,7 +24,7 @@ export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags }) => {
 
   const renderTagValue = (category: string, tagName: string) => {
     const value = playerTags[category]?.[tagName];
-    const config = tagsConfig[category]?.[tagName];
+    const config = tagsConfig[category as keyof TagsConfig]?.[tagName];
     
     if (!config) return null;
 
@@ -74,9 +75,19 @@ export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags }) => {
     );
   };
 
+  const filterAttitudeTags = (tags: PlayerTags): PlayerTags => {
+    const filteredTags = { ...tags };
+    if (filteredTags.态度) {
+      delete filteredTags.态度;
+    }
+    return filteredTags;
+  };
+
+  const tagsToDisplay = isNPC ? filterAttitudeTags(playerTags) : playerTags;
+
   return (
     <div className="tags-display bg-navy-blue p-4 rounded-lg max-h-[80vh] overflow-y-auto">
-      {Object.keys(playerTags).map(category => renderCategory(category))}
+      {Object.keys(tagsToDisplay).map(category => renderCategory(category))}
     </div>
   );
 }; 
