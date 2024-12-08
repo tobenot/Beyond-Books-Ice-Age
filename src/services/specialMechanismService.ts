@@ -1,7 +1,6 @@
 import { Choice, Card } from '../types';
 import { rankService } from './rankService';
 import { characterService } from '../services/characterService';
-import { cardService } from '../services/cardService';
 
 class SpecialMechanismService {
   private placeholderHandlers = {
@@ -172,11 +171,11 @@ class SpecialMechanismService {
     }));
   }
 
-  unlockLocationPanel(choice: Choice, card: Card): void {
+  unlockLocationPanel(_choice: Choice, _card: Card): void {
     characterService.updatePlayerTag('系统.地点面板', '已解锁');
   }
 
-  unlockCharacterPanel(choice: Choice, card: Card): void {
+  unlockCharacterPanel(_choice: Choice, _card: Card): void {
     characterService.updatePlayerTag('系统.角色面板', '已解锁');
   }
 }

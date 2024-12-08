@@ -3,7 +3,6 @@ import { Character } from '../types';
 import { characterService } from '../services/characterService';
 import { illustrationService } from '../services/illustrationService';
 import { cardService } from '../services/cardService';
-import { effectService } from '../services/effectService';
 
 interface CharacterPanelProps {
   onSkipCard: () => void;

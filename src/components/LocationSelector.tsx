@@ -2,7 +2,6 @@ import React from 'react';
 import { characterService } from '../services/characterService';
 import { illustrationService } from '../services/illustrationService';
 import { cardService } from '../services/cardService';
-import { effectService } from '../services/effectService';
 
 interface Location {
   name: string;
