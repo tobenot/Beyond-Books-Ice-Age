@@ -190,6 +190,10 @@ class CardService {
     this.currentCard = null;
     await this.loadCardData();
   }
+
+  getCardPoolSize(): number {
+    return this.cardPool.length;
+  }
 }
 
 export const cardService = new CardService(); 

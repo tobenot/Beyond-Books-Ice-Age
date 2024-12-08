@@ -51,7 +51,7 @@ class TagService {
       current = current[key];
     }
     
-    if ('value' in current) {
+    if ('value' in current && (typeof current.value === 'string' || typeof current.value === 'number')) {
       return current.value;
     }
     return '';
@@ -62,7 +62,11 @@ class TagService {
   }
 
   private saveTags(): void {
-    localStorage.setItem('tags', JSON.stringify(this.tags));
+    try {
+      localStorage.setItem('tags', JSON.stringify(this.tags));
+    } catch (error) {
+      console.error('Error saving tags to localStorage:', error);
+    }
   }
 
   async loadTagsFromSave(savedTags: TagsConfig): Promise<void> {
