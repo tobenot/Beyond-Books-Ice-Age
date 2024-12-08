@@ -1,703 +1,5 @@
 [
     {
-        "id": "1",
-        "name": "语数英课",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "主科。",
-        "baseWeight": 3.0,
-        "choices": [
-            {
-                "text": "认真听",
-                "effects": [
-                    "技能.语文.100",
-                    "技能.数学.25",
-                    "技能.英语.400",
-                    "状态.精力.-60"
-                ],
-                "description": "数学不会，不会就是不会。"
-            },
-            {
-                "text": "玩",
-                "effects": [
-                    "状态.快乐.40"
-                ],
-                "description": "这就是快乐所在。"
-            }
-        ]
-    },
-    {
-        "id": "4",
-        "name": "课外活动",
-        "type": "event",
-        "cardSet": "基础",
-        "requireTags": {
-            "状态.精力": "<20"
-        },
-        "description": "天涯何处无芳草。",
-        "baseWeight": 0.2,
-        "choices": [
-            {
-                "text": "认真参与",
-                "effects": [
-                    "状态.快乐.40"
-                ],
-                "description": "散时如梦一场。"
-            },
-            {
-                "text": "摸鱼休息",
-                "effects": [
-                    "状态.精力.20"
-                ],
-                "description": "我就不去了。"
-            }
-        ]
-    },
-    {
-        "id": "5",
-        "name": "图书馆学习",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "陪着几位同学。",
-        "baseWeight": 0.3,
-        "choices": [
-            {
-                "text": "专心学习主科",
-                "effects": [
-                    "技能.数学.25",
-                    "技能.语文.100",
-                    "技能.英语.100",
-                    "状态.快乐.-20",
-                    "状态.精力.-20"
-                ],
-                "description": "都学学。"
-            },
-            {
-                "text": "专心学习副科",
-                "effects": [
-                    "技能.物理.100",
-                    "技能.化学.100",
-                    "技能.生物.100",
-                    "状态.快乐.-20",
-                    "状态.精力.-20"
-                ],
-                "description": "都学学。"
-            },
-            {
-                "text": "看课外书",
-                "effects": [
-                    "状态.快乐.20",
-                    "状态.精力.20"
-                ],
-                "description": "放假是放假，上学是上学。"
-            }
-        ]
-    },
-    {
-        "id": "6",
-        "name": "体育课",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "少有的体育课，什么时候放自由活动呢。",
-        "baseWeight": 0.6,
-        "choices": [
-            {
-                "text": "简单锻炼",
-                "requireTags": {
-                    "状态.精力": ">2"
-                },
-                "effects": [
-                    "状态.快乐.20",
-                    "状态.精力.20"
-                ],
-                "description": "虽然开始是很难的，但是运动带来了多巴胺。"
-            },
-            {
-                "text": "拼命锻炼",
-                "requireTags": {
-                    "状态.快乐": ">3",
-                    "状态.精力": ">3"
-                },
-                "effects": [
-                    "状态.快乐.-40",
-                    "状态.精力.30"
-                ],
-                "description": "受不了了！但是还要向前！"
-            },
-            {
-                "text": "回教室休息",
-                "requireTags": {
-                    "状态.精力": "<4"
-                },
-                "effects": [
-                    "状态.精力.20"
-                ],
-                "description": "精力不太够，还是回去吹空调吧。"
-            }
-        ]
-    },
-    {
-        "id": "9",
-        "name": "高考",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "持续两天的高考开始了。",
-        "mustDraw": true,
-        "priority": 985,
-        "timeConsumption": 0,
-        "dateRestrictions": {
-            "after": "2020-07-07"
-        },
-        "choices": [
-            {
-                "text": "这是最后一战。",
-                "effects": [],
-                "specialMechanism": "gaokao",
-                "consumeCard": true,
-                "description": "渡海……"
-            }
-        ]
-    },
-    {
-        "id": "10",
-        "name": "物化生课",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "副科。",
-        "baseWeight": 3.0,
-        "choices": [
-            {
-                "text": "认真听",
-                "effects": [
-                    "技能.物理.200",
-                    "技能.化学.50",
-                    "技能.生物.100",
-                    "状态.精力.-60"
-                ],
-                "description": "物理课还算好懂。化学就有点难以理解了。"
-            },
-            {
-                "text": "玩",
-                "effects": [
-                    "技能.物理.50",
-                    "状态.快乐.40"
-                ],
-                "description": "物理课确实很有趣。"
-            }
-        ]
-    },
-    {
-        "id": "13",
-        "name": "崩溃：快乐归零",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "道心破碎。",
-        "requireTags": {
-            "状态.快乐": "<1"
-        },
-        "baseWeight": 1.0,
-        "mustDraw": true,
-        "priority": 900,
-        "timeConsumption": 6,
-        "choices": [
-            {
-                "text": "玩",
-                "effects": [
-                    "状态.快乐.68"
-                ],
-                "description": "我需要休息。"
-            }
-        ]
-    },
-    {
-        "id": "14",
-        "name": "崩溃：精力归零",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "疲惫不堪。",
-        "requireTags": {
-            "状态.精力": "<1"
-        },
-        "baseWeight": 1.0,
-        "mustDraw": true,
-        "priority": 900,
-        "timeConsumption": 6,
-        "choices": [
-            {
-                "text": "睡",
-                "effects": [
-                    "状态.精力.10"
-                ],
-                "description": "我需要休息。"
-            }
-        ]
-    },
-    {
-        "id": "15",
-        "name": "考试",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "有一场常规考试。",
-        "baseWeight": 0.2,
-        "choices": [
-            {
-                "text": "好好考试",
-                "effects": [
-                    "技能.语文.26",
-                    "技能.数学.4",
-                    "技能.英语.50",
-                    "技能.物理.50",
-                    "技能.化学.20",
-                    "技能.生物.26",
-                    "状态.精力.-40",
-                    "状态.快乐.-40"
-                ],
-                "description": "语文{{exam150:技能.语文}}，数学{{exam150:技能.数学}}，英语{{exam150:技能.英语}}，物理{{exam100:技能.物理}}，化学{{exam100:技能.化学}}，生物{{exam100:技能.生物}}。总共{{examAll:总分}}分。"
-            },
-            {
-                "text": "尽快写完",
-                "effects": [
-                    "状态.精力.20",
-                    "状态.快乐.40"
-                ],
-                "description": "提前一个半小时写完了英语，趴着睡了好久。"
-            }
-        ]
-    },
-    {
-        "id": "17",
-        "name": "镜子",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "看着镜子…… 现在该想什么了？",
-        "baseWeight": 0.5,
-        "choices": [
-            {
-                "text": "反思",
-                "effects": [
-                    "状态.精力.40"
-                ],
-                "description": "我应该能做的更好的。"
-            },
-            {
-                "text": "自夸",
-                "effects": [
-                    "状态.精力.20",
-                    "状态.快乐.40"
-                ],
-                "description": "我如此年轻，还有力气，有无数的希望在。"
-            }
-        ]
-    },
-    {
-        "id": "18",
-        "name": "熟悉的天花板",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "天…… 才五点呢。",
-        "baseWeight": 0.5,
-        "choices": [
-            {
-                "text": "起来学数学",
-                "effects": [
-                    "技能.数学.100",
-                    "状态.快乐.10"
-                ],
-                "description": "在别人还没起床的时候偷偷学习。"
-            },
-            {
-                "text": "回笼觉",
-                "effects": [
-                    "状态.精力.20",
-                    "状态.快乐.40"
-                ],
-                "description": "中间醒了一下，反而休息的更好了。回笼梦里面我拿着激光枪在射击入侵的敌人。"
-            }
-        ]
-    },
-    {
-        "id": "19",
-        "name": "早餐",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "吃啥？",
-        "baseWeight": 2,
-        "choices": [
-            {
-                "text": "肠粉",
-                "effects": [
-                    "状态.精力.20",
-                    "状态.快乐.10"
-                ],
-                "description": "好吃。虽然有点想吃炒面……"
-            },
-            {
-                "text": "炒面",
-                "effects": [
-                    "状态.精力.10",
-                    "状态.快乐.20"
-                ],
-                "description": "好吃。就是有点干。"
-            },
-            {
-                "text": "不吃",
-                "effects": [
-                    "状态.精力.5",
-                    "状态.快乐.40"
-                ],
-                "description": "去教室玩。"
-            }
-        ]
-    },
-    {
-        "id": "20",
-        "name": "早读",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "天天都读语文英语。",
-        "baseWeight": 0.5,
-        "choices": [
-            {
-                "text": "认真早读",
-                "effects": [
-                    "技能.语文.100",
-                    "技能.英语.100",
-                    "状态.精力.-20"
-                ],
-                "description": "跟着读反正不费神，就是早上起来实在是困。"
-            },
-            {
-                "text": "冥想",
-                "effects": [
-                    "状态.精力.20"
-                ],
-                "description": "天天都是读这些。"
-            }
-        ]
-    },
-    {
-        "id": "21",
-        "name": "下课",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "终于下课了。",
-        "baseWeight": 2,
-        "choices": [
-            {
-                "text": "专心学习主科",
-                "effects": [
-                    "技能.数学.12",
-                    "技能.语文.50",
-                    "技能.英语.50",
-                    "状态.快乐.-20",
-                    "状态.精力.-10"
-                ],
-                "description": "时间太短了。"
-            },
-            {
-                "text": "专心学习副科",
-                "effects": [
-                    "技能.物理.50",
-                    "技能.化学.50",
-                    "技能.生物.50",
-                    "状态.快乐.-20",
-                    "状态.精力.-10"
-                ],
-                "description": "时间太短了。"
-            },
-            {
-                "text": "休息放松",
-                "effects": [
-                    "状态.精力.10",
-                    "状态.快乐.40"
-                ],
-                "description": "玩玩。"
-            }
-        ]
-    },
-    {
-        "id": "22",
-        "name": "大课间",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "大课间活动是一个比较长的课间。",
-        "baseWeight": 0.5,
-        "choices": [
-            {
-                "text": "锻炼去",
-                "effects": [
-                    "状态.精力.40",
-                    "状态.快乐.20"
-                ],
-                "description": "大家都这么做。"
-            },
-            {
-                "text": "专心学习主科",
-                "effects": [
-                    "技能.数学.25",
-                    "技能.语文.100",
-                    "技能.英语.100",
-                    "状态.快乐.-20",
-                    "状态.精力.-20"
-                ],
-                "description": "有时间当然是学习。"
-            },
-            {
-                "text": "专心学习副科",
-                "effects": [
-                    "技能.物理.100",
-                    "技能.化学.100",
-                    "技能.生物.100",
-                    "状态.快乐.-20",
-                    "状态.精力.-20"
-                ],
-                "description": "有时间当然是学习。"
-            },
-            {
-                "text": "休息放松",
-                "effects": [
-                    "状态.精力.20",
-                    "状态.快乐.50"
-                ],
-                "description": "大玩特玩。"
-            }
-        ]
-    },
-    {
-        "id": "23",
-        "name": "中晚餐",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "中餐晚餐是一样的餐线…… 吃啥？",
-        "baseWeight": 2,
-        "choices": [
-          {
-            "text": "红烧肉",
-            "effects": [
-              "状态.精力.18",
-              "状态.快乐.14"
-            ],
-            "description": "香气四溢，肥而不腻，满足。"
-          },
-          {
-            "text": "鱼香肉丝",
-            "effects": [
-              "状态.精力.19",
-              "状态.快乐.12"
-            ],
-            "description": "甜甜的鱼香肉丝，完美。"
-          },
-          {
-            "text": "宫保鸡丁",
-            "effects": [
-              "状态.精力.16",
-              "状态.快乐.18"
-            ],
-            "description": "甜甜的宫保鸡丁，好。"
-          },
-          {
-            "text": "清蒸鱼",
-            "effects": [
-              "状态.精力.22",
-              "状态.快乐.6"
-            ],
-            "description": "鲜嫩多汁的清蒸鱼，清淡美味，就是骨头有点多。"
-          },
-          {
-            "text": "麻婆豆腐",
-            "effects": [
-              "状态.精力.15",
-              "状态.快乐.20"
-            ],
-            "description": "豆腐嫩滑，幸好它不辣。"
-          },
-          {
-            "text": "回锅肉",
-            "effects": [
-              "状态.精力.14",
-              "状态.快乐.22"
-            ],
-            "description": "外焦里嫩的回锅肉。"
-          },
-          {
-            "text": "西红柿炒鸡蛋",
-            "effects": [
-              "状态.精力.24",
-              "状态.快乐.2"
-            ],
-            "description": "酸甜可口的西红柿炒鸡蛋。"
-          },
-          {
-            "text": "青椒炒牛肉",
-            "effects": [
-              "状态.精力.13",
-              "状态.快乐.24"
-            ],
-            "description": "鲜嫩的牛肉搭配脆爽的青椒，味道绝佳。"
-          },
-          {
-            "text": "蒜蓉菠菜",
-            "effects": [
-              "状态.精力.20",
-              "状态.快乐.10"
-            ],
-            "description": "清新脆嫩的蒜蓉菠菜，美味。"
-          }
-        ]
-      }, 
-    {
-        "id": "24",
-        "name": "小卖部",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "晚修快开始了。",
-        "baseWeight": 1,
-        "choices": [
-            {
-                "text": "糖糖糖",
-                "effects": [
-                    "状态.精力.20",
-                    "状态.快乐.40"
-                ],
-                "description": "我的生命线。"
-            },
-            {
-                "text": "不买",
-                "effects": [
-                    "状态.精力.20"
-                ],
-                "description": "不去小卖部，保持精力。"
-            }
-        ]
-    },
-    {
-        "id": "25",
-        "name": "晚自习",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "晚自习时间。",
-        "baseWeight": 3,
-        "choices": [
-            {
-                "text": "认真学习",
-                "effects": [
-                    "技能.语文.100",
-                    "技能.数学.100",
-                    "技能.英语.100",
-                    "技能.物理.100",
-                    "技能.化学.100",
-                    "技能.生物.100",
-                    "状态.精力.-40",
-                    "状态.快乐.-80"
-                ],
-                "description": "不管是什么办法都好……"
-            },
-            {
-                "text": "摸鱼学习",
-                "effects": [
-                    "技能.语文.50",
-                    "技能.数学.50",
-                    "技能.英语.50",
-                    "技能.物理.50",
-                    "技能.化学.50",
-                    "技能.生物.50",
-                    "状态.精力.-20",
-                    "状态.快乐.-20"
-                ],
-                "description": "我爱摸鱼。"
-            },
-            {
-                "text": "全摸了！",
-                "effects": [
-                    "状态.精力.20",
-                    "状态.快乐.40"
-                ],
-                "description": "写点小说，设计点游戏什么的。"
-            }
-        ]
-    },
-    {
-        "id": "26",
-        "name": "手机",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "在空闲时间里，我都在手机上看什么呢？",
-        "baseWeight": 1,
-        "choices": [
-            {
-                "text": "看七奈的视频",
-                "effects": [
-                    "状态.快乐.80",
-                    "状态.精力.-10"
-                ],
-                "description": "可爱，单推。"
-            },
-            {
-                "text": "看其他虚拟主播",
-                "effects": [
-                    "状态.快乐.80",
-                    "状态.精力.-10"
-                ],
-                "description": "可爱，单推。"
-            },
-            {
-                "text": "看番剧",
-                "effects": [
-                    "状态.快乐.160",
-                    "状态.精力.-30"
-                ],
-                "description": "快乐，唾手可得。就是有点停不下来。"
-            },
-            {
-                "text": "云游戏",
-                "effects": [
-                    "状态.快乐.160",
-                    "状态.精力.-30"
-                ],
-                "description": "快乐，唾手可得。就是有点停不下来。"
-            },
-            {
-                "text": "随便刷刷",
-                "effects": [
-                    "状态.快乐.40"
-                ],
-                "description": "漫无目的。"
-            },
-            {
-                "text": "克制住",
-                "effects": [
-                    "状态.精力.10",
-                    "状态.快乐.-80"
-                ],
-                "description": "想玩……"
-            }
-        ]
-    },
-    {
-        "id": "death_test",
-        "name": "危险的选择",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "你遇到了一个危险的情况...",
-        "baseWeight": 0.5,
-        "choices": [
-            {
-                "text": "冒险一试",
-                "effects": [
-                    "状态.生命值.-50"
-                ],
-                "description": "这可能会很危险..."
-            },
-            {
-                "text": "谨慎撤退",
-                "effects": [
-                    "状态.生命值.-10"
-                ],
-                "description": "安全第一。"
-            }
-        ]
-    },
-    {
         "id": "location_change",
         "name": "前往新地点",
         "type": "event",
@@ -729,68 +31,455 @@
         ]
     },
     {
-        "id": "item_find_energy_battery",
-        "name": "发现能量电池",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "在废墟中发现了一个复苏队标配的能量电池。",
-        "baseWeight": 1.5,
-        "choices": [
-            {
-                "text": "拾取",
-                "effects": [
-                    "物品.能量电池.1"
-                ],
-                "description": "这种能量电池可以快速恢复生命力。"
-            },
-            {
-                "text": "离开",
-                "effects": [],
-                "description": "看起来不太安全,还是别碰了。"
-            }
-        ]
-    },
-    {
-        "id": "item_find_armor",
-        "name": "发现防护服",
-        "type": "event",
-        "cardSet": "基础", 
-        "description": "在一个储物柜里发现了一套完整的防护服。",
-        "baseWeight": 1.0,
-        "choices": [
-            {
-                "text": "拾取",
-                "effects": [
-                    "物品.防护服.1"
-                ],
-                "description": "这种防护服可以有效抵御熵减环境。"
-            },
-            {
-                "text": "离开",
-                "effects": [],
-                "description": "不知道之前的主人去哪了..."
-            }
-        ]
-    },
-    {
         "id": "item_find_energy_sword",
         "name": "发现能量剑",
         "type": "event",
         "cardSet": "基础",
         "description": "在一具机器人残骸旁发现了一把能量剑。",
         "baseWeight": 0.8,
+        "requireTags": {
+            "位置.当前地点": "wasteland"
+        },
         "choices": [
             {
                 "text": "拾取",
                 "effects": [
                     "物品.能量剑.1"
                 ],
+                "consumeCard": true,
                 "description": "复苏队的标准武器,可以轻易切开大多数物质。"
             },
             {
                 "text": "离开",
                 "effects": [],
                 "description": "这种武器太危险了。"
+            }
+        ]
+    },
+    {
+        "id": "find_character",
+        "name": "寻找{{charName}}",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你找到了{{charName}}...",
+        "baseWeight": 10.0,
+        "mustDraw": true,
+        "priority": 200,
+        "requireTags": {
+            "目标.交互角色": "!empty"
+        },
+        "choices": [
+            {
+                "text": "交谈",
+                "effects": [
+                    "状态.精力.-5"
+                ],
+                "specialMechanism": "characterInteraction",
+                "description": "进行一些日常对话。"
+            },
+            {
+                "text": "发起攻击",
+                "requireTags": {
+                    "物品.能量剑": ">0"
+                },
+                "disabledDisplay": "需要能量剑才能发起攻击",
+                "effects": [
+                    "状态.精力.-20"
+                ],
+                "specialMechanism": "characterAttack",
+                "description": "举起能量剑,发起致命一击..."
+            },
+            {
+                "text": "没什么",
+                "effects": [
+                    "目标.交互角色.empty"
+                ],
+                "description": "结束当前对话。"
+            }
+        ]
+    },
+    {
+        "id": "suYuQing_chat_main",
+        "name": "与苏雨晴的对话",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "苏雨晴正在整理资料。她是一位机器人,但举止非常人性化。",
+        "baseWeight": 10.0,
+        "illustration": "suYuQing",
+        "requireTags": {
+            "目标.交谈角色": "suYuQing"
+        },
+        "choices": [
+            {
+                "text": "问问现在的情况",
+                "effects": [
+                    "状态.精力.-5",
+                    "对话.苏雨晴.基本情况.开启"
+                ],
+                "description": "我需要了解发生了什么..."
+            },
+            {
+                "text": "询问复苏队",
+                "effects": [
+                    "状态.精力.-5",
+                    "对话.苏雨晴.复苏队信息.开启"
+                ],
+                "description": "想知道更多关于复苏队的事"
+            },
+            {
+                "text": "问问关于熵减世界",
+                "requireTags": {
+                    "记忆.熵减世界": ">0"
+                },
+                "effects": [
+                    "状态.精力.-5",
+                    "对话.苏雨晴.熵减世界信息.开启"
+                ],
+                "description": "这个世界变得好奇怪..."
+            },
+            {
+                "text": "结束对话",
+                "effects": [
+                    "目标.交谈角色.empty",
+                    "目标.交互角色.empty"
+                ],
+                "description": "今天就聊到这里吧"
+            }
+        ]
+    },
+    {
+        "id": "suYuQing_chat_basic_info",
+        "name": "了解基本情况",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "苏雨晴耐心地解释着。",
+        "baseWeight": 10.0,
+        "illustration": "suYuQing",
+        "requireTags": {
+            "目标.交谈角色": "suYuQing",
+            "对话.苏雨晴.基本情况": "开启"
+        },
+        "choices": [
+            {
+                "text": "发生了什么？",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.方格神.1",
+                    "记忆.熵减世界.1",
+                    "对话.苏雨晴.基本情况.empty",
+                    "目标.交谈角色.empty"
+                ],
+                "description": "\"十二年前,方格神经过地球时用熵减炮轰击了地球,将世界变成了熵减世界。大部分人类都没能活下来...\""
+            }
+        ]
+    },
+    {
+        "id": "suYuQing_chat_revival",
+        "name": "了解复苏队",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "苏雨晴谈起复苏队时充满了使命感。",
+        "baseWeight": 10.0,
+        "illustration": "suYuQing",
+        "requireTags": {
+            "目标.交谈角色": "suYuQing",
+            "对话.苏雨晴.复苏队信息": "开启"
+        },
+        "choices": [
+            {
+                "text": "复苏队是什么？",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.复苏队起源.1",
+                    "对话.苏雨晴.复苏队信息.empty",
+                    "目标.交谈角色.empty"
+                ],
+                "description": "\"我们是从月球来的机器人部队。在发现地球异变后,我们建立了月球基地,研究对抗熵减的方法。\""
+            }
+        ]
+    },
+    {
+        "id": "suYuQing_chat_entropy",
+        "name": "了解熵减世界",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "苏雨晴开始解释这个陌生的世界。",
+        "baseWeight": 10.0,
+        "illustration": "suYuQing",
+        "requireTags": {
+            "目标.交谈角色": "suYuQing",
+            "对话.苏雨晴.熵减世界信息": "开启"
+        },
+        "choices": [
+            {
+                "text": "什么是熵减世界？",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.熵减世界.1",
+                    "对话.苏雨晴.熵减世界信息.empty",
+                    "目标.交谈角色.empty"
+                ],
+                "description": "\"在这里,时间和物质被扭曲了。一切都在向着更加有序的方向发展,这违背了熵增定律。\""
+            },
+            {
+                "text": "为什么我能活下来？",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.个人身份.1",
+                    "对话.苏雨晴.熵减世界信息.empty",
+                    "目标.交谈角色.empty"
+                ],
+                "description": "\"你似乎对熵减有天然的免疫力。这种能力非常罕见,或许和你的特殊体质有关。\""
+            }
+        ]
+    },
+    {
+        "id": "observe_hibernation_center",
+        "name": "观察冬眠中心",
+        "type": "event",
+        "cardSet": "基础", 
+        "description": "冬眠中心一片狼藉。大部分冬眠舱都已经被熵减力量扭曲变形,只有你所在的那个区域幸免于难。在你的冬眠舱旁边,躺着一具机器人的残骸。\n\n不远处还有另一个破损的冬眠舱,里面同样有一具机器人残骸。空气中弥漫着金属和臭氧的气味,到处都是熵减造成的几何状结晶。",
+        "baseWeight": 0.1,
+        "priority": 1,
+        "illustration": "loc_hibernation_center",
+        "requireTags": {
+            "位置.当前地点": "hibernation_center"
+        },
+        "choices": [
+            {
+                "text": "继续",
+                "effects": [
+                    "状态.精力.5"
+                ],
+                "description": "在这片废墟中找了个相对安全的角落休息。这里曾经是保护人类的地方,现在却只剩下残骸。"
+            },
+            {
+                "text": "检查冬眠舱旁的机器人",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.冬眠中心.机器人.1"
+                ],
+                "description": "这具机器人残骸型号和复苏队差不多,看姿势像是曾经趴在你的冬眠仓上。它应该是被苏雨晴搬动到旁边了。"
+            },
+            {
+                "text": "查看破损冬眠舱中的机器人",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.冬眠中心.机器人.2"
+                ],
+                "description": "奇怪的是,这具机器人残骸竟然被放在冬眠舱里。它的外形与普通的工作机器人不同,更像是某种特殊型号。为什么机器人会需要冬眠？这不合常理。"
+            }
+        ]
+    },
+    {
+        "id": "observe_revival_base",
+        "name": "观察复苏队基地",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "复苏队基地就像是你模糊遥远的记忆里面的现代城市一样。巨大的能量塔在中央，它抵抗着外界的熵减影响。\n\n复苏队机器人们来回穿梭,进行各种维护工作。这里是为数不多的安全区域之一。",
+        "baseWeight": 0.1,
+        "priority": 1,
+        "illustration": "loc_revival_base",
+        "requireTags": {
+            "位置.当前地点": "revival_base"
+        },
+        "choices": [
+            {
+                "text": "继续",
+                "effects": [
+                    "状态.精力.5"
+                ],
+                "description": "在能量塔的庇护下休息。这里的环境给人一种希望。"
+            }
+        ]
+    },
+    {
+        "id": "observe_ice_faction",
+        "name": "观察冰河派据点",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "冰河派据点建立在一片废墟之上。紫色的晶体从建筑物表面生长而出,在阳光下折射出梦幻般的光芒。建筑物虽然扭曲变形,但仍保持着某种奇特的秩序感。\n\n这里的熵减影响使空气中带着金属的味道。身着战术装备的冰河派成员们据点内有序地活动着。他们似乎已经适应了这种环境,甚至学会了利用熵减力量。",
+        "baseWeight": 0.1,
+        "priority": 1,
+        "illustration": "loc_ice_faction",
+        "requireTags": {
+            "位置.当前地点": "ice_faction"
+        },
+        "choices": [
+            {
+                "text": "继续",
+                "effects": [
+                    "状态.精力.5"
+                ],
+                "description": "找了个安静的角落休息。这里虽然环境特殊,但井然有序。"
+            },
+            {
+                "text": "观察冰河派成员",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.冰河派.观察.1"
+                ],
+                "description": "他们都穿着比较破烂的战术装，身上都长了一些晶体。"
+            }
+        ]
+    },
+    {
+        "id": "observe_wasteland",
+        "name": "观察废土",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "这片荒野已经被熵减力量彻底改变。扭曲的建筑残骸和紫色的几何状结晶随处可见，偶尔能看到一些机器人的残骸。\n\n空气中弥漫着金属的味道，远处不时传来奇怪的声响。这里危险重重，但也蕴藏着各种有价值的资源。",
+        "baseWeight": 0.1,
+        "priority": 1,
+        "illustration": "loc_wasteland",
+        "requireTags": {
+            "位置.当前地点": "wasteland"
+        },
+        "choices": [
+            {
+                "text": "继续",
+                "effects": [
+                    "状态.精力.5"
+                ],
+                "description": "找了个相对安全的掩体休息。虽然危险，但至少能短暂地喘口气。"
+            },
+            {
+                "text": "搜寻资源",
+                "effects": [
+                    "状态.精力.-10",
+                    "状态.生命值.-5"
+                ],
+                "description": "在废墟中翻找物资是件危险的事，但有时候能找到意想不到的好东西。"
+            }
+        ]
+    },
+    {
+        "id": "iceFactionLeader_chat_main",
+        "name": "与霜隐的对话",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "霜隐身着改装的战术装备,体表覆盖着紫色的几何状晶体。她的眼神中透露着坚定与狂热。",
+        "baseWeight": 10.0,
+        "illustration": "shuangYin",
+        "requireTags": {
+            "目标.交谈角色": "shuangYin"
+        },
+        "choices": [
+            {
+                "text": "询问他们的目标",
+                "effects": [
+                    "状态.精力.-5",
+                    "对话.霜隐.目标.开启"
+                ],
+                "description": "你们为什么要这么做？"
+            },
+            {
+                "text": "问问关于熵减",
+                "effects": [
+                    "状态.精力.-5",
+                    "对话.霜隐.熵减.开启"
+                ],
+                "description": "你们是如何利用熵减的？"
+            },
+            {
+                "text": "结束对话",
+                "effects": [
+                    "目标.交谈角色.empty",
+                    "目标.交互角色.empty"
+                ],
+                "description": "我听够了..."
+            }
+        ]
+    },
+    {
+        "id": "iceFactionLeader_chat_goal",
+        "name": "了解冰河派的目标",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "霜隐激动地解释着她的理念,晶体在说话时闪烁着微光。",
+        "baseWeight": 10.0,
+        "illustration": "shuangYin",
+        "requireTags": {
+            "目标.交谈角色": "shuangYin",
+            "对话.霜隐.目标": "开启"
+        },
+        "choices": [
+            {
+                "text": "继续听下去",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.冰河派.目标.1",
+                    "对话.霜隐.目标.empty",
+                    "目标.交谈角色.empty"
+                ],
+                "description": "\"熵减不是诅咒,而是进化的契机！复苏队想要恢复旧世界,但我们要建立一个更完美的秩序！我遇见过灵界人,他们告诉我这是正确的道路。\""
+            }
+        ]
+    },
+    {
+        "id": "iceFactionLeader_chat_entropy",
+        "name": "了解熵减利用",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "霜隐展示着她的晶化能力,紫色的结晶在她手中如同活物般生长。",
+        "baseWeight": 10.0,
+        "illustration": "shuangYin",
+        "requireTags": {
+            "目标.交谈角色": "shuangYin",
+            "对话.霜隐.熵减": "开启"
+        },
+        "choices": [
+            {
+                "text": "继续听下去",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.冰河派.熵减.1",
+                    "对话.霜隐.熵减.empty",
+                    "目标.交谈角色.empty"
+                ],
+                "description": "\"我们已经掌握了利用熵减的方法。通过这些晶体,我们可以操控熵减力量。每个接受晶化的人都会变得更强大,更接近完美！\""
+            }
+        ]
+    },
+    {
+        "id": "ending_kill_suyuqing",
+        "name": "背叛结局",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你用能量剑刺穿了苏雨晴的核心处理器。她的眼中闪过一丝难以置信的神情,然后永远地暗淡下去。\n\n你背叛了唯一想要帮助你的人。在这个残酷的世界里,你选择了最黑暗的道路。",
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 1000,
+        "requireTags": {
+            "结局.背叛": "1"
+        },
+        "choices": [
+            {
+                "text": "结束",
+                "effects": [],
+                "specialMechanism": "gameOver",
+                "description": "游戏结束:背叛结局"
+            }
+        ]
+    },
+    {
+        "id": "ending_kill_icefactionleader",
+        "name": "击杀霜隐",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你用能量剑斩杀了霜隐。随着这位冰河派首领的死亡,她的追随者们陷入混乱,他们利用熵减力量的疯狂计划也就此终止。\n\n你和复苏队一起,开始着手重建这个破碎的世界。这是一个艰难的开始,但至少充满希望。",
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 1000,
+        "requireTags": {
+            "结局.英雄": "1"
+        },
+        "choices": [
+            {
+                "text": "结束",
+                "effects": [],
+                "specialMechanism": "gameOver",
+                "description": "游戏结束:英雄结局"
             }
         ]
     }
