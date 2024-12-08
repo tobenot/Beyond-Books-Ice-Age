@@ -10,7 +10,8 @@ class CardService {
 
   async loadCardData(): Promise<void> {
     try {
-      const response = await fetch(import.meta.env.BASE_URL + 'config/cards.json');
+      const timestamp = new Date().getTime();
+      const response = await fetch(`${import.meta.env.BASE_URL}config/cards.json?t=${timestamp}`);
       const data = await response.json();
       this.cardPool = data;
       console.log('Card pool loaded with', this.cardPool.length, 'cards');

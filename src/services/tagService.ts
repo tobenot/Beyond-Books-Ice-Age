@@ -12,8 +12,10 @@ class TagService {
 
   async loadTagsConfig(): Promise<void> {
     try {
-      const response = await fetch(import.meta.env.BASE_URL + 'config/tagsConfig.json');
-      this.tagsConfig = await response.json();
+      const timestamp = new Date().getTime();
+      const response = await fetch(`${import.meta.env.BASE_URL}config/tags.json?t=${timestamp}`);
+      const data = await response.json();
+      this.tagsConfig = data;
       console.log('Tags config loaded');
     } catch (error) {
       console.error('Error loading tags config:', error);

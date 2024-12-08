@@ -60,7 +60,8 @@ export const GameContainer: React.FC = () => {
   useEffect(() => {
     const loadLocations = async () => {
       try {
-        const response = await fetch(import.meta.env.BASE_URL + 'config/locations.json');
+        const timestamp = new Date().getTime();
+        const response = await fetch(`${import.meta.env.BASE_URL}config/locations.json?t=${timestamp}`);
         const data = await response.json();
         setLocations(data);
       } catch (error) {
