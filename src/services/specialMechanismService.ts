@@ -1,5 +1,4 @@
 import { Choice, Card } from '../types';
-import { tagService } from './tagService';
 import { rankService } from './rankService';
 import { characterService } from '../services/characterService';
 
@@ -76,6 +75,11 @@ class SpecialMechanismService {
     }
   }
 
+  private getNumericValue(path: string): number {
+    const value = characterService.getPlayerTagValue(path);
+    return typeof value === 'number' ? value : 0;
+  }
+
   // 添加gaokao特殊机制处理函数
   async gaokao(_choice: Choice, _card: Card): Promise<void> {
     const totalScore = this.examAll();
@@ -84,12 +88,12 @@ class SpecialMechanismService {
     const resultText = `
       <div>
         高考成绩：<br>
-        语文${this.exam150(getNumericValue("技能.语文"))}，
-        数学${this.exam150(getNumericValue("技能.数学"))}，
-        英语${this.exam150(getNumericValue("技能.英语"))}，
-        物理${this.exam100(getNumericValue("技能.物理"))}，
-        化学${this.exam100(getNumericValue("技能.化学"))}，
-        生物${this.exam100(getNumericValue("技能.生物"))}。<br>
+        语文${this.exam150(this.getNumericValue("技能.语文"))}，
+        数学${this.exam150(this.getNumericValue("技能.数学"))}，
+        英语${this.exam150(this.getNumericValue("技能.英语"))}，
+        物理${this.exam100(this.getNumericValue("技能.物理"))}，
+        化学${this.exam100(this.getNumericValue("技能.化学"))}，
+        生物${this.exam100(this.getNumericValue("技能.生物"))}。<br>
         总分：<b>${totalScore}</b><br>
         排名：<b>${rank}</b><br>
         ${totalScore >= 524 ? '达到高分优先投档批' : totalScore >= 410 ? '达到本科批' : '未达到本科批'}
@@ -108,7 +112,7 @@ class SpecialMechanismService {
     }));
   }
 
-  moveToLocation(choice: Choice, _card: Card): void {
+  moveToLocation(_choice: Choice, _card: Card): void {
     const targetLocation = characterService.getPlayerTagValue('位置.目标地点');
     if (targetLocation) {
       console.log('Moving player to:', targetLocation);

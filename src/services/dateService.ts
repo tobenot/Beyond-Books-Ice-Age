@@ -1,5 +1,3 @@
-import { tagService } from './tagService';
-import { TagModifierConfig } from '../types';
 import { characterService } from './characterService';
 
 class DateService {
@@ -45,7 +43,7 @@ class DateService {
   private applyTagModifier(): void {
     const player = characterService.getPlayer();
     if (player?.tags?.变化) {
-        this.traverseAndUpdate(player.tags.变化);
+      this.traverseAndUpdate(player.tags.变化);
     }
   }
 
@@ -54,10 +52,8 @@ class DateService {
       const currentPath = basePath ? `${basePath}.${key}` : key;
       
       if (typeof value === 'number') {
-        // 如果值是数字，直接应用修改
         characterService.updatePlayerTag(currentPath, value);
       } else if (typeof value === 'object' && value !== null) {
-        // 如果值是对象，递归处理
         this.traverseAndUpdate(value, currentPath);
       }
     }

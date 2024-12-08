@@ -1,4 +1,3 @@
-import { tagService } from './tagService';
 import { characterService } from './characterService';
 
 export const effectService = {

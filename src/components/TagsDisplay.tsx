@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import { TagsConfig, PlayerTags } from '../types';
-import { characterService } from '../services/characterService';
 import { tagService } from '../services/tagService';
+import { CharacterTags } from '../types';
 
 interface TagsDisplayProps {
-  playerTags: PlayerTags;
-  isNPC?: boolean;
+  playerTags: PlayerTags | undefined;
 }
 
-export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags, isNPC = false }) => {
+export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags }) => {
+  if (!playerTags) return null;
+  
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set(['状态']));
   const tagsConfig = tagService.getTagsConfig();
 
@@ -23,7 +24,7 @@ export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags, isNPC = fa
   };
 
   const renderTagValue = (category: string, tagName: string) => {
-    const value = playerTags[category]?.[tagName];
+    const value = playerTags[category as keyof CharacterTags]?.[tagName];
     const config = tagsConfig[category as keyof TagsConfig]?.[tagName];
     
     if (!config) return null;
@@ -50,7 +51,8 @@ export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags, isNPC = fa
 
   const renderCategory = (category: string) => {
     const isExpanded = expandedCategories.has(category);
-    const hasContent = playerTags[category] && Object.keys(playerTags[category]).length > 0;
+    const hasContent = playerTags[category as keyof CharacterTags] && 
+      Object.keys(playerTags[category as keyof CharacterTags] || {}).length > 0;
 
     if (!hasContent) return null;
 
@@ -66,7 +68,7 @@ export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags, isNPC = fa
         
         {isExpanded && (
           <div className="mt-1">
-            {Object.keys(playerTags[category] || {}).map(tagName => 
+            {Object.keys(playerTags[category as keyof CharacterTags] || {}).map(tagName => 
               renderTagValue(category, tagName)
             )}
           </div>
@@ -77,13 +79,14 @@ export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags, isNPC = fa
 
   const filterAttitudeTags = (tags: PlayerTags): PlayerTags => {
     const filteredTags = { ...tags };
-    if (filteredTags.态度) {
-      delete filteredTags.态度;
+    const anyTags = filteredTags as any;
+    if (anyTags.态度) {
+      delete anyTags.态度;
     }
     return filteredTags;
   };
 
-  const tagsToDisplay = isNPC ? filterAttitudeTags(playerTags) : playerTags;
+  const tagsToDisplay = filterAttitudeTags(playerTags);
 
   return (
     <div className="tags-display bg-navy-blue p-4 rounded-lg max-h-[80vh] overflow-y-auto">

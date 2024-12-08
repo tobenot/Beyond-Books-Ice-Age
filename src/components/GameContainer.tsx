@@ -8,17 +8,17 @@ import { dateService } from '../services/dateService';
 import { specialMechanismService } from '../services/specialMechanismService';
 import { MainMenu } from './MainMenu';
 import { LocationSelector } from './LocationSelector';
-import { effectService } from '../services/effectService';
 import { SaveLoadMenu } from './SaveLoadMenu';
 import { InventoryPanel } from './InventoryPanel';
 import { CharacterPanel } from './CharacterPanel';
 import { characterService } from '../services/characterService';
 import { tagService } from '../services/tagService';
+import { createDefaultTags } from '../utils/defaultTags';
 
 
 export const GameContainer: React.FC = () => {
   const [currentCard, setCurrentCard] = useState<CardType | null>(null);
-  const [tags, setTags] = useState<PlayerTags>({});
+  const [tags, setTags] = useState<PlayerTags>(createDefaultTags());
   const [currentDate, setCurrentDate] = useState<Date>(dateService.getCurrentDate());
   const [countdowns, setCountdowns] = useState(dateService.getCountdowns());
   const [gameEnded, setGameEnded] = useState<boolean>(false);
@@ -36,7 +36,7 @@ export const GameContainer: React.FC = () => {
         tagService.loadTagsConfig(),
         characterService.loadCharacterData()
       ]);
-      setTags(characterService.getPlayer()?.tags);
+      setTags(characterService.getPlayer()?.tags || tags);
     };
 
     initGame();
@@ -112,7 +112,7 @@ export const GameContainer: React.FC = () => {
     if (!currentCard) return;
 
     // 更新标签显示
-    setTags(characterService.getPlayer()?.tags);
+    setTags(characterService.getPlayer()?.tags || tags);
 
     // 处理特殊机制
     if (choice.specialMechanism) {
@@ -174,32 +174,23 @@ export const GameContainer: React.FC = () => {
   };
 
   const restoreGameState = () => {
-    console.log('Starting restore game state');
-    
-    const newTags = characterService.getPlayer()?.tags;
-    console.log('Loading tags:', newTags);
+    const newTags = characterService.getPlayer()?.tags || createDefaultTags();
     setTags(newTags);
     
     const newDate = dateService.getCurrentDate();
-    console.log('Loading date:', newDate);
     setCurrentDate(newDate);
     
     const newCountdowns = dateService.getCountdowns();
-    console.log('Loading countdowns:', newCountdowns);
     setCountdowns(newCountdowns);
     
     const savedCard = cardService.getCurrentCard();
-    console.log('Loading current card:', savedCard?.name);
     
     if (savedCard) {
       setCurrentCard(savedCard);
     } else {
-      console.log('No saved card found, drawing new card');
       const newCard = cardService.drawCard();
       setCurrentCard(newCard);
     }
-    
-    console.log('Game state restored');
   };
 
   const handleLoadGame = () => {

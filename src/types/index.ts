@@ -64,40 +64,20 @@ export interface TagsConfig {
   装备: Record<string, TagConfig>;
 }
 
-export interface PlayerTags {
-  状态: {
-    生命值: number;
-    熵减抗性: number;
-    精力: number;
-    快乐: number;
-    [key: string]: number;
-  };
+export interface CharacterTags {
+  状态: Record<string, any>;
   位置: {
     当前地点: string;
     目标地点: string;
-    [key: string]: string;
   };
-  装备: {
-    头部: string;
-    身体: string;
-    武器: string;
-    [key: string]: string;
-  };
-  物品: {
-    [key: string]: number;
-  };
-  属性: {
-    力量: number;
-    敏捷: number;
-    智力: number;
-    [key: string]: number;
-  };
-  关系: {
-    立场: string;
-    [key: string]: string | number;
-  };
+  装备: Record<string, any>;
+  物品: Record<string, any>;
+  属性: Record<string, any>;
+  技能: Record<string, any>;
   [key: string]: any;
 }
+
+export type PlayerTags = CharacterTags;
 
 export interface Countdown {
   name: string;
@@ -131,5 +111,4 @@ export interface Character {
     }
   };
 }
-
-export interface CharacterTags extends PlayerTags {} 
+ 

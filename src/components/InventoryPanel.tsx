@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { characterService } from '../services/characterService';
 import { itemService } from '../services/itemService';
+import { tagService } from '../services/tagService';
 
 export const InventoryPanel: React.FC = () => {
   const [selectedTab, setSelectedTab] = useState<'items' | 'equipment'>('items');
@@ -11,7 +12,7 @@ export const InventoryPanel: React.FC = () => {
   const tagsConfig = tagService.getTagsConfig();
 
   const renderItems = () => {
-    const items = playerTags.物品 || {};
+    const items = playerTags?.物品 || {};
     return (
       <div className="space-y-2">
         {Object.entries(items).map(([itemName, count]) => {
@@ -42,7 +43,7 @@ export const InventoryPanel: React.FC = () => {
   };
 
   const renderEquipment = () => {
-    const equipment = playerTags.装备 || {};
+    const equipment = playerTags?.装备 || {};
     const slots = {
       "头部": { color: "gray", name: "头部" },
       "身体": { color: "gray", name: "身体" },

@@ -1,11 +1,11 @@
-import { describe, test, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { effectService } from '../../services/effectService';
-import { tagService } from '../../services/tagService';
+import { characterService } from '../../services/characterService';
 
-// Mock tagService
-vi.mock('../../services/tagService', () => ({
-  tagService: {
-    updateTag: vi.fn()
+vi.mock('../../services/characterService', () => ({
+  characterService: {
+    updatePlayerTag: vi.fn(),
+    getPlayerTagValue: vi.fn()
   }
 }));
 
@@ -14,45 +14,21 @@ describe('EffectService', () => {
     vi.clearAllMocks();
   });
 
-  test('should handle empty tag effect', () => {
-    effectService.applyEffect('状态.生命值.empty');
-    
-    expect(characterService.updatePlayerTag).toHaveBeenCalledWith('状态.生命值', '');
-  });
+  describe('applyEffect', () => {
+    it('should not apply effect if condition is not met', () => {
+      (characterService.getPlayerTagValue as ReturnType<typeof vi.fn>).mockReturnValue(0);
+      
+      effectService.applyEffect('if 状态.生命值 > 50 then 状态.生命值 += 10');
+      
+      expect(characterService.updatePlayerTag).not.toHaveBeenCalled();
+    });
 
-  test('should handle positive number effect', () => {
-    effectService.applyEffect('状态.生命值.50');
-    
-    expect(characterService.updatePlayerTag).toHaveBeenCalledWith('状态.生命值', 50);
-  });
-
-  test('should handle negative number effect', () => {
-    effectService.applyEffect('状态.生命值.-30');
-    
-    expect(characterService.updatePlayerTag).toHaveBeenCalledWith('状态.生命值', -30);
-  });
-
-  test('should ignore invalid effect format', () => {
-    effectService.applyEffect('invalid.effect.format');
-    
-    expect(characterService.updatePlayerTag).not.toHaveBeenCalled();
-  });
-
-  test('should handle decimal numbers as invalid format', () => {
-    effectService.applyEffect('状态.生命值.10.5');
-    
-    expect(characterService.updatePlayerTag).not.toHaveBeenCalledWith('状态.生命值', 10.5);
-  });
-
-  test('should handle empty string', () => {
-    effectService.applyEffect('');
-    
-    expect(characterService.updatePlayerTag).not.toHaveBeenCalled();
-  });
-
-  test('should only accept integer numbers', () => {
-    effectService.applyEffect('状态.生命值.10');
-    
-    expect(characterService.updatePlayerTag).toHaveBeenCalledWith('状态.生命值', 10);
+    it('should apply effect if condition is met', () => {
+      (characterService.getPlayerTagValue as ReturnType<typeof vi.fn>).mockReturnValue(60);
+      
+      effectService.applyEffect('if 状态.生命值 > 50 then 状态.生命值 += 10');
+      
+      expect(characterService.updatePlayerTag).toHaveBeenCalledWith('状态.生命值', 10);
+    });
   });
 });

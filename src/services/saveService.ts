@@ -23,11 +23,11 @@ class SaveService {
       countdowns: dateService.getCountdowns(),
       currentCard: cardService.getCurrentCard(),
       consumedCards: cardService.getConsumedCards(),
-      characters: this.characters
+      characters: characterService.getAllCharacters()
     };
     
     console.log('Saving game state with character locations:', 
-      Object.entries(saveData.characters).map(([id, char]) => 
+      Object.entries(saveData.characters).map(([id, char]: [string, any]) => 
         `${char.name}: ${characterService.getCharacterTagValue(id, '位置.当前地点')}`
       )
     );

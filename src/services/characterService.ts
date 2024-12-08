@@ -1,4 +1,5 @@
 import { Character, CharacterTags } from '../types';
+import { createDefaultTags } from '../utils/defaultTags';
 
 class CharacterService {
   private readonly PLAYER_ID = 'player';
@@ -23,7 +24,7 @@ class CharacterService {
         
         // 确保tags对象存在
         if (!character.tags) {
-          character.tags = {};
+          character.tags = createDefaultTags();
         }
         
         // 深拷贝tags

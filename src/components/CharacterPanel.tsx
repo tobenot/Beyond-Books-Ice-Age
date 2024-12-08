@@ -10,7 +10,6 @@ export const CharacterPanel: React.FC = () => {
     .filter(char => !characterService.isPlayer(char.id));
   console.log('Characters at location:', characters.map(c => c.name));
   
-  const relationships = characterService.getRelationshipsAtLocation(currentLocation);
   const playerRelationships = characterService.getPlayerRelationships()
     .filter(rel => characterService.getCharacterTagValue(rel.character.id, '位置.当前地点') === currentLocation);
 

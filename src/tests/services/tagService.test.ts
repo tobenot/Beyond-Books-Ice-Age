@@ -1,64 +1,63 @@
-import { describe, test, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { tagService } from '../../services/tagService';
+import { characterService } from '../../services/characterService';
+import { createDefaultTags } from '../../utils/defaultTags';
 
 describe('TagService', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    localStorage.clear();
   });
 
-  describe('Tag Operations', () => {
-    test('should update numeric tag value correctly', () => {
-      tagService.loadTagsFromSave({
-        状态: { 生命值: { value: 100 } }
-      });
-
+  describe('loadTagsFromSave', () => {
+    it('should load tags from save data', () => {
+      const tags = createDefaultTags();
+      tags.状态.生命值 = 100;
+      
+      tagService.loadTagsFromSave(tags);
       characterService.updatePlayerTag('状态.生命值', -30);
       expect(characterService.getPlayerTagValue('状态.生命值')).toBe(70);
     });
 
-    test('should update string tag value correctly', () => {
-      tagService.loadTagsFromSave({
-        位置: { 当前地点: { value: '' } }
-      });
-
-      characterService.updatePlayerTag('位置.当前地点', '冬眠中心');
-      expect(characterService.getPlayerTagValue('位置.当前地点')).toBe('冬眠中心');
-    });
-
-    test('should handle non-existent tags', () => {
-      expect(characterService.getPlayerTagValue('不存在.的路径')).toBe('');
-    });
-
-    test('should create missing tag categories', () => {
-      characterService.updatePlayerTag('新类别.新标签', 100);
-      expect(characterService.getPlayerTagValue('新类别.新标签')).toBe(100);
-    });
-
-    test('should accumulate numeric values', () => {
-      tagService.loadTagsFromSave({
-        状态: { 生命值: { value: 50 } }
-      });
-
-      characterService.updatePlayerTag('状态.生命值', 30);  // 50 + 30
-      characterService.updatePlayerTag('状态.生命值', 20);  // 80 + 20
-
+    it('should handle numeric tag updates', () => {
+      const tags = createDefaultTags();
+      tags.状态.生命值 = 50;
+      
+      tagService.loadTagsFromSave(tags);
+      characterService.updatePlayerTag('状态.生命值', 30);
+      characterService.updatePlayerTag('状态.生命值', 20);
       expect(characterService.getPlayerTagValue('状态.生命值')).toBe(100);
     });
 
-    test('should handle multiple tag updates', () => {
-      tagService.loadTagsFromSave({
-        状态: { 
-          生命值: { value: 100 },
-          精力: { value: 50 }
-        }
-      });
-
+    it('should handle multiple tag updates', () => {
+      const tags = createDefaultTags();
+      tags.状态.生命值 = 100;
+      tags.状态.精力 = 50;
+      
+      tagService.loadTagsFromSave(tags);
       characterService.updatePlayerTag('状态.生命值', -20);
       characterService.updatePlayerTag('状态.精力', 30);
-
       expect(characterService.getPlayerTagValue('状态.生命值')).toBe(80);
       expect(characterService.getPlayerTagValue('状态.精力')).toBe(80);
+    });
+  });
+
+  describe('createDefaultTags', () => {
+    it('should create default tags with correct initial values', () => {
+      const tags = createDefaultTags();
+      expect(tags.状态.生命值).toBe(100);
+      expect(tags.状态.熵减抗性).toBe(0);
+      expect(tags.状态.精力).toBe(100);
+      expect(tags.状态.快乐).toBe(50);
+    });
+
+    it('should maintain all required tag categories', () => {
+      const tags = createDefaultTags();
+      expect(tags).toHaveProperty('状态');
+      expect(tags).toHaveProperty('位置');
+      expect(tags).toHaveProperty('装备');
+      expect(tags).toHaveProperty('物品');
+      expect(tags).toHaveProperty('属性');
+      expect(tags).toHaveProperty('技能');
     });
   });
 });

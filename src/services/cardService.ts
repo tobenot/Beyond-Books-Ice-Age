@@ -1,6 +1,5 @@
-import { Card, Choice } from '../types';
+import { Card } from '../types';
 import { characterService } from '../services/characterService';
-import { tagService } from './tagService';
 import { dateService } from './dateService';
 
 class CardService {

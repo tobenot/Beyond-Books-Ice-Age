@@ -1,16 +1,14 @@
 import { characterService } from '../services/characterService';
 import { TagsConfig, PlayerTags, TagConfig, CharacterTags } from '../types';
+import { createDefaultTags } from '../utils/defaultTags';
 
 class TagService {
   private tagsConfig: TagsConfig = {
     状态: {},
     位置: {},
     物品: {},
-    装备: {},
-    属性: {},
-    关系: {}
+    装备: {}
   };
-  private playerTags: PlayerTags = {};
 
   async loadTagsConfig(): Promise<void> {
     try {
@@ -44,7 +42,7 @@ class TagService {
 
   getTags(): PlayerTags {
     const player = characterService.getPlayer();
-    return player?.tags || {};
+    return player?.tags || createDefaultTags();
   }
 
   getTagsConfig(): TagsConfig {
@@ -56,11 +54,14 @@ class TagService {
     if (player) {
       const characterTags: CharacterTags = {
         状态: savedTags.状态 || {},
-        位置: savedTags.位置 || {},
+        位置: savedTags.位置 || {
+          当前地点: "复苏队基地",
+          目标地点: ""
+        },
         装备: savedTags.装备 || {},
         物品: savedTags.物品 || {},
         属性: savedTags.属性 || {},
-        关系: savedTags.关系 || {}
+        技能: savedTags.技能 || {}
       };
       player.tags = characterTags;
     }

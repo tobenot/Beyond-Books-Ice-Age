@@ -1,4 +1,5 @@
 import { tagService } from './tagService';
+import { characterService } from './characterService';
 
 class ItemService {
   // 获取物品数量
