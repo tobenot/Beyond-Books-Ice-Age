@@ -42,22 +42,22 @@ class DateService {
   }
 
   private applyTagModifier(): void {
-    const tagsConfig = tagService.getTags();
-    if (tagsConfig.变化) {
-      this.traverseAndUpdate(tagsConfig.变化);
+    const playerTags = tagService.getTags();
+    if (playerTags.变化) {
+      this.traverseAndUpdate(playerTags.变化);
     }
   }
 
-  private traverseAndUpdate(config: TagModifierConfig, path = ''): void {
-    for (const [key, value] of Object.entries(config)) {
-      const currentPath = path ? `${path}.${key}` : key;
-
-      if ('value' in value) {
-        if (typeof value.value === 'number' && value.value !== 0) {
-          tagService.updateTag(currentPath, value.value);
-        }
-      } else {
-        this.traverseAndUpdate(value as TagModifierConfig, currentPath);
+  private traverseAndUpdate(modifiers: Record<string, any>, basePath: string = ''): void {
+    for (const [key, value] of Object.entries(modifiers)) {
+      const currentPath = basePath ? `${basePath}.${key}` : key;
+      
+      if (typeof value === 'number') {
+        // 如果值是数字，直接应用修改
+        tagService.updateTag(currentPath, value);
+      } else if (typeof value === 'object' && value !== null) {
+        // 如果值是对象，递归处理
+        this.traverseAndUpdate(value, currentPath);
       }
     }
   }

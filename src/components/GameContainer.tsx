@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Card as CardType, Choice, TagsConfig } from '../types';
+import { Card as CardType, Choice, PlayerTags } from '../types';
 import { Card } from './Card';
 import { TagsDisplay } from './TagsDisplay';
 import { DateDisplay } from './DateDisplay';
@@ -11,10 +11,11 @@ import { MainMenu } from './MainMenu';
 import { LocationSelector } from './LocationSelector';
 import { effectService } from '../services/effectService';
 import { SaveLoadMenu } from './SaveLoadMenu';
+import { InventoryPanel } from './InventoryPanel';
 
 export const GameContainer: React.FC = () => {
   const [currentCard, setCurrentCard] = useState<CardType | null>(null);
-  const [tags, setTags] = useState<TagsConfig>({});
+  const [tags, setTags] = useState<PlayerTags>({});
   const [currentDate, setCurrentDate] = useState<Date>(dateService.getCurrentDate());
   const [countdowns, setCountdowns] = useState(dateService.getCountdowns());
   const [gameEnded, setGameEnded] = useState<boolean>(false);
@@ -23,6 +24,7 @@ export const GameContainer: React.FC = () => {
   const [showMainMenu, setShowMainMenu] = useState(true);
   const [locations, setLocations] = useState({});
   const [showSaveMenu, setShowSaveMenu] = useState(false);
+  const [showInventory, setShowInventory] = useState(false);
 
   useEffect(() => {
     const initGame = async () => {
@@ -213,7 +215,7 @@ export const GameContainer: React.FC = () => {
   return (
     <div className="grid grid-cols-12 gap-4 p-4">
       <div className="col-span-3">
-        <TagsDisplay tags={tags} />
+        <TagsDisplay playerTags={tagService.getTags()} />
         <div className="mt-4">
           <LocationSelector locations={locations} />
         </div>
@@ -223,6 +225,14 @@ export const GameContainer: React.FC = () => {
             className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
           >
             存档/读档
+          </button>
+        </div>
+        <div className="mt-4">
+          <button
+            onClick={() => setShowInventory(true)}
+            className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
+          >
+            物品/装备
           </button>
         </div>
       </div>
@@ -269,6 +279,22 @@ export const GameContainer: React.FC = () => {
           }}
           saveEnabled={true}
         />
+      )}
+      {showInventory && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <div className="bg-navy-blue p-4 rounded-lg w-96">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-bold">物品与装备</h2>
+              <button
+                onClick={() => setShowInventory(false)}
+                className="p-2 bg-charcoal rounded hover:bg-opacity-80"
+              >
+                关闭
+              </button>
+            </div>
+            <InventoryPanel />
+          </div>
+        </div>
       )}
     </div>
   );

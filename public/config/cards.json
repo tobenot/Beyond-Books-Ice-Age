@@ -609,14 +609,6 @@
             "description": "鲜嫩的牛肉搭配脆爽的青椒，味道绝佳。"
           },
           {
-            "text": "白菜豆腐汤",
-            "effects": [
-              "状态.精力.12",
-              "状态.快乐.26"
-            ],
-            "description": "清淡爽口的白菜豆腐汤，温暖而舒心。"
-          },
-          {
             "text": "蒜蓉菠菜",
             "effects": [
               "状态.精力.20",
@@ -806,6 +798,93 @@
                     "位置.目标地点.empty"
                 ],
                 "description": "现在还不是时候。"
+            }
+        ]
+    },
+    {
+        "id": "item_find_energy_battery",
+        "name": "发现能量电池",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "在废墟中发现了一个复苏队标配的能量电池。",
+        "baseWeight": 1.5,
+        "choices": [
+            {
+                "text": "拾取",
+                "effects": [
+                    "物品.能量电池.1"
+                ],
+                "description": "这种能量电池可以快速恢复生命力。"
+            },
+            {
+                "text": "离开",
+                "effects": [],
+                "description": "看起来不太安全,还是别碰了。"
+            }
+        ]
+    },
+    {
+        "id": "item_find_armor",
+        "name": "发现防护服",
+        "type": "event",
+        "cardSet": "基础", 
+        "description": "在一个储物柜里发现了一套完整的防护服。",
+        "baseWeight": 1.0,
+        "choices": [
+            {
+                "text": "拾取",
+                "effects": [
+                    "物品.防护服.1"
+                ],
+                "description": "这种防护服可以有效抵御熵减环境。"
+            },
+            {
+                "text": "离开",
+                "effects": [],
+                "description": "不知道之前的主人去哪了..."
+            }
+        ]
+    },
+    {
+        "id": "item_find_energy_sword",
+        "name": "发现能量剑",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "在一具机器人残骸旁发现了一把能量剑。",
+        "baseWeight": 0.8,
+        "choices": [
+            {
+                "text": "拾���",
+                "effects": [
+                    "物品.能量剑.1"
+                ],
+                "description": "复苏队的标准武器,可以轻易切开大多数物质。"
+            },
+            {
+                "text": "离开",
+                "effects": [],
+                "description": "这种武器太危险了。"
+            }
+        ]
+    },
+    {
+        "id": "debug_item_test",
+        "name": "测试物品",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "测试用物品卡",
+        "baseWeight": 0,
+        "mustDraw": true,
+        "priority": 999,
+        "choices": [
+            {
+                "text": "获得全部物品",
+                "effects": [
+                    "物品.能量电池.3",
+                    "物品.防护服.1",
+                    "物品.能量剑.1"
+                ],
+                "description": "测试用"
             }
         ]
     }

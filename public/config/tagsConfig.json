@@ -1,53 +1,77 @@
 {
   "状态": {
     "生命值": {
-      "value": 100,
+      "color": "red",
       "priority": 1,
-      "color": "red"
+      "description": "生命值降为0时死亡",
+      "defaultValue": 100
     },
-    "快乐": {
-      "value": 0,
-      "priority": 10,
-      "color": "green"
-    },
-    "精力": {
-      "value": 0,
-      "priority": 5,
-      "color": "orange"
+    "熵减抗性": {
+      "color": "cyan",
+      "priority": 2,
+      "description": "抵抗熵减环境的能力",
+      "defaultValue": 0
     }
   },
   "位置": {
     "当前地点": {
-      "value": "冬眠中心",
-      "priority": 1,
       "color": "blue",
-      "type": "string"
+      "priority": 1,
+      "type": "string",
+      "defaultValue": "冬眠中心"
     },
     "目标地点": {
-      "value": "",
-      "priority": 2,
       "color": "purple",
-      "type": "string"
+      "priority": 2,
+      "type": "string",
+      "defaultValue": ""
     }
   },
-  "技能": {
-    "语文": {
-      "color": "brown"
+  "物品": {
+    "能量电池": {
+      "color": "yellow",
+      "description": "复苏队标配的能量补给品",
+      "type": "consumable",
+      "effects": ["状态.生命值.20"],
+      "defaultValue": 0
     },
-    "数学": {
-      "color": "blue"
+    "防护服": {
+      "color": "blue",
+      "description": "基础的防护装备",
+      "type": "equipment",
+      "slot": "身体",
+      "effects": {
+        "状态.生命值": 20,
+        "状态.熵减抗性": 10
+      },
+      "defaultValue": 0
     },
-    "英语": {
-      "color": "red"
+    "能量剑": {
+      "color": "purple",
+      "description": "复苏队制式武器",
+      "type": "equipment", 
+      "slot": "武器",
+      "effects": {
+        "攻击力": 15
+      },
+      "defaultValue": 0
+    }
+  },
+  "装备": {
+    "头部": {
+      "color": "gray",
+      "type": "string",
+      "defaultValue": ""
     },
-    "物理": {
-      "color": "red"
+    "身体": {
+      "color": "gray",
+      "type": "string", 
+      "defaultValue": ""
     },
-    "化学": {
-      "color": "purple"
-    },
-    "生物": {
-      "color": "green"
+    "武器": {
+      "color": "gray",
+      "type": "string",
+      "defaultValue": ""
     }
   }
 }
