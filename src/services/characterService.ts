@@ -69,13 +69,26 @@ class CharacterService {
   }
 
   updateCharacterTag(characterId: string, tagPath: string, value: number | string): void {
+    // 确保 characterTags 存在且有正确的结构
+    if (!this.characterTags[characterId]) {
+      this.characterTags[characterId] = createDefaultTags();
+    }
+
     const keys = tagPath.split('.');
     let current: any = this.characterTags[characterId];
     
-    // 创建路径
+    // 递归创建路径
     for (let i = 0; i < keys.length - 1; i++) {
       const key = keys[i];
-      if (!current[key]) {
+      // 如果是第一级,确保是 CharacterTags 中定义的类别
+      if (i === 0 && !current[key]) {
+        if (!['状态', '位置', '装备', '物品', '技能', '对话', '记忆', '目标'].includes(key)) {
+          console.warn(`Creating new top-level tag category: ${key}`);
+        }
+        current[key] = {};
+      }
+      // 如果是更深层级,直接创建对象
+      else if (!(key in current)) {
         current[key] = {};
       }
       current = current[key];
@@ -89,6 +102,12 @@ class CharacterService {
     } else {
       current[lastKey] = value;
     }
+
+    console.log(`Updated tag ${tagPath} for character ${characterId}:`, {
+      path: tagPath,
+      value: current[lastKey],
+      fullPath: this.getCharacterTagValue(characterId, tagPath)
+    });
   }
 
   getCharacterTagValue(characterId: string, tagPath: string): number | string {
@@ -100,15 +119,35 @@ class CharacterService {
     const keys = tagPath.split('.');
     let current: any = this.characterTags[characterId];
     
-    for (const key of keys) {
-      if (!current || typeof current !== 'object' || !(key in current)) {
-        console.warn(`Invalid path ${tagPath} for character ${characterId} at key ${key}`);
+    // 遍历到最后一个键之前的所有键
+    for (let i = 0; i < keys.length - 1; i++) {
+      const key = keys[i];
+      if (!current || typeof current !== 'object') {
+        console.warn(`Invalid path ${tagPath} for character ${characterId}, stopped at ${key}, current:`, current);
+        return '';
+      }
+      if (!(key in current)) {
+        console.warn(`Missing key ${key} in path ${tagPath} for character ${characterId}`);
         return '';
       }
       current = current[key];
     }
+
+    // 处理最后一个键
+    const lastKey = keys[keys.length - 1];
     
-    return current;
+    // 如果 current 不是对象，说明我们遇到了叶子节点（数字或字符串值）
+    if (typeof current !== 'object') {
+      console.warn(`Trying to access property ${lastKey} of non-object value:`, current);
+      return '';
+    }
+    
+    if (!(lastKey in current)) {
+      console.warn(`Missing final key ${lastKey} in path ${tagPath} for character ${characterId}`);
+      return '';
+    }
+
+    return current[lastKey];
   }
 
   getCharacterTags(characterId: string): CharacterTags {
@@ -159,7 +198,7 @@ class CharacterService {
       relationship.立场 = changes.立场;
     }
 
-    // 根据好��度自动调整立场
+    // 根据好感度自动调整立场
     if (relationship.好感度 >= 50) {
       relationship.立场 = "友好";
     } else if (relationship.好感度 <= -50) {

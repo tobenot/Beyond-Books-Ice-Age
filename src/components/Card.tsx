@@ -55,14 +55,28 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
 
   const handleContinue = () => {
     if (selectedChoice) {
+      // 重置组件状态
+      setSelectedChoice(null);
+      setResultText('');
+      setShowContinueButton(false);
+      
       onChoice(selectedChoice);
     }
+  };
+
+  const formatText = (text: string) => {
+    return text.split('\n').map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        {index < text.split('\n').length - 1 && <br />}
+      </React.Fragment>
+    ));
   };
 
   return (
     <div className="card bg-charcoal rounded-lg p-4 shadow-lg">
       <h2 className="text-xl font-bold mb-2">{card.name}</h2>
-      <p className="mb-4">{processedDescription}</p>
+      <p className="mb-4 whitespace-pre-line">{processedDescription}</p>
       
       {!selectedChoice ? (
         <div className="choices space-y-2">
@@ -79,7 +93,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
       ) : (
         <div>
           <div 
-            className="result-text mb-4"
+            className="result-text mb-4 whitespace-pre-line"
             dangerouslySetInnerHTML={{ __html: resultText }}
           />
           {showContinueButton && (

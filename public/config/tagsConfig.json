@@ -86,5 +86,32 @@
       "type": "string",
       "defaultValue": ""
     }
+  },
+  "记忆": {
+    "方格神": {
+      "color": "purple",
+      "type": "string",
+      "defaultValue": ""
+    },
+    "复苏队起源": {
+      "color": "blue",
+      "type": "string",
+      "defaultValue": ""
+    },
+    "复苏队使命": {
+      "color": "blue",
+      "type": "string",
+      "defaultValue": ""
+    },
+    "熵减世界": {
+      "color": "cyan",
+      "type": "string",
+      "defaultValue": ""
+    },
+    "个人身份": {
+      "color": "green",
+      "type": "string",
+      "defaultValue": ""
+    }
   }
 }

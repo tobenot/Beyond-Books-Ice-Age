@@ -131,6 +131,9 @@ export const GameContainer: React.FC = () => {
       setCountdowns(dateService.getCountdowns());
     }
 
+    // 清空当前卡牌状态
+    setCurrentCard(null);
+
     // 抽新卡并更新状态
     const newCard = cardService.drawCard();
     setCurrentCard(newCard);
@@ -164,7 +167,7 @@ export const GameContainer: React.FC = () => {
   const handleStartGame = async () => {
     await cardService.resetCardPool(); // 重置卡池
     setShowMainMenu(false);
-    dateService.addCountdown("高考倒计时", "2020-07-07");
+    dateService.addCountdown("不知道是什么的倒计时", "2020-07-07");
     setCountdowns(dateService.getCountdowns());
     drawNewCard();
   };

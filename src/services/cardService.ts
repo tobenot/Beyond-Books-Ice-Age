@@ -21,6 +21,8 @@ class CardService {
   }
 
   private canDrawCard(card: Card): boolean {
+    console.log(`Checking if card ${card.id} can be drawn...`);
+
     // 检查日期限制
     if (card.dateRestrictions) {
       const currentDate = dateService.getCurrentDate();
@@ -51,12 +53,15 @@ class CardService {
     if (card.requireTags) {
       for (const [tag, condition] of Object.entries(card.requireTags)) {
         const tagValue = characterService.getPlayerTagValue(tag);
+        console.log(`Checking tag ${tag}: value = ${tagValue}, condition = ${condition}`);
         if (!this.evaluateCondition(tagValue, condition)) {
+          console.log(`Card ${card.id} rejected: tag ${tag} does not meet condition ${condition}`);
           return false;
         }
       }
     }
 
+    console.log(`Card ${card.id} is available to draw`);
     return true;
   }
 
@@ -115,6 +120,7 @@ class CardService {
 
   drawCard(): Card | null {
     this.removeConsumedCardsFromPool();
+    console.log('Current card pool size:', this.cardPool.length);
 
     const availableCards = this.cardPool
       .filter(card => this.canDrawCard(card))
@@ -136,9 +142,15 @@ class CardService {
           weight *= 0.2;
         }
 
-        // 不在这里处理占位符,直接返回原始卡牌
+        console.log(`Card ${card.id} has weight ${weight}`);
         return { card, weight };
       });
+
+    console.log('Available cards:', availableCards.map(c => ({
+      id: c.card.id,
+      weight: c.weight,
+      requireTags: c.card.requireTags
+    })));
 
     if (availableCards.length === 0) {
       console.log('No available cards to draw');
