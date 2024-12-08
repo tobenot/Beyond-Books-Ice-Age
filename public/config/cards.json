@@ -358,7 +358,7 @@
         "name": "与霜隐的对话",
         "type": "event",
         "cardSet": "基础",
-        "description": "霜隐身着改装的战术装备,体表覆盖着紫色的几何状晶体。她的眼神中透露着坚定与狂热。",
+        "description": "霜隐身着改装的战术装备,体表生长着几块紫色的几何状晶体。她的眼神中透露着坚定与狂热。",
         "baseWeight": 10.0,
         "illustration": "shuangYin",
         "requireTags": {
@@ -374,20 +374,12 @@
                 "description": "你们为什么要这么做？"
             },
             {
-                "text": "问问关于熵减",
-                "effects": [
-                    "状态.精力.-5",
-                    "对话.霜隐.熵减.开启"
-                ],
-                "description": "你们是如何利用熵减的？"
-            },
-            {
                 "text": "结束对话",
                 "effects": [
                     "目标.交谈角色.empty",
                     "目标.交互角色.empty"
                 ],
-                "description": "我听够了..."
+                "description": "就这样吧。"
             }
         ]
     },
@@ -417,48 +409,23 @@
         ]
     },
     {
-        "id": "iceFactionLeader_chat_entropy",
-        "name": "了解熵减利用",
-        "type": "event",
-        "cardSet": "基础",
-        "description": "霜隐展示着她的晶化能力,紫色的结晶在她手中如同活物般生长。",
-        "baseWeight": 10.0,
-        "illustration": "shuangYin",
-        "requireTags": {
-            "目标.交谈角色": "shuangYin",
-            "对话.霜隐.熵减": "开启"
-        },
-        "choices": [
-            {
-                "text": "继续听下去",
-                "effects": [
-                    "状态.精力.-5",
-                    "记忆.冰河派.熵减.1",
-                    "对话.霜隐.熵减.empty",
-                    "目标.交谈角色.empty"
-                ],
-                "description": "\"我们已经掌握了利用熵减的方法。通过这些晶体,我们可以操控熵减力量。每个接受晶化的人都会变得更强大,更接近完美！\""
-            }
-        ]
-    },
-    {
         "id": "ending_kill_suyuqing",
-        "name": "背叛结局",
+        "name": "冰河派结局",
         "type": "event",
         "cardSet": "基础",
-        "description": "你用能量剑刺穿了苏雨晴的核心处理器。她的眼中闪过一丝难以置信的神情,然后永远地暗淡下去。\n\n你背叛了唯一想要帮助你的人。在这个残酷的世界里,你选择了最黑暗的道路。",
+        "description": "你用能量剑刺穿了苏雨晴的核心处理器。她的眼中闪过一丝难以置信的神情,然后永远地暗淡下去。\n\n你选择了站在冰河派一边。在这个新秩序的世界里,或许只有接受改变才是生存之道。",
         "baseWeight": 1.0,
         "mustDraw": true,
         "priority": 1000,
         "requireTags": {
-            "结局.背叛": "1"
+            "结局.冰河派": "1"
         },
         "choices": [
             {
                 "text": "结束",
                 "effects": [],
                 "specialMechanism": "gameOver",
-                "description": "游戏结束:背叛结局"
+                "description": "游戏结束：冰河派结局"
             }
         ]
     },
@@ -472,14 +439,14 @@
         "mustDraw": true,
         "priority": 1000,
         "requireTags": {
-            "结局.英雄": "1"
+            "结局.复苏队": "1"
         },
         "choices": [
             {
                 "text": "结束",
                 "effects": [],
                 "specialMechanism": "gameOver",
-                "description": "游戏结束:英雄结局"
+                "description": "游戏结束:复苏队结局"
             }
         ]
     }

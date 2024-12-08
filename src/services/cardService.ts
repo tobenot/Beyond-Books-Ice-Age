@@ -1,7 +1,6 @@
 import { Card } from '../types';
 import { characterService } from '../services/characterService';
 import { dateService } from './dateService';
-import { specialMechanismService } from './specialMechanismService';
 
 class CardService {
   private cardPool: Card[] = [];

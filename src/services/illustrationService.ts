@@ -1,3 +1,5 @@
+import { Card } from '../types';
+
 class IllustrationService {
   private readonly BASE_PATH = import.meta.env.BASE_URL;
   private readonly DEFAULT_ILLUSTRATION = 'default.webp';

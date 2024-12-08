@@ -4,9 +4,7 @@ export interface Card {
   type: string;
   cardSet: string;
   description: string;
-  requireTags?: {
-    [key: string]: string;
-  };
+  requireTags?: Record<string, string>;
   baseWeight: number;
   weightMultipliers?: {
     [key: string]: number;
@@ -25,13 +23,12 @@ export interface Card {
 
 export interface Choice {
   text: string;
-  requireTags?: {
-    [key: string]: string;
-  };
   effects: string[];
-  specialMechanism?: string;
+  description?: string;
+  requireTags?: Record<string, string>;
   consumeCard?: boolean;
-  description: string;
+  specialMechanism?: string;
+  disabledDisplay?: string;
 }
 
 export interface Tag {

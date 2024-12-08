@@ -1,5 +1,4 @@
 import React from 'react';
-import { Character } from '../types';
 import { characterService } from '../services/characterService';
 
 interface CharacterFinderProps {

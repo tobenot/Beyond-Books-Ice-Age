@@ -147,18 +147,15 @@ class SpecialMechanismService {
     characterService.updatePlayerTag('目标.交互角色', '');
   }
 
-  characterAttack(choice: Choice, card: Card): void {
+  characterAttack(_choice: Choice, _card: Card): void {
     const targetCharacter = characterService.getPlayerTagValue('目标.交互角色');
     
     if (targetCharacter === "suYuQing") {
-      // 设置背叛结局标签,触发背叛结局卡片
-      characterService.updatePlayerTag('结局.背叛', '1');
+      characterService.updatePlayerTag('结局.冰河派', '1');
     } else if (targetCharacter === "shuangYin") {
-      // 设置英雄结局标签,触发英雄结局卡片
-      characterService.updatePlayerTag('结局.英雄', '1');
+      characterService.updatePlayerTag('结局.复苏队', '1');
     }
     
-    // 清除交互目标
     characterService.updatePlayerTag('目标.交互角色', 'empty');
     characterService.updatePlayerTag('目标.交谈角色', 'empty');
   }
