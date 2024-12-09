@@ -57,9 +57,9 @@ export const LocationSelector: React.FC<LocationSelectorProps> = ({
   };
 
   return (
-    <div className="location-selector bg-charcoal p-4 rounded-lg">
-      <h3 className="text-lg font-bold mb-2">地点</h3>
-      <div className="space-y-2">
+    <div className="location-selector bg-charcoal p-[2vh] rounded-lg">
+      <h3 className="text-[2vh] font-bold mb-[1vh]">地点</h3>
+      <div className="space-y-[1vh]">
         {Object.entries(locations).map(([key, location]) => {
           const isCurrentLocation = currentLocation === key;
           const isTargetLocation = targetLocation === key;

@@ -29,6 +29,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
   const [showContinueButton, setShowContinueButton] = useState(false);
   const [processedDescription, setProcessedDescription] = useState<string>('');
   const [illustration, setIllustration] = useState<string>('');
+  const [imageAspectRatio, setImageAspectRatio] = useState<number>(0);
 
   useEffect(() => {
     setSelectedChoice(null);
@@ -136,15 +137,10 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
       .map((choice, index) => {
         const available = isChoiceAvailable(choice);
         
-        // 根据选项的位置和类型选择不同的背景色
         const getButtonColor = () => {
           if (!available) return 'bg-charcoal opacity-50';
-          
-          // 如果选项会消耗卡片或有特殊机制，使用不同的颜色
           if (choice.consumeCard) return 'bg-coral hover:bg-opacity-80';
           if (choice.specialMechanism) return 'bg-amber hover:bg-opacity-80';
-          
-          // 根据选项的位置循环使用不同的颜色
           const colors = ['bg-sage', 'bg-sky-blue', 'bg-royal-purple'];
           return `${colors[index % colors.length]} hover:bg-opacity-80`;
         };
@@ -157,13 +153,13 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
             <button
               onClick={() => available && handleChoice(choice)}
               disabled={!available}
-              className={`w-full p-2 ${getButtonColor()} rounded transition-colors duration-200`}
+              className={`w-full p-[1vh] text-[1.6vh] ${getButtonColor()} rounded transition-colors duration-200`}
             >
               {choice.text}
             </button>
             {!available && choice.disabledDisplay && (
-              <div className="absolute bottom-full left-0 w-full mb-1 hidden group-hover:block z-10">
-                <div className="bg-charcoal p-2 rounded shadow-lg text-left">
+              <div className="absolute bottom-full left-0 w-full mb-[0.5vh] hidden group-hover:block z-10">
+                <div className="bg-charcoal p-[1vh] rounded shadow-lg text-left text-[1.4vh]">
                   {choice.disabledDisplay}
                 </div>
               </div>
@@ -173,42 +169,66 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
       });
   };
 
+  // 添加图片加载完成的处理函数
+  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
+    const img = event.currentTarget;
+    setImageAspectRatio(img.naturalWidth / img.naturalHeight);
+  };
+
   return (
-    <div className="card bg-charcoal rounded-lg p-4 shadow-lg">
-      <div className="mb-4 relative h-96 overflow-hidden rounded-lg">
-        <img 
-          src={illustration}
-          alt={card.name}
-          className="w-full h-full object-contain"
-          loading="lazy"
-        />
-      </div>
-      
-      <h2 className="text-xl font-bold mb-2">{card.name}</h2>
-      <p className="mb-4 whitespace-pre-line">{processedDescription}</p>
-      
-      {!selectedChoice ? (
-        <div className="choices space-y-2">
-          {renderChoices()}
-        </div>
-      ) : (
-        <div>
-          <div 
-            className="result-text mb-4 whitespace-pre-line"
-            dangerouslySetInnerHTML={{ __html: resultText }}
+    <div className="card bg-charcoal rounded-lg p-[0.8vh] shadow-lg">
+      <div className={`flex ${imageAspectRatio > 1.2 ? 'flex-col' : 'flex-row gap-[0.8vh]'}`}>
+        {/* 图片容器 */}
+        <div className={`
+          relative overflow-hidden rounded-lg
+          ${imageAspectRatio > 1.2 
+            ? 'w-full h-[28vh] mb-[0.8vh]' 
+            : 'w-[35%] h-[35vh]'}
+        `}>
+          <img 
+            src={illustration}
+            alt={card.name}
+            className="w-full h-full object-contain"
+            loading="lazy"
+            onLoad={handleImageLoad}
           />
-          {showContinueButton && (
-            <button
-              onClick={handleContinue}
-              className="w-full p-2 bg-moss-green hover:bg-opacity-80 rounded"
-            >
-              {dateService.getCardTimeConsumption(card) > 0 
-                ? `过了${dateService.getCardTimeConsumption(card)}时间` 
-                : '继续'}
-            </button>
+        </div>
+
+        {/* 文字内容容器 */}
+        <div className={`
+          flex flex-col
+          ${imageAspectRatio > 1.2 ? 'w-full' : 'w-[65%]'}
+        `}>
+          <h2 className="text-[1.8vh] font-bold mb-[0.5vh]">{card.name}</h2>
+          <p className="text-[1.6vh] mb-[0.8vh] whitespace-pre-line flex-grow overflow-y-auto">
+            {processedDescription}
+          </p>
+          
+          {/* 选项区域 */}
+          {!selectedChoice ? (
+            <div className="choices space-y-[0.5vh]">
+              {renderChoices()}
+            </div>
+          ) : (
+            <div>
+              <div 
+                className="result-text mb-[0.8vh] whitespace-pre-line text-[1.6vh]"
+                dangerouslySetInnerHTML={{ __html: resultText }}
+              />
+              {showContinueButton && (
+                <button
+                  onClick={handleContinue}
+                  className="w-full p-[0.8vh] text-[1.6vh] bg-moss-green hover:bg-opacity-80 rounded"
+                >
+                  {dateService.getCardTimeConsumption(card) > 0 
+                    ? `过了${dateService.getCardTimeConsumption(card)}时间` 
+                    : '继续'}
+                </button>
+              )}
+            </div>
           )}
         </div>
-      )}
+      </div>
     </div>
   );
 }; 

@@ -92,8 +92,11 @@ export const TagsDisplay: React.FC<TagsDisplayProps> = ({ playerTags }) => {
   );
 
   return (
-    <div className="tags-display bg-navy-blue p-4 rounded-lg max-h-[80vh] overflow-y-auto">
-      {Object.keys(tagsToDisplay).map(category => renderCategory(category))}
+    <div className="tags-display bg-navy-blue p-[2vh] rounded-lg max-h-[80vh]">
+      <div className="ml-[2vh] flex justify-between items-center py-[1vh]">
+        {Object.keys(tagsToDisplay).map(category => renderCategory(category))}
+      </div>
+      <span className="text-[1.6vh]">{/* ... */}</span>
     </div>
   );
 }; 

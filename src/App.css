@@ -14,8 +14,8 @@ body {
 }
 
 .logo {
-  height: 6em;
-  padding: 1.5em;
+  height: 6vh;
+  padding: 1.5vh;
   will-change: filter;
   transition: filter 300ms;
 }
@@ -42,7 +42,9 @@ body {
 }
 
 .card {
-  padding: 2em;
+  padding: 2vh;
+  background-color: rgba(26, 26, 46, 0.95);
+  border-radius: 1vh;
 }
 
 .read-the-docs {
@@ -79,7 +81,7 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  font-size: 1.2rem;
+  font-size: 1.2vh;
 }
 
 @media (orientation: portrait) {
@@ -110,7 +112,7 @@ body {
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: 2fr 7fr 3fr;
+  grid-template-columns: 20fr 60fr 20fr;
   background-color: #1a1a2e;
 }
 
@@ -118,15 +120,15 @@ body {
 .panel-container {
   position: relative;
   height: 100%;
-  overflow: hidden; /* 改为 hidden */
-  padding: 1em;
+  overflow: hidden;
+  padding: 1vh;
   background-color: rgba(0, 0, 0, 0.2);
 }
 
 /* 面板内容样式 */
 .panel-content {
   position: absolute;
-  inset: 1em;
+  inset: 1vh;
   overflow-y: auto;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -144,7 +146,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  padding-bottom: 5%;
+  padding-bottom: 5vh;
 }
 
 /* 主菜单背景 */
@@ -236,25 +238,25 @@ body {
 
 /* 主菜单标题 */
 .main-menu-titles {
-  margin-bottom: 2em;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 2vh;
+  text-shadow: 0.2vh 0.2vh 0.4vh rgba(0, 0, 0, 0.5);
 }
 
 /* 主菜单按钮容器 */
 .main-menu-buttons {
   display: flex;
   justify-content: center;
-  gap: 1em;
-  padding: 0 2em;
+  gap: 1vh;
+  padding: 0 2vh;
 }
 
 /* 主菜单按钮 */
 .main-menu-button {
   flex: 1;
-  max-width: 200px;
-  padding: 1em;
+  max-width: 20vh;
+  padding: 1vh;
   background-color: rgba(141, 189, 223, 0.8); /* sky-blue with 0.8 opacity */
-  border-radius: 0.5em;
+  border-radius: 0.5vh;
   transition: background-color 0.2s;
 }
 
@@ -264,8 +266,144 @@ body {
 
 /* 主菜单页脚 */
 .main-menu-footer {
-  margin-top: 2em;
-  padding: 1em;
+  margin-top: 2vh;
+  padding: 1vh;
   background-color: rgba(44, 62, 80, 0.3); /* charcoal with 0.3 opacity */
   backdrop-filter: blur(4px);
+}
+
+/* 按钮通用样式 */
+button {
+  padding: 1vh 2vh;
+  border-radius: 0.5vh;
+  font-size: 1.6vh;
+}
+
+/* 文本大小 */
+h1 { font-size: 3vh; }
+h2 { font-size: 2.5vh; }
+h3 { font-size: 2vh; }
+h4 { font-size: 1.8vh; }
+p { font-size: 1.6vh; }
+
+/* 间距 */
+.mt-4 { margin-top: 2vh; }
+.mb-4 { margin-bottom: 2vh; }
+.p-4 { padding: 2vh; }
+.gap-4 { gap: 2vh; }
+
+/* 圆角 */
+.rounded { border-radius: 0.5vh; }
+.rounded-lg { border-radius: 1vh; }
+
+/* 阴影 */
+.shadow-lg {
+  box-shadow: 0 0.5vh 1vh rgba(0, 0, 0, 0.2);
+}
+
+/* 地点卡片样式 */
+.location-selector .rounded {
+  border-radius: 0.5vh;
+}
+
+/* 地点图片容器 */
+.location-selector .h-32 {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;  /* 16:9 比例 (720/1280 = 0.5625) */
+  height: auto;  /* 移除固定高度 */
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.location-selector img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+/* 地点信息容器 */
+.location-selector .p-2 {
+  padding: 1vh;  /* 减小内边距 */
+}
+
+/* 地点状态信息 */
+.location-selector .mt-1 {
+  margin-top: 0.5vh;  /* 减小间距 */
+}
+
+.location-selector .space-y-1 > * + * {
+  margin-top: 0.5vh;  /* 减小垂直间距 */
+}
+
+/* 前往按钮 */
+.location-selector button {
+  margin-top: 1vh;  /* 减小上边距 */
+  padding: 0.5vh 1vh;  /* 减小内边距 */
+}
+
+/* 人物卡片样式优化 */
+.character-panel .border {
+  margin-bottom: 2vh;  /* 增加卡片间距 */
+  padding: 1.5vh;  /* 统一内边距 */
+}
+
+/* 人物图片容器 */
+.character-panel .mb-3 {
+  margin-bottom: 1.5vh;  /* 减小图片下方间距 */
+  height: 40vh;  /* 固定高度 */
+}
+
+/* 人物信息布局 */
+.character-panel .mt-2 {
+  margin-top: 1vh;  /* 减小间距 */
+}
+
+.character-panel .space-y-1 > * + * {
+  margin-top: 0.5vh;  /* 减小垂直间距 */
+}
+
+/* 状态和装备信息 */
+.character-panel .grid {
+  gap: 1vh;  /* 减小网格间距 */
+  margin-top: 1vh;  /* 减小上边距 */
+}
+
+/* 交互按钮 */
+.character-panel button {
+  margin-top: 1vh;  /* 减小按钮上边距 */
+  padding: 0.5vh 1vh;  /* 减小按钮内边距 */
+}
+
+/* 通用文本大小调整 */
+.text-sm {
+  font-size: 1.4vh;
+}
+
+.text-xs {
+  font-size: 1.2vh;
+}
+
+/* 状态标签样式 */
+.px-2 {
+  padding-left: 1vh;
+  padding-right: 1vh;
+}
+
+.py-1 {
+  padding-top: 0.5vh;
+  padding-bottom: 0.5vh;
+}
+
+/* 面板内容间距 */
+.space-y-4 > * + * {
+  margin-top: 2vh;
+}
+
+.space-y-2 > * + * {
+  margin-top: 1vh;
 }
