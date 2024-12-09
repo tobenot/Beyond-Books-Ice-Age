@@ -69,7 +69,19 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
 
   return (
     <div className="fixed inset-0 bg-navy-blue text-white overflow-hidden">
-      {/* 左侧立绘 - 调整宽度和遮罩 */}
+      {/* 添加背景图 */}
+      <div className="absolute inset-0">
+        <img 
+          src={`${import.meta.env.BASE_URL}illustrations/loc_ice_faction.webp`}
+          alt="Background"
+          className="w-full h-full object-cover"
+          style={{
+            opacity: 0.3  // 调整透明度使其不影响文字可读性
+          }}
+        />
+      </div>
+
+      {/* 左侧立绘 */}
       <div className="absolute left-0 top-0 h-full w-2/5">
         <img 
           src={leftIllustration}
@@ -82,7 +94,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
         />
       </div>
 
-      {/* 右侧立绘 - 调整宽度和遮罩 */}
+      {/* 右侧立绘 */}
       <div className="absolute right-0 top-0 h-full w-2/5">
         <img 
           src={rightIllustration}
@@ -95,8 +107,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
         />
       </div>
 
-      {/* 中央渐变遮罩 - 调整透明度 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-blue/60 to-navy-blue/30" />
+      {/* 中央渐变遮罩 - 调整透明度和渐变效果 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-navy-blue/80 to-navy-blue/60" />
 
       {/* 主菜单内容 - 调整间距和大小 */}
       <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-8">
