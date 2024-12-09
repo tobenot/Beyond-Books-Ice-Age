@@ -1,16 +1,16 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-swc'
+import react from '@vitejs/plugin-react'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/Beyond-Books-Ice-Age/',
+  base: process.env.GITHUB_PAGES ? '/Beyond-Books-Ice-Age/' : './',
   build: {
+    assetsDir: 'assets',
     rollupOptions: {
-      input: {
-        main: './index.html',
-      },
-    },
-  },
-  publicDir: 'public',
+      output: {
+        manualChunks: undefined
+      }
+    }
+  }
 })

@@ -241,15 +241,12 @@ export const GameContainer: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-12 gap-4 p-4">
-      <div className="col-span-3">
-        <TagsDisplay playerTags={characterService.getPlayer()?.tags} />
-        <div className="mt-4">
-          <LocationSelector 
-            locations={locations} 
-            onSkipCard={skipCurrentCard}
-          />
-        </div>
+    <div className="grid grid-cols-12 h-screen">
+      <div className="col-span-2 bg-charcoal p-4 overflow-y-auto">
+        <LocationSelector 
+          locations={locations} 
+          onSkipCard={skipCurrentCard}
+        />
         <div className="mt-4">
           <button
             onClick={() => setShowSaveMenu(true)}
@@ -267,7 +264,7 @@ export const GameContainer: React.FC = () => {
           </button>
         </div>
       </div>
-      <div className="col-span-6">
+      <div className="col-span-7 p-4 overflow-y-auto">
         {gameEnded ? (
           <div className="bg-charcoal p-4 rounded-lg">
             <h2 className="text-xl font-bold mb-4">游戏结束</h2>
@@ -294,11 +291,14 @@ export const GameContainer: React.FC = () => {
           currentCard && <Card card={currentCard} onChoice={handleChoice} />
         )}
       </div>
-      <div className="col-span-3">
-        <DateDisplay 
-          currentDate={currentDate}
-          countdowns={countdowns}
-        />
+      <div className="col-span-3 bg-charcoal p-4 overflow-y-auto">
+        <TagsDisplay playerTags={characterService.getPlayer()?.tags} />
+        <div className="mt-4">
+          <DateDisplay 
+            currentDate={currentDate}
+            countdowns={countdowns}
+          />
+        </div>
         <div className="mt-4">
           <CharacterPanel onSkipCard={skipCurrentCard} />
         </div>
