@@ -9,9 +9,11 @@ function App() {
         请旋转设备至横屏模式以获得最佳体验
       </div>
       
-      {/* 主游戏容器 */}
-      <div className="landscape-container bg-navy-blue text-white">
-        <GameContainer />
+      {/* 固定比例容器 */}
+      <div className="aspect-container">
+        <div className="game-content">
+          <GameContainer />
+        </div>
       </div>
     </>
   );

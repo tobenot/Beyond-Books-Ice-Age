@@ -1,8 +1,16 @@
+body {
+  background-color: #000;
+}
+
 #root {
   max-width: none;
   margin: 0;
   padding: 0;
   text-align: left;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #000;
 }
 
 .logo {
@@ -78,4 +86,186 @@
   .portrait-mask {
     display: flex;
   }
+}
+
+/* 修改固定比例容器样式 */
+.aspect-container {
+  position: relative;
+  width: 100vw;
+  height: 56.25vw; /* 16:9 比例 */
+  max-height: 100vh;
+  max-width: 177.78vh; /* 16:9 比例 */
+  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #000;
+  color: white;
+  overflow: hidden; /* 防止内容溢出 */
+}
+
+/* 游戏内容容器 */
+.game-content {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 2fr 7fr 3fr;
+  background-color: #1a1a2e;
+}
+
+/* 面板容器样式 */
+.panel-container {
+  position: relative;
+  height: 100%;
+  overflow: hidden; /* 改为 hidden */
+  padding: 1em;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* 面板内容样式 */
+.panel-content {
+  position: absolute;
+  inset: 1em;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+/* 隐藏滚动条 */
+.panel-content::-webkit-scrollbar {
+  display: none;
+}
+
+/* 主菜单容器 */
+.main-menu-container {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 5%;
+}
+
+/* 主菜单背景 */
+.main-menu-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.main-menu-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, 
+    rgba(59, 83, 115, 0.8), /* navy-blue with 0.8 opacity */
+    rgba(59, 83, 115, 0.6)  /* navy-blue with 0.6 opacity */
+  );
+}
+
+.main-menu-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+/* 主菜单立绘 */
+.main-menu-illustration {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 40%;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.main-menu-illustration::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(59, 83, 115, 0.3);
+  pointer-events: none;
+}
+
+.main-menu-illustration.left {
+  left: 0;
+  mask-image: linear-gradient(to right, 
+    transparent,
+    black 30%,
+    black 70%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(to right, 
+    transparent,
+    black 30%,
+    black 70%,
+    transparent
+  );
+}
+
+.main-menu-illustration.right {
+  right: 0;
+  mask-image: linear-gradient(to right, 
+    transparent,
+    black 30%,
+    black 70%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(to right, 
+    transparent,
+    black 30%,
+    black 70%,
+    transparent
+  );
+}
+
+.main-menu-illustration img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* 主菜单内容 */
+.main-menu-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+/* 主菜单标题 */
+.main-menu-titles {
+  margin-bottom: 2em;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* 主菜单按钮容器 */
+.main-menu-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+  padding: 0 2em;
+}
+
+/* 主菜单按钮 */
+.main-menu-button {
+  flex: 1;
+  max-width: 200px;
+  padding: 1em;
+  background-color: rgba(141, 189, 223, 0.8); /* sky-blue with 0.8 opacity */
+  border-radius: 0.5em;
+  transition: background-color 0.2s;
+}
+
+.main-menu-button:hover {
+  background-color: rgba(141, 189, 223, 0.9); /* sky-blue with 0.9 opacity */
+}
+
+/* 主菜单页脚 */
+.main-menu-footer {
+  margin-top: 2em;
+  padding: 1em;
+  background-color: rgba(44, 62, 80, 0.3); /* charcoal with 0.3 opacity */
+  backdrop-filter: blur(4px);
 }

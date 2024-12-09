@@ -68,101 +68,87 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
   };
 
   return (
-    <div className="fixed inset-0 bg-navy-blue text-white overflow-hidden">
-      {/* 添加背景图 */}
-      <div className="absolute inset-0">
+    <div className="aspect-container">
+      {/* 背景 */}
+      <div className="main-menu-bg">
         <img 
           src={`${import.meta.env.BASE_URL}illustrations/loc_ice_faction.webp`}
           alt="Background"
-          className="w-full h-full object-cover"
-          style={{
-            opacity: 0.3  // 调整透明度使其不影响文字可读性
-          }}
         />
       </div>
 
       {/* 左侧立绘 */}
-      <div className="absolute left-0 top-0 h-full w-2/5">
+      <div className="main-menu-illustration left">
         <img 
           src={leftIllustration}
           alt="Left Character"
           className="h-full w-full object-contain"
-          style={{
-            maskImage: 'linear-gradient(to right, black 70%, transparent)',
-            WebkitMaskImage: 'linear-gradient(to right, black 70%, transparent)'
-          }}
         />
       </div>
 
       {/* 右侧立绘 */}
-      <div className="absolute right-0 top-0 h-full w-2/5">
+      <div className="main-menu-illustration right">
         <img 
           src={rightIllustration}
           alt="Right Character"
           className="h-full w-full object-contain"
-          style={{
-            maskImage: 'linear-gradient(to left, black 70%, transparent)',
-            WebkitMaskImage: 'linear-gradient(to left, black 70%, transparent)'
-          }}
         />
       </div>
 
-      {/* 中央渐变遮罩 - 调整透明度和渐变效果 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-navy-blue/80 to-navy-blue/60" />
-
-      {/* 主菜单内容 - 调整间距和大小 */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-8">
+      {/* 主菜单容器 */}
+      <div className="main-menu-container">
         {!showCardList ? (
-          <>
-            <div className="text-center mb-16">
-              <h1 className="text-7xl font-bold mb-8 text-white drop-shadow-lg">
-                不止于纸上的故事
-              </h1>
-              <h2 className="text-4xl mb-6 text-white/90">Beyond Books</h2>
-              <h3 className="text-5xl mb-6 text-white/90">冰河篇</h3>
-              <h4 className="text-3xl text-white/80">Ice Age</h4>
+          <div className="main-menu-content">
+            {/* 标题 */}
+            <div className="main-menu-titles">
+              <h1 className="text-7xl font-bold mb-8">不止于纸上的故事</h1>
+              <h2 className="text-4xl mb-6">Beyond Books</h2>
+              <h3 className="text-5xl mb-6">冰河篇</h3>
+              <h4 className="text-3xl">Ice Age</h4>
             </div>
 
-            <div className="space-y-5">
+            {/* 按钮 */}
+            <div className="main-menu-buttons">
               <button
                 onClick={() => handleShowModal(mainMenuButtons.creator)}
-                className="w-56 p-4 bg-sky-blue hover:bg-opacity-80 rounded text-lg"
+                className="main-menu-button"
               >
                 制作者的话
               </button>
               <button
                 onClick={onStartGame}
-                className="w-56 p-4 bg-sky-blue hover:bg-opacity-80 rounded text-lg"
+                className="main-menu-button"
               >
                 开始游戏
               </button>
               <button
                 onClick={() => setShowSaveMenu(true)}
-                className="w-56 p-4 bg-sky-blue hover:bg-opacity-80 rounded text-lg"
+                className="main-menu-button"
               >
                 读取存档
               </button>
               <button
                 onClick={() => handleShowModal(mainMenuButtons.changelog)}
-                className="w-56 p-4 bg-sky-blue hover:bg-opacity-80 rounded text-lg"
+                className="main-menu-button"
               >
                 更新日志
               </button>
               <button
                 onClick={() => handleShowModal(mainMenuButtons.attribution)}
-                className="w-56 p-4 bg-sky-blue hover:bg-opacity-80 rounded text-lg"
+                className="main-menu-button"
               >
                 素材致谢
               </button>
               <button
                 onClick={() => setShowCardList(true)}
-                className="w-56 p-4 bg-sky-blue hover:bg-opacity-80 rounded text-lg"
+                className="main-menu-button"
               >
                 卡包列表
               </button>
             </div>
 
-            <footer className="mt-12 text-base backdrop-blur-sm bg-navy-blue/30 p-6 rounded-lg">
+            {/* 页脚 */}
+            <footer className="main-menu-footer">
               <a href="https://bb.tobenot.top/vue/" className="text-sky-blue hover:text-opacity-80 mr-4">
                 同作者的异能战斗游戏
               </a>
@@ -173,7 +159,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
                 关注B站
               </a>
             </footer>
-          </>
+          </div>
         ) : (
           <div className="w-full max-w-2xl backdrop-blur-sm bg-navy-blue/30 p-8 rounded-lg">
             <div className="flex justify-between items-center mb-6">

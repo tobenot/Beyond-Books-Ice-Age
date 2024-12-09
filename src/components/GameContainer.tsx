@@ -241,68 +241,77 @@ export const GameContainer: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-12 h-screen">
-      <div className="col-span-2 bg-charcoal p-4 overflow-y-auto">
-        <LocationSelector 
-          locations={locations} 
-          onSkipCard={skipCurrentCard}
-        />
-        <div className="mt-4">
-          <button
-            onClick={() => setShowSaveMenu(true)}
-            className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
-          >
-            存档/读档
-          </button>
-        </div>
-        <div className="mt-4">
-          <button
-            onClick={() => setShowInventory(true)}
-            className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
-          >
-            物品/装备
-          </button>
-        </div>
-      </div>
-      <div className="col-span-7 p-4 overflow-y-auto">
-        {gameEnded ? (
-          <div className="bg-charcoal p-4 rounded-lg">
-            <h2 className="text-xl font-bold mb-4">游戏结束</h2>
-            {endingType === 'death' && (
-              <p>你死了！<br/>{endingMessage}</p>
-            )}
-            {endingType === 'bad_happiness' && (
-              <p>你失败了！<br/>快乐归零，道心破碎</p>
-            )}
-            {endingType === 'bad_energy' && (
-              <p>你失败了！<br/>精力耗尽，疲惫不堪</p>
-            )}
-            {endingType === 'gaokao' && (
-              <div dangerouslySetInnerHTML={{ __html: endingMessage }} />
-            )}
+    <>
+      {/* 左侧面板 */}
+      <div className="panel-container">
+        <div className="panel-content">
+          <LocationSelector locations={locations} onSkipCard={skipCurrentCard} />
+          <div className="mt-4">
             <button
-              onClick={handleReturnToMainMenu}
-              className="mt-4 w-full p-2 bg-moss-green hover:bg-opacity-80 rounded"
+              onClick={() => setShowSaveMenu(true)}
+              className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
             >
-              返回主菜单
+              存档/读档
             </button>
           </div>
-        ) : (
-          currentCard && <Card card={currentCard} onChoice={handleChoice} />
-        )}
-      </div>
-      <div className="col-span-3 bg-charcoal p-4 overflow-y-auto">
-        <TagsDisplay playerTags={characterService.getPlayer()?.tags} />
-        <div className="mt-4">
-          <DateDisplay 
-            currentDate={currentDate}
-            countdowns={countdowns}
-          />
-        </div>
-        <div className="mt-4">
-          <CharacterPanel onSkipCard={skipCurrentCard} />
+          <div className="mt-4">
+            <button
+              onClick={() => setShowInventory(true)}
+              className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
+            >
+              物品/装备
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* 中间内容 */}
+      <div className="panel-container">
+        <div className="panel-content">
+          {gameEnded ? (
+            <div className="bg-charcoal p-4 rounded-lg">
+              <h2 className="text-xl font-bold mb-4">游戏结束</h2>
+              {endingType === 'death' && (
+                <p>你死了！<br/>{endingMessage}</p>
+              )}
+              {endingType === 'bad_happiness' && (
+                <p>你失败了！<br/>快乐归零，道心破碎</p>
+              )}
+              {endingType === 'bad_energy' && (
+                <p>你失败了！<br/>精力耗尽，疲惫不堪</p>
+              )}
+              {endingType === 'gaokao' && (
+                <div dangerouslySetInnerHTML={{ __html: endingMessage }} />
+              )}
+              <button
+                onClick={handleReturnToMainMenu}
+                className="mt-4 w-full p-2 bg-moss-green hover:bg-opacity-80 rounded"
+              >
+                返回主菜单
+              </button>
+            </div>
+          ) : (
+            currentCard && <Card card={currentCard} onChoice={handleChoice} />
+          )}
+        </div>
+      </div>
+
+      {/* 右侧面板 */}
+      <div className="panel-container">
+        <div className="panel-content">
+          <TagsDisplay playerTags={characterService.getPlayer()?.tags} />
+          <div className="mt-4">
+            <DateDisplay 
+              currentDate={currentDate}
+              countdowns={countdowns}
+            />
+          </div>
+          <div className="mt-4">
+            <CharacterPanel onSkipCard={skipCurrentCard} />
+          </div>
+        </div>
+      </div>
+      
       {showSaveMenu && (
         <SaveLoadMenu
           onClose={() => setShowSaveMenu(false)}
@@ -330,6 +339,6 @@ export const GameContainer: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }; 
