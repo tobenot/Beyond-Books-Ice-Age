@@ -28,3 +28,6 @@ dist-ssr
 !/public/fonts/VonwaonBitmap-12pxLite.ttf
 
 docs
+
+assets/illustrations
+assets/illustrations_webp
