@@ -306,44 +306,70 @@ p { font-size: 1.6vh; }
   border-radius: 0.5vh;
 }
 
+/* 地点卡片整体样式 */
+.location-selector .card {
+  padding: 1vh;  /* 稍微增加一点内边距 */
+}
+
 /* 地点图片容器 */
 .location-selector .h-32 {
   position: relative;
   width: 100%;
-  padding-top: 56.25%;  /* 16:9 比例 (720/1280 = 0.5625) */
-  height: auto;  /* 移除固定高度 */
+  padding-top: 37.5%;  /* 16:9 比例的三分之二 (56.25% * 2/3) */
+  height: auto;
   border-radius: 0;
   overflow: hidden;
 }
 
 .location-selector img {
   position: absolute;
-  top: 0;
+  top: 50%;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 150%;  /* 调整为容器的1.5倍，这样能显示更多图片内容 */
+  transform: translateY(-50%);
   object-fit: cover;
   border-radius: 0;
 }
 
 /* 地点信息容器 */
 .location-selector .p-2 {
-  padding: 1vh;  /* 减小内边距 */
+  padding: 0.8vh;  /* 稍微增加文字区域内边距 */
+}
+
+/* 地点名称 */
+.location-selector h3 {
+  font-size: 1.8vh;
+  margin-bottom: 0.3vh;
+}
+
+/* 地点描述 */
+.location-selector p {
+  font-size: 1.4vh;
+  margin: 0.3vh 0;
+  line-height: 1.2;
 }
 
 /* 地点状态信息 */
 .location-selector .mt-1 {
-  margin-top: 0.5vh;  /* 减小间距 */
+  margin-top: 0.3vh;
 }
 
 .location-selector .space-y-1 > * + * {
-  margin-top: 0.5vh;  /* 减小垂直间距 */
+  margin-top: 0.3vh;
 }
 
 /* 前往按钮 */
 .location-selector button {
-  margin-top: 1vh;  /* 减小上边距 */
-  padding: 0.5vh 1vh;  /* 减小内边距 */
+  margin-top: 0.6vh;
+  padding: 0.4vh 0.8vh;
+  font-size: 1.4vh;
+}
+
+/* 标签样式调整 */
+.location-selector .text-xs {
+  font-size: 1.2vh;
+  padding: 0.2vh 0.6vh;
 }
 
 /* 人物卡片样式优化 */
