@@ -29,7 +29,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
   const [showContinueButton, setShowContinueButton] = useState(false);
   const [processedDescription, setProcessedDescription] = useState<string>('');
   const [illustration, setIllustration] = useState<string>('');
-  const [imageAspectRatio, setImageAspectRatio] = useState<number>(0);
+  const [isImageLoaded, setIsImageLoaded] = useState(false);
 
   useEffect(() => {
     setSelectedChoice(null);
@@ -169,22 +169,27 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
       });
   };
 
-  // 添加图片加载完成的处理函数
-  const handleImageLoad = (event: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = event.currentTarget;
-    setImageAspectRatio(img.naturalWidth / img.naturalHeight);
+  const handleImageLoad = () => {
+    setIsImageLoaded(true);
   };
 
   return (
     <div className="card bg-charcoal rounded-lg p-[0.8vh] shadow-lg">
-      <div className={`flex ${imageAspectRatio > 1.2 ? 'flex-col' : 'flex-row gap-[0.8vh]'}`}>
-        {/* 图片容器 */}
-        <div className={`
-          relative overflow-hidden rounded-lg
-          ${imageAspectRatio > 1.2 
-            ? 'w-full h-[28vh] mb-[0.8vh]' 
-            : 'w-[35%] h-[35vh]'}
-        `}>
+      {/* 加载状态遮罩 */}
+      {!isImageLoaded && (
+        <div className="absolute inset-0 bg-charcoal flex items-center justify-center">
+          <div className="w-8 h-8 border-4 border-sky-blue border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      )}
+      
+      {/* 主要内容区域 - 使用固定的纵向布局 */}
+      <div className={`
+        flex flex-col
+        ${isImageLoaded ? 'opacity-100' : 'opacity-0'}
+        transition-opacity duration-300
+      `}>
+        {/* 图片容器 - 固定高度和居中 */}
+        <div className="w-full h-[28vh] max-h-[768px] mb-[0.8vh] relative overflow-hidden rounded-lg">
           <img 
             src={illustration}
             alt={card.name}
@@ -195,10 +200,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
         </div>
 
         {/* 文字内容容器 */}
-        <div className={`
-          flex flex-col
-          ${imageAspectRatio > 1.2 ? 'w-full' : 'w-[65%]'}
-        `}>
+        <div className="w-full flex flex-col">
           <h2 className="text-[1.8vh] font-bold mb-[0.5vh]">{card.name}</h2>
           <p className="text-[1.6vh] mb-[0.8vh] whitespace-pre-line flex-grow overflow-y-auto">
             {processedDescription}
