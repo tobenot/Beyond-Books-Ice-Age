@@ -146,10 +146,21 @@ class CardService {
     // 检查必抽卡牌
     const mustDrawCards = availableCards
       .filter(({ card }) => card.mustDraw)
-      .sort((a, b) => (b.card.priority || 0) - (a.card.priority || 0));
+      .sort((a, b) => {
+        // 首先按优先级排序
+        const priorityDiff = (b.card.priority || 0) - (a.card.priority || 0);
+        if (priorityDiff !== 0) return priorityDiff;
+        
+        // 如果优先级相同,按权重排序
+        return (b.weight || 1) - (a.weight || 1);
+      });
 
     if (mustDrawCards.length > 0) {
-      console.log('发现必抽卡片:', mustDrawCards[0].card.id);
+      console.log('发现必抽卡片:', mustDrawCards.map(c => ({
+        id: c.card.id,
+        priority: c.card.priority,
+        weight: c.weight
+      })));
       this.currentCard = mustDrawCards[0].card;
       return this.currentCard;
     }
