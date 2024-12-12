@@ -1,10 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { SaveLoadMenu } from './SaveLoadMenu';
 import { illustrationService } from '../services/illustrationService';
+import { cardService } from '../services/cardService';
 
 interface MainMenuProps {
   onStartGame: () => void;
   onLoadGame: () => void;
+}
+
+// 添加卡包类型定义
+interface CardCategory {
+  id: string;
+  name: string;
+  description: string;
+  cardSets: {
+    id: string;
+    name: string;
+    description: string;
+    path: string;
+    required: boolean;
+  }[];
 }
 
 export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) => {
@@ -14,6 +29,8 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
   const [showSaveMenu, setShowSaveMenu] = useState(false);
   const [leftIllustration, setLeftIllustration] = useState('');
   const [rightIllustration, setRightIllustration] = useState('');
+  const [cardCategories, setCardCategories] = useState<CardCategory[]>([]);
+  const [activeCategories, setActiveCategories] = useState<Set<string>>(new Set());
 
   useEffect(() => {
     const loadIllustrations = async () => {
@@ -25,6 +42,46 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
     };
     loadIllustrations();
   }, []);
+
+  useEffect(() => {
+    // 加载卡包分类配置
+    const loadCardCategories = async () => {
+      try {
+        const response = await fetch(`${import.meta.env.BASE_URL}config/cardSetCategories.json`);
+        const categories = await response.json();
+        setCardCategories(categories);
+        
+        // 获取当前启用的卡包
+        const activeSets = cardService.getActiveCardSets();
+        setActiveCategories(new Set(activeSets));
+      } catch (error) {
+        console.error('Error loading card categories:', error);
+      }
+    };
+
+    loadCardCategories();
+  }, []);
+
+  // 切换卡包启用状态
+  const toggleCategory = async (categoryId: string) => {
+    const newActiveCategories = new Set(activeCategories);
+    
+    if (activeCategories.has(categoryId)) {
+      // 检查是否是必需卡包
+      const category = cardCategories.find(c => c.id === categoryId);
+      if (category?.cardSets.some(set => set.required)) {
+        return; // 不允许禁用必需卡包
+      }
+      newActiveCategories.delete(categoryId);
+      cardService.disableCardSet(categoryId);
+    } else {
+      newActiveCategories.add(categoryId);
+      cardService.enableCardSet(categoryId);
+    }
+    
+    setActiveCategories(newActiveCategories);
+    await cardService.loadCardData(); // 重新加载卡池
+  };
 
   const mainMenuButtons = {
     creator: `
@@ -47,25 +104,63 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
     `,
   };
 
-  const cardPacks = [
-    { 
-      name: "基础剧情包（完善中）", 
-      description: "包含主要剧情线和基础互动。<br><br>从冬眠中醒来后的初始剧情，与复苏队和冰河派的初次接触，以及在废土世界中生存的基本选项。" 
-    },
-    { 
-      name: "复苏队剧情包（制作中）", 
-      description: "复苏队的专属剧情。<br><br>协助复苏队重建文明，对抗熵减威胁，探索方格神的奥秘。" 
-    },
-    { 
-      name: "冰河派剧情包（制作中）", 
-      description: "冰河派的专属剧情。<br><br>追随霜隐探索永生之道，研究熵减力量，寻找晶格神的踪迹。" 
-    }
-  ];
-
   const handleShowModal = (content: string) => {
     setModalContent(content);
     setShowModal(true);
   };
+
+  // 修改卡包列表渲染部分
+  const renderCardList = () => (
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div className="absolute inset-0 bg-black bg-opacity-50" />
+      <div className="w-full max-w-2xl backdrop-blur-sm bg-navy-blue/80 p-8 rounded-lg z-10">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-bold text-ice-blue">可用卡包</h2>
+          <button
+            onClick={() => setShowCardList(false)}
+            className="px-4 py-2 bg-sky-blue hover:bg-opacity-80 rounded transition-colors"
+          >
+            返回主菜单
+          </button>
+        </div>
+        <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-2">
+          {cardCategories.map((category) => {
+            const isRequired = category.cardSets.some(set => set.required);
+            return (
+              <div 
+                key={category.id}
+                className={`
+                  bg-charcoal/90 p-4 rounded-lg transition-all
+                  ${isRequired 
+                    ? 'cursor-default' 
+                    : 'hover:bg-opacity-70 cursor-pointer hover:transform hover:scale-[1.02]'}
+                `}
+                onClick={() => !isRequired && toggleCategory(category.id)}
+              >
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-xl font-bold text-ice-blue">{category.name}</h3>
+                  <div className="flex items-center gap-2">
+                    {isRequired && (
+                      <span className="text-xs text-coral px-2 py-1 bg-coral/20 rounded">必需</span>
+                    )}
+                    <div className={`
+                      w-4 h-4 rounded-full transition-colors
+                      ${activeCategories.has(category.id) ? 'bg-moss-green' : 'bg-coral'}
+                      ${isRequired ? 'opacity-50' : 'opacity-100'}
+                    `}/>
+                  </div>
+                </div>
+                <p className="text-sm text-slate-blue">{category.description}</p>
+                <div className="mt-2 text-xs text-sky-blue">
+                  {category.cardSets.map(set => set.name).join(' • ')}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="aspect-container">
@@ -160,34 +255,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
               </a>
             </footer>
           </div>
-        ) : (
-          <div className="w-full max-w-2xl backdrop-blur-sm bg-navy-blue/30 p-8 rounded-lg">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-2xl font-bold">可用卡包</h2>
-              <button
-                onClick={() => setShowCardList(false)}
-                className="px-4 py-2 bg-sky-blue hover:bg-opacity-80 rounded"
-              >
-                返回主菜单
-              </button>
-            </div>
-            <div className="space-y-4">
-              {cardPacks.map((pack, index) => (
-                <div 
-                  key={index}
-                  className="bg-charcoal p-4 rounded-lg hover:bg-opacity-80 cursor-pointer"
-                  onClick={() => handleShowModal(pack.description)}
-                >
-                  <h3 className="text-xl font-bold mb-2">{pack.name}</h3>
-                  <div 
-                    className="text-sm opacity-80"
-                    dangerouslySetInnerHTML={{ __html: pack.description.split('<br><br>')[0] }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
+        ) : renderCardList()}
       </div>
 
       {/* Modal */}

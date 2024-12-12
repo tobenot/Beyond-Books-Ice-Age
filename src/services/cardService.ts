@@ -7,17 +7,54 @@ class CardService {
   private recentDrawnCards: string[] = [];
   private consumedCards: string[] = [];
   private currentCard: Card | null = null;
+  private activeCardSets: Set<string> = new Set(['base','recoveryTeam','glacier']);
 
   async loadCardData(): Promise<void> {
     try {
       const timestamp = new Date().getTime();
-      const response = await fetch(`${import.meta.env.BASE_URL}config/cards.json?t=${timestamp}`);
-      const data = await response.json();
-      this.cardPool = data;
-      console.log('Card pool loaded with', this.cardPool.length, 'cards');
+      // 加载卡包分类配置
+      const cardSetCategoriesResponse = await fetch(`${import.meta.env.BASE_URL}config/cardSetCategories.json?t=${timestamp}`);
+      const categories = await cardSetCategoriesResponse.json();
+      
+      // 收集所有启用分类下的卡包
+      const cardPromises: Promise<Card[]>[] = [];
+      
+      for (const category of categories) {
+        if (this.activeCardSets.has(category.id)) {
+          // 加载该分类下的所有卡包
+          for (const cardSet of category.cardSets) {
+            const cardPromise = fetch(`${import.meta.env.BASE_URL}config/cards/${category.id}/${cardSet.path}?t=${timestamp}`)
+              .then(res => res.json())
+              .catch(error => {
+                console.error(`Error loading card set ${cardSet.path}:`, error);
+                return [];
+              });
+            cardPromises.push(cardPromise);
+          }
+        }
+      }
+      
+      const cardArrays = await Promise.all(cardPromises);
+      this.cardPool = cardArrays.flat();
+      console.log('Card pool loaded with', this.cardPool.length, 'cards from', this.activeCardSets.size, 'categories');
     } catch (error) {
       console.error('Error loading cards:', error);
     }
+  }
+
+  // 启用卡包
+  enableCardSet(setId: string): void {
+    this.activeCardSets.add(setId);
+  }
+
+  // 禁用卡包
+  disableCardSet(setId: string): void {
+    this.activeCardSets.delete(setId);
+  }
+
+  // 获取当前启用的卡包列表
+  getActiveCardSets(): string[] {
+    return Array.from(this.activeCardSets);
   }
 
   private canDrawCard(card: Card): boolean {

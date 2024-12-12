@@ -1,0 +1,57 @@
+[
+    {
+        "id": "iceFactionLeader_chat_main",
+        "name": "与霜隐的对话",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "霜隐身着改装的战术装备,体表生长着几块紫色的几何状晶体。她的眼神中透露着坚定与狂热。",
+        "baseWeight": 10.0,
+        "illustration": "shuangYin",
+        "requireTags": {
+            "目标.交谈角色": "shuangYin"
+        },
+        "choices": [
+            {
+                "text": "询问他们的目标",
+                "effects": [
+                    "状态.精力.-5",
+                    "对话.霜隐.目标.开启"
+                ],
+                "description": "你们为什么要这么做？"
+            },
+            {
+                "text": "结束对话",
+                "effects": [
+                    "目标.交谈角色.empty",
+                    "目标.交互角色.empty"
+                ],
+                "description": "就这样吧。"
+            }
+        ]
+    },
+    {
+        "id": "iceFactionLeader_chat_goal",
+        "name": "了解冰河派的目标",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "霜隐激动地解释着她的理念,晶体在说话时闪烁着微光。",
+        "baseWeight": 10.0,
+        "illustration": "shuangYin",
+        "requireTags": {
+            "目标.交谈角色": "shuangYin",
+            "对话.霜隐.目标": "开启"
+        },
+        "choices": [
+            {
+                "text": "继续听下去",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.冰河派.目标.1",
+                    "对话.霜隐.目标.empty",
+                    "目标.交谈角色.empty"
+                ],
+                "description": "\"熵减不是诅咒,而是进化的契机！复苏队想要恢复旧世界,但我们要建立一个更完美的秩序！我遇见过灵界人,他们告诉我这是正确的道路。\""
+            }
+        ]
+    }
+]

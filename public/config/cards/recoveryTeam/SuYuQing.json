@@ -1,0 +1,141 @@
+[
+    {
+        "id": "suYuQing_chat_main",
+        "name": "与苏雨晴的对话",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "苏雨晴双手靠在腹前，摆出典雅的姿势。",
+        "baseWeight": 10.0,
+        "mustDraw": true,
+        "priority": 1001,
+        "illustration": "suYuQing",
+        "requireTags": {
+            "目标.交谈角色": "suYuQing"
+        },
+        "choices": [
+            {
+                "text": "问问现在的情况",
+                "effects": [
+                    "状态.精力.-5",
+                    "对话.苏雨晴.基本情况.1"
+                ],
+                "description": "我需要了解发生了什么..."
+            },
+            {
+                "text": "询问复苏队",
+                "effects": [
+                    "状态.精力.-5",
+                    "对话.苏雨晴.复苏队信息.1"
+                ],
+                "description": "想知道更多关于复苏队的事"
+            },
+            {
+                "text": "问问关于熵减世界",
+                "requireTags": {
+                    "记忆.熵减世界": ">0"
+                },
+                "effects": [
+                    "状态.精力.-5",
+                    "对话.苏雨晴.熵减世界信息.1"
+                ],
+                "description": "这个世界变得好奇怪..."
+            },
+            {
+                "text": "结束对话",
+                "effects": [
+                    "目标.交谈角色.empty",
+                    "目标.交互角色.empty"
+                ],
+                "description": "今天就聊到这里吧"
+            }
+        ]
+    },
+    {
+        "id": "suYuQing_chat_basic_info",
+        "name": "了解基本情况",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "苏雨晴耐心地解释着。",
+        "baseWeight": 20.0,
+        "priority": 1002,
+        "mustDraw": true,
+        "illustration": "suYuQing",
+        "requireTags": {
+            "目标.交谈角色": "suYuQing",
+            "对话.苏雨晴.基本情况": ">0"
+        },
+        "choices": [
+            {
+                "text": "发生了什么？",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.方格神.1",
+                    "记忆.熵减世界.1",
+                    "对话.苏雨晴.基本情况.-1"
+                ],
+                "description": "\"十二年前,方格神经过地球时用熵减炮轰击了地球,将世界变成了熵减世界。大部分人类都没能活下来...\""
+            }
+        ]
+    },
+    {
+        "id": "suYuQing_chat_revival",
+        "name": "了解复苏队",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "苏雨晴谈起复苏队时充满了使命感。",
+        "baseWeight": 20.0,
+        "priority": 1002,
+        "mustDraw": true,
+        "illustration": "suYuQing",
+        "requireTags": {
+            "目标.交谈角色": "suYuQing",
+            "对话.苏雨晴.复苏队信息": ">0"
+        },
+        "choices": [
+            {
+                "text": "复苏队是什么？",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.复苏队起源.1",
+                    "对话.苏雨晴.复苏队信息.-1"
+                ],
+                "description": "\"我们是从月球来的机器人部队。在发现地球异变后,我们建立了月球基地,研究对抗熵减的方法。\""
+            }
+        ]
+    },
+    {
+        "id": "suYuQing_chat_entropy",
+        "name": "了解熵减世界",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "苏雨晴开始解释这个陌生的世界。",
+        "baseWeight": 20.0,
+        "priority": 1002,
+        "mustDraw": true,
+        "illustration": "suYuQing",
+        "requireTags": {
+            "目标.交谈角色": "suYuQing",
+            "对话.苏雨晴.熵减世界信息": ">0"
+        },
+        "choices": [
+            {
+                "text": "什么是熵减世界？",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.熵减世界.1",
+                    "对话.苏雨晴.熵减世界信息.-1"
+                ],
+                "description": "\"在这里,时间和物质被扭曲了。一切都在向着更加有序的方向发展,这违背了熵增定律。\""
+            },
+            {
+                "text": "为什么我能活下来？",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.个人身份.1",
+                    "对话.苏雨晴.熵减世界信息.-1"
+                ],
+                "description": "\"你似乎对熵减有天然的免疫力。这种能力非常罕见,或许和你的特殊体质有关。\""
+            }
+        ]
+    }
+]
