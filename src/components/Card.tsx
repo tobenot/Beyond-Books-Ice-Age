@@ -6,6 +6,7 @@ import { effectService } from '../services/effectService';
 import { cardService } from '../services/cardService';
 import { illustrationService } from '../services/illustrationService';
 import { characterService } from '../services/characterService';
+import { TypewriterText } from './TypewriterText';
 
 interface CardProps {
   card: CardType;
@@ -31,6 +32,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
   const [illustration, setIllustration] = useState<string>('');
   const [isImageLoaded, setIsImageLoaded] = useState(false);
   const [isReady, setIsReady] = useState(false);
+  const [typewriterEnabled, setTypewriterEnabled] = useState(true);
 
   useEffect(() => {
     setSelectedChoice(null);
@@ -75,13 +77,8 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
       cardService.consumeCard(card);
     }
     
-    // 构建结果文本
-    let text = `
-      <div>
-        <br><i>${choice.text}</i>
-        <p>${choice.description}</p>
-      </div>
-    `;
+    // 构建结果文本 - 移除多余的换行和空格
+    let text = `<div><i>${choice.text}</i><p>${choice.description}</p></div>`;
     
     // 使用specialMechanismService处理占位符
     const processedText = specialMechanismService.replacePlaceholders(text);
@@ -213,10 +210,22 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
 
         {/* 文字内容容器 */}
         <div className="w-full flex flex-col">
-          <h2 className="text-[1.8vh] font-bold mb-[0.5vh]">{card.name}</h2>
-          <p className="text-[1.6vh] mb-[0.8vh] whitespace-pre-line flex-grow overflow-y-auto">
-            {processedDescription}
-          </p>
+          <div className="flex justify-between items-center">
+            <h2 className="text-[1.8vh] font-bold mb-[0.5vh]">{card.name}</h2>
+            <button
+              onClick={() => setTypewriterEnabled(!typewriterEnabled)}
+              className="w-[2.4vh] h-[2.4vh] flex items-center justify-center hover:bg-navy-blue hover:bg-opacity-80 rounded-full transition-colors"
+              title={`${typewriterEnabled ? '关闭' : '开启'}打字效果`}
+            >
+              {typewriterEnabled ? '✍️' : '📃'}
+            </button>
+          </div>
+          
+          <TypewriterText
+            text={processedDescription}
+            enabled={typewriterEnabled && isReady}
+            className="text-[1.6vh] mb-[0.8vh] whitespace-pre-line flex-grow overflow-y-auto"
+          />
           
           {/* 选项区域 */}
           {!selectedChoice ? (
@@ -225,9 +234,11 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
             </div>
           ) : (
             <div>
-              <div 
+              <TypewriterText
+                text={resultText}
+                enabled={typewriterEnabled}
                 className="result-text mb-[0.8vh] whitespace-pre-line text-[1.6vh]"
-                dangerouslySetInnerHTML={{ __html: resultText }}
+                isHtml={true}
               />
               {showContinueButton && (
                 <button
