@@ -1,0 +1,51 @@
+[
+  {
+    "id": "base",
+    "name": "基础内容",
+    "description": "包含主要剧情线和基础互动。从冬眠中醒来后的初始剧情，与复苏队和冰河派的初次接触，以及在废土世界中生存的基本选项。",
+    "cardSets": [
+      {
+        "id": "基础",
+        "name": "基础卡包",
+        "description": "游戏的基础内容",
+        "path": "base.json",
+        "required": true
+      },
+      {
+        "id": "开局",
+        "name": "开局卡包",
+        "description": "游戏的开局内容",
+        "path": "start.json",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "recoveryTeam",
+    "name": "复苏队",
+    "description": "复苏队的剧情。重建人类文明，对抗熵减威胁，揭开方格神的奥秘。",
+    "cardSets": [
+      {
+        "id": "复苏队.苏雨晴",
+        "name": "苏雨晴剧情",
+        "description": "包含复苏队苏雨晴的剧情",
+        "path": "SuYuQing.json",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "glacier",
+    "name": "冰河派",
+    "description": "冰河派的剧情。探索永生之道，研究熵减力量，寻找晶格神的踪迹。",
+    "cardSets": [
+      {
+        "id": "冰河派.霜隐",
+        "name": "霜隐剧情",
+        "description": "包含冰河派霜隐的剧情",
+        "path": "ShuangYin.json",
+        "required": true
+      }
+    ]
+  }
+] 

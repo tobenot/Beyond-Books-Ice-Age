@@ -1,0 +1,265 @@
+[
+    {
+        "id": "location_change",
+        "name": "前往新地点",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你准备前往{{tagValue:位置.目标地点}}...",
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 100,
+        "illustration": "{{locationIllustration}}",
+        "requireTags": {
+            "位置.目标地点": "!empty"
+        },
+        "choices": [
+            {
+                "text": "出发",
+                "effects": [
+                    "状态.生命值.-5",
+                    "状态.精力.-10"
+                ],
+                "specialMechanism": "moveToLocation",
+                "description": "路途遥远而危险..."
+            },
+            {
+                "text": "再等等",
+                "effects": [
+                    "位置.目标地点.empty"
+                ],
+                "description": "现在还不是时候。"
+            }
+        ]
+    },
+    {
+        "id": "item_find_energy_sword",
+        "name": "发现能量剑",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "在一具机器人残骸旁发现了一把能量剑。",
+        "baseWeight": 0.8,
+        "requireTags": {
+            "位置.当前地点": "wasteland"
+        },
+        "choices": [
+            {
+                "text": "拾取",
+                "effects": [
+                    "物品.能量剑.1"
+                ],
+                "consumeCard": true,
+                "description": "复苏队的标准武器,可以轻易切开大多数物质。"
+            },
+            {
+                "text": "离开",
+                "effects": [],
+                "description": "这种武器太危险了。"
+            }
+        ]
+    },
+    {
+        "id": "find_character",
+        "name": "找人",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你找到了{{charName}}...",
+        "baseWeight": 10.0,
+        "mustDraw": true,
+        "priority": 200,
+        "illustration": "{{charIllustration}}",
+        "requireTags": {
+            "目标.交互角色": "!empty"
+        },
+        "choices": [
+            {
+                "text": "交谈",
+                "effects": [
+                    "状态.精力.-5"
+                ],
+                "specialMechanism": "characterInteraction",
+                "description": "{{charName}} 做出在听的样子。"
+            },
+            {
+                "text": "发起攻击",
+                "requireTags": {
+                    "物品.能量剑": ">0"
+                },
+                "disabledDisplay": "需要能量剑才能发起攻击",
+                "effects": [
+                    "状态.精力.-20"
+                ],
+                "specialMechanism": "characterAttack",
+                "description": "举起能量剑,发起致命一击..."
+            },
+            {
+                "text": "没什么",
+                "effects": [
+                    "目标.交互角色.empty"
+                ],
+                "description": "结束当前对话。"
+            }
+        ]
+    },
+    {
+        "id": "observe_hibernation_center",
+        "name": "观察冬眠中心",
+        "type": "event",
+        "cardSet": "基础", 
+        "description": "冬眠中心一片狼藉。大部分冬眠舱都已经被熵减力量扭曲变形,只有你所在的那个区域幸免于难。在你的冬眠舱旁边,躺着一具机器人的残骸。\n\n不远处还有另一个破损的冬眠舱,里面同样有一具机器人残骸。空气中弥漫着金属和臭氧的气味,到处都是熵减造成的几何状结晶。",
+        "baseWeight": 0.1,
+        "priority": 1,
+        "illustration": "loc_hibernation_center",
+        "requireTags": {
+            "位置.当前地点": "hibernation_center"
+        },
+        "choices": [
+            {
+                "text": "继续",
+                "effects": [
+                    "状态.精力.5"
+                ],
+                "description": "在这片废墟中找了个相对安全的角落休息。这里曾经是保护人类的地方,现在却只剩下残骸。"
+            },
+            {
+                "text": "检查冬眠舱旁的机器人",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.冬眠中心.机器人.1"
+                ],
+                "description": "这具机器人残骸型号和复苏队差不多,看姿势像是曾经趴在你的冬眠仓上。它应该是被苏雨晴搬动到旁边了。"
+            },
+            {
+                "text": "查看破损冬眠舱中的机器人",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.冬眠中心.机器人.2"
+                ],
+                "description": "奇怪的是,这具机器人残骸竟然被放在冬眠舱里。它的外形与普通的工作机器人不同,更像是某种特殊型号。为什么机器人会需要冬眠？这不合常理。"
+            }
+        ]
+    },
+    {
+        "id": "observe_revival_base",
+        "name": "观察复苏队基地",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "复苏队基地就像是你模糊遥远的记忆里面的现代城市一样。巨大的能量塔在中央，它抵抗着外界的熵减影响。\n\n复苏队机器人们来回穿梭,进行各种维护工作。这里是为数不多的安全区域之一。",
+        "baseWeight": 0.1,
+        "priority": 1,
+        "illustration": "loc_revival_base",
+        "requireTags": {
+            "位置.当前地点": "revival_base"
+        },
+        "choices": [
+            {
+                "text": "继续",
+                "effects": [
+                    "状态.精力.5"
+                ],
+                "description": "在能量塔的庇护下休息。这里的环境给人一种希望。"
+            }
+        ]
+    },
+    {
+        "id": "observe_ice_faction",
+        "name": "观察冰河派据点",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "冰河派据点建立在一片废墟之上。紫色的晶体从建筑物表面生长而出,在阳光下折射出梦幻般的光芒。建筑物虽然扭曲变形,但仍保持着某种奇特的秩序感。\n\n这里的熵减影响使空气中带着金属的味道。身着战术装备的冰河派成员们据点内有序地活动着。他们似乎已经适应了这种环境,甚至学会了利用熵减力量。",
+        "baseWeight": 0.1,
+        "priority": 1,
+        "illustration": "loc_ice_faction",
+        "requireTags": {
+            "位置.当前地点": "ice_faction"
+        },
+        "choices": [
+            {
+                "text": "继续",
+                "effects": [
+                    "状态.精力.5"
+                ],
+                "description": "找了个安静的角落休息。这里虽然环境特殊,但井然有序。"
+            },
+            {
+                "text": "观察冰河派成员",
+                "effects": [
+                    "状态.精力.-5",
+                    "记忆.冰河派.观察.1"
+                ],
+                "description": "他们都穿着比较破烂的战术装，身上都长了一些晶体。"
+            }
+        ]
+    },
+    {
+        "id": "observe_wasteland",
+        "name": "观察废土",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "这片荒野已经被熵减力量彻底改变。扭曲的建筑残骸和紫色的几何状结晶随处可见，偶尔能看到一些机器人的残骸。\n\n空气中弥漫着金属的味道，远处不时传来奇怪的声响。这里危险重重，但也蕴藏着各种有价值的资源。",
+        "baseWeight": 0.1,
+        "priority": 1,
+        "illustration": "loc_wasteland",
+        "requireTags": {
+            "位置.当前地点": "wasteland"
+        },
+        "choices": [
+            {
+                "text": "继续",
+                "effects": [
+                    "状态.精力.5"
+                ],
+                "description": "找了个相对安全的掩体休息。虽然危险，但至少能短暂地喘口气。"
+            },
+            {
+                "text": "搜寻资源",
+                "effects": [
+                    "状态.精力.-10",
+                    "状态.生命值.-5"
+                ],
+                "description": "在废墟中翻找物资是件危险的事，但有时候能找到意想不到的好东西。"
+            }
+        ]
+    },
+    {
+        "id": "ending_kill_suyuqing",
+        "name": "冰河派结局",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你用能量剑刺穿了苏雨晴的核心处理器。她的眼中闪过一丝难以置信的神情,然后永远地暗淡下去。\n\n你选择了站在冰河派一边。在这个新秩序的世界里,或许只有接受改变才是生存之道。",
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 1000,
+        "requireTags": {
+            "结局.冰河派": "1"
+        },
+        "choices": [
+            {
+                "text": "结束",
+                "effects": [],
+                "specialMechanism": "gameOver",
+                "description": "游戏结束：冰河派结局"
+            }
+        ]
+    },
+    {
+        "id": "ending_kill_icefactionleader",
+        "name": "击杀霜隐",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你用能量剑斩杀了霜隐。随着这位冰河派首领的死亡,她的追随者们陷入混乱,他们利用熵减力量的疯狂计划也就此终止。\n\n你和复苏队一起,开始着手重建这个破碎的世界。这是一个艰难的开始,但至少充满希望。",
+        "baseWeight": 1.0,
+        "mustDraw": true,
+        "priority": 1000,
+        "requireTags": {
+            "结局.复苏队": "1"
+        },
+        "choices": [
+            {
+                "text": "结束",
+                "effects": [],
+                "specialMechanism": "gameOver",
+                "description": "游戏结束:复苏队结局"
+            }
+        ]
+    }
+]
