@@ -111,6 +111,31 @@ class CardService {
       return value === '';
     }
 
+    // 添加对 NPC 标签的支持
+    if (condition.startsWith('NPC.')) {
+      const [, npcId, ...tagPath] = condition.split('.');
+      const npcTagValue = characterService.getCharacterTagValue(npcId, tagPath.join('.'));
+      
+      // 如果是检查布尔值（比如死亡状态）
+      if (value === 'true') return npcTagValue === true;
+      if (value === 'false') return npcTagValue === false;
+      
+      // 如果是数值比较
+      if (typeof npcTagValue === 'number' && typeof value === 'string') {
+        const operator = value.charAt(0);
+        const threshold = parseFloat(value.slice(1));
+        
+        switch (operator) {
+          case '>': return npcTagValue > threshold;
+          case '<': return npcTagValue < threshold;
+          case '=': return npcTagValue === threshold;
+        }
+      }
+      
+      // 字符串比较
+      return npcTagValue === value;
+    }
+
     // 检查角色属性
     if (typeof value === 'string' && value) {
       const targetCharId = value;
