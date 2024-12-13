@@ -19,6 +19,7 @@ export interface Card {
   };
   choices: Choice[];
   illustration?: string;
+  autoSelect?: boolean;
 }
 
 export interface Choice {

@@ -29,7 +29,7 @@
         "id": "复苏队.苏雨晴",
         "name": "苏雨晴剧情",
         "description": "包含复苏队苏雨晴的剧情",
-        "path": "suYuQing.json",
+        "path": "SuYuQing.json",
         "required": true
       }
     ]
@@ -43,7 +43,7 @@
         "id": "冰河派.霜隐",
         "name": "霜隐剧情",
         "description": "包含冰河派霜隐的剧情",
-        "path": "shuangYin.json",
+        "path": "ShuangYin.json",
         "required": true
       }
     ]

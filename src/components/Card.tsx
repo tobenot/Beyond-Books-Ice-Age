@@ -30,13 +30,25 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
   const [processedDescription, setProcessedDescription] = useState<string>('');
   const [illustration, setIllustration] = useState<string>('');
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     setSelectedChoice(null);
     setResultText('');
     setShowContinueButton(false);
+    setIsReady(false);
     setProcessedDescription(specialMechanismService.replacePlaceholders(card.description));
+
+    requestAnimationFrame(() => {
+      setIsReady(true);
+    });
   }, [card.id]);
+
+  useEffect(() => {
+    if (isReady && card.autoSelect && card.choices.length > 0) {
+      handleChoice(card.choices[0]);
+    }
+  }, [isReady]);
 
   useEffect(() => {
     const loadIllustration = async () => {
@@ -176,16 +188,16 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
   return (
     <div className="card bg-charcoal rounded-lg p-[0.8vh] shadow-lg">
       {/* 加载状态遮罩 */}
-      {!isImageLoaded && (
+      {(!isImageLoaded || !isReady) && (
         <div className="absolute inset-0 bg-charcoal flex items-center justify-center">
           <div className="w-8 h-8 border-4 border-sky-blue border-t-transparent rounded-full animate-spin"></div>
         </div>
       )}
       
-      {/* 主要内容区域 - 使用固定的纵向布局 */}
+      {/* 主要内容区域 */}
       <div className={`
         flex flex-col
-        ${isImageLoaded ? 'opacity-100' : 'opacity-0'}
+        ${(isImageLoaded && isReady) ? 'opacity-100' : 'opacity-0'}
         transition-opacity duration-300
       `}>
         {/* 图片容器 - 固定高度和居中 */}
