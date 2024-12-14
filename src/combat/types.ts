@@ -116,4 +116,4 @@ export interface TurnState {
   currentRound: number;
   turnOrder: string[];    // 存储combatantId的数组
   currentTurnIndex: number;
-} 
+}

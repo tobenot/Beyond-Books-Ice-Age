@@ -278,6 +278,11 @@ class CardService {
   }
 
   setCurrentCard(card: Card | null): void {
+    console.log('设置当前卡片:', {
+      cardId: card?.id,
+      autoSelect: card?.autoSelect,
+      hasChoices: card?.choices?.length > 0
+    });
     this.currentCard = card;
   }
 

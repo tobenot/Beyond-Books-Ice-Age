@@ -30,6 +30,7 @@ export interface Choice {
   consumeCard?: boolean;
   specialMechanism?: string;
   disabledDisplay?: string;
+  skipContinue?: boolean;
 }
 
 export interface Tag {

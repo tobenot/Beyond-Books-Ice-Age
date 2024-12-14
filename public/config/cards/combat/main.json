@@ -115,7 +115,8 @@
           "战斗.行动结果.empty"
         ],
         "specialMechanism": "nextCombatTurn",
-        "description": "进入下一个回合"
+        "description": "进入下一个回合",
+        "skipContinue": true
       }
     ]
   },
@@ -178,7 +179,6 @@
     "baseWeight": 1.0,
     "mustDraw": true,
     "priority": 2007,
-    "autoSelect": true,
     "illustration": "{{actorIllustration}}",
     "requireTags": {
       "战斗.状态": "进行中",
@@ -189,6 +189,7 @@
         "text": "{{aiActionChoice}}",
         "effects": [],
         "specialMechanism": "executeCombatAIAction",
+        "skipContinue":true,
         "description": "等待行动结果..."
       }
     ]

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Card as CardType } from '../types';
 import { specialMechanismService } from '../services/specialMechanismService';
 import { dateService } from '../services/dateService';
@@ -22,10 +22,12 @@ interface Choice {
   consumeCard?: boolean;
   specialMechanism?: string;
   disabledDisplay?: string;
+  skipContinue?: boolean;
 }
 
 export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
   const [selectedChoice, setSelectedChoice] = useState<Choice | null>(null);
+  const selectedChoiceRef = useRef<Choice | null>(null);
   const [resultText, setResultText] = useState<string>('');
   const [showContinueButton, setShowContinueButton] = useState(false);
   const [processedDescription, setProcessedDescription] = useState<string>('');
@@ -41,7 +43,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
     setIsReady(false);
     setProcessedDescription(specialMechanismService.replacePlaceholders(card.description));
 
-    requestAnimationFrame(() => {
+    Promise.resolve().then(() => {
       setIsReady(true);
     });
   }, [card.id]);
@@ -50,7 +52,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
     if (isReady && card.autoSelect && card.choices.length > 0) {
       handleChoice(card.choices[0]);
     }
-  }, [isReady]);
+  }, [isReady, card.id, card.autoSelect, card.choices.length]);
 
   useEffect(() => {
     const loadIllustration = async () => {
@@ -60,67 +62,92 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
     loadIllustration();
   }, [card]);
 
-  const handleChoice = async (choice: Choice) => {
-    console.log('选择选项开始:', choice.text);
-    setSelectedChoice(choice);
-    
-    // 先应用effects更新标签值
-    console.log('应用效果前:', choice.effects);
-    choice.effects.forEach(effect => {
-      effectService.applyEffect(effect);
+  useEffect(() => {
+    console.log('Card state changed:', {
+      cardId: card.id,
+      isReady,
+      autoSelect: card.autoSelect,
+      choicesLength: card.choices.length,
+      selectedChoice,
+      showContinueButton
     });
-    console.log('应用效果后');
+  }, [card.id, isReady, card.autoSelect, card.choices.length, selectedChoice, showContinueButton]);
+
+  useEffect(() => {
+    console.log('selectedChoice changed:', {
+      selectedChoice,
+      cardId: card.id,
+      time: new Date().toISOString()
+    });
+  }, [selectedChoice]);
+
+  const handleChoice = async (choice: Choice) => {
+    console.log('handleChoice start:', choice);
     
-    // 如果需要消耗卡片，立即消耗
-    if (choice.consumeCard) {
-      console.log('消耗卡片:', card.id);
-      cardService.consumeCard(card);
-    }
+    // 同时更新 state 和 ref
+    setSelectedChoice(choice);
+    selectedChoiceRef.current = choice;
     
-    // 构建结果文本
-    let text = `<div><i>${choice.text}</i><p>${choice.description}</p></div>`;
-    const processedText = specialMechanismService.replacePlaceholders(text);
-    setResultText(processedText);
-    
-    // 等待特殊机制处理完成后再清空当前卡牌
-    if (choice.specialMechanism) {
-      console.log('开始处理特殊机制:', choice.specialMechanism);
-      try {
+    try {
+      // 应用效果
+      choice.effects.forEach(effect => {
+        effectService.applyEffect(effect);
+      });
+
+      // 如果需要消耗卡片
+      if (choice.consumeCard) {
+        cardService.consumeCard(card);
+      }
+      
+      // 设置结果文本
+      let text = `<div><i>${choice.text}</i><p>${choice.description}</p></div>`;
+      const processedText = specialMechanismService.replacePlaceholders(text);
+      setResultText(processedText);
+      
+      // 处理特殊机制
+      if (choice.specialMechanism) {
         await specialMechanismService.handleSpecialMechanism(
           choice.specialMechanism,
           choice,
           card
         );
-        console.log('特殊机制处理完成');
-      } catch (error) {
-        console.error('特殊机制处理失败:', error);
-        return;
       }
-    }
 
-    // 特殊机制处理完成后再清空当前卡牌
-    console.log('清空当前卡片');
-    cardService.setCurrentCard(null);
-    
-    setShowContinueButton(true);
-    console.log('选择选项完成');
+      setShowContinueButton(true);
+      
+      // 等待状态更新
+      await new Promise(resolve => setTimeout(resolve, 0));
+      
+      if (choice.skipContinue) {
+        // 使用 ref 而不是 state
+        const currentChoice = selectedChoiceRef.current;
+        if (currentChoice) {
+          await handleContinue();
+        }
+      }
+
+      cardService.setCurrentCard(null);
+    } catch (error) {
+      console.error('选项处理失败:', error);
+    }
   };
 
   const handleContinue = async () => {
-    console.log('点击继续按钮');
-    if (selectedChoice) {
-      console.log('处理选择后续:', selectedChoice.text);
+    // 使用 ref 而不是 state
+    const currentChoice = selectedChoiceRef.current;
+    console.log('点击继续按钮 selectedChoice = ', currentChoice);
+    
+    if (currentChoice) {
+      console.log('处理选择后续:', currentChoice.text);
       
       // 重置组件状态
       setSelectedChoice(null);
+      selectedChoiceRef.current = null;
       setResultText('');
       setShowContinueButton(false);
       
-      console.log('调用onChoice回调');
       try {
-        // 等待选择处理完成
-        await onChoice(selectedChoice);
-        console.log('选择处理完成');
+        await onChoice(currentChoice);
       } catch (error) {
         console.error('选择处理失败:', error);
       }
@@ -236,7 +263,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
             className="w-[2.4vh] h-[2.4vh] flex items-center justify-center hover:bg-navy-blue hover:bg-opacity-80 rounded-full transition-colors"
             title={`${typewriterEnabled ? '关闭' : '开启'}打字效果`}
           >
-            {typewriterEnabled ? '✍️' : '📃'}
+            {typewriterEnabled ? '打字' : '直显'}
           </button>
         </div>
 
