@@ -367,7 +367,7 @@ export class CombatSystem {
   private async loadCombatConfig(combatId: string): Promise<CombatConfig | null> {
     try {
       console.log(`加载战斗配置: combatId=${combatId}`);
-      const response = await fetch(`${import.meta.env.BASE_URL}config/combats/crystal_encounters.json`);
+      const response = await fetch(`${import.meta.env.BASE_URL}config/combats/crystal_encounters.json?t=${new Date().getTime()}`);
       if (!response.ok) return null;
       const configs = await response.json() as CombatConfig[];
       const config = configs.find(config => config.id === combatId) || null;
@@ -383,7 +383,7 @@ export class CombatSystem {
   private async createCombatEntity(entityId: string, config: EntityConfig): Promise<void> {
     try {
       console.log(`创建战斗实体: entityId=${entityId}, config=${JSON.stringify(config)}`);
-      const response = await fetch(`${import.meta.env.BASE_URL}config/entities/combat_entities.json`);
+      const response = await fetch(`${import.meta.env.BASE_URL}config/combats/entities/combat_entities.json?t=${new Date().getTime()}`);
       if (!response.ok) throw new Error('Failed to load entity data');
       
       const entities = await response.json();

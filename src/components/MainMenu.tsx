@@ -47,7 +47,7 @@ export const MainMenu: React.FC<MainMenuProps> = ({ onStartGame, onLoadGame }) =
     // 加载卡包分类配置
     const loadCardCategories = async () => {
       try {
-        const response = await fetch(`${import.meta.env.BASE_URL}config/cardSetCategories.json`);
+        const response = await fetch(`${import.meta.env.BASE_URL}config/cardSetCategories.json?t=${new Date().getTime()}`);
         const categories = await response.json();
         setCardCategories(categories);
         

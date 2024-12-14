@@ -8,7 +8,7 @@ class CharacterService {
 
   async loadCharacterData(): Promise<void> {
     try {
-      const response = await fetch(import.meta.env.BASE_URL + 'config/characters.json');
+      const response = await fetch(import.meta.env.BASE_URL + `config/characters.json?t=${new Date().getTime()}`);
       const data = await response.json();
       
       console.log('Raw character data loaded:', data);
