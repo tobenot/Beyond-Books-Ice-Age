@@ -1,7 +1,25 @@
 import { GameContainer } from './components/GameContainer';
 import './App.css';
+import { TargetPanel } from './components/combat/TargetPanel';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [showTargetPanel, setShowTargetPanel] = useState(false);
+  const [targetPanelCallback, setTargetPanelCallback] = useState<((targetId: string) => void) | null>(null);
+
+  useEffect(() => {
+    const handleShowPanel = (event: CustomEvent) => {
+      const { onSelect } = event.detail;
+      setTargetPanelCallback(() => onSelect);
+      setShowTargetPanel(true);
+    };
+
+    window.addEventListener('showTargetPanel', handleShowPanel as EventListener);
+    return () => {
+      window.removeEventListener('showTargetPanel', handleShowPanel as EventListener);
+    };
+  }, []);
+
   return (
     <>
       {/* 竖屏提示遮罩 */}
@@ -15,6 +33,12 @@ function App() {
           <GameContainer />
         </div>
       </div>
+      {showTargetPanel && (
+        <TargetPanel 
+          onClose={() => setShowTargetPanel(false)}
+          onSelect={targetPanelCallback}
+        />
+      )}
     </>
   );
 }

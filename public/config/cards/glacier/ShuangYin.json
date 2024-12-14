@@ -4,7 +4,7 @@
         "name": "与霜隐的对话",
         "type": "event",
         "cardSet": "基础",
-        "description": "霜隐身着改装的战术装备,体表生长着几块紫色的几何状晶体。她的眼神中透露着坚定与狂热。",
+        "description": "霜隐身着改装的战术装备,体表生长着几块蓝色的几何状晶体。她的眼神中透露着坚定与狂热。",
         "baseWeight": 10.0,
         "illustration": "shuangYin",
         "requireTags": {

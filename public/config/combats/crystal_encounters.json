@@ -1,0 +1,14 @@
+[
+  {
+    "id": "crystal_encounter_1",
+    "name": "晶体遭遇战",
+    "description": "一个由蓝色晶体构成的人形生物缓缓转向你...",
+    "entities": [
+      {
+        "id": "crystal_humanoid_basic",
+        "level": 1,
+        "count": 1
+      }
+    ]
+  }
+] 

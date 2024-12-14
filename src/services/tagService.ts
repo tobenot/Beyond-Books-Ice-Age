@@ -39,6 +39,11 @@ class TagService {
   }
 
   updateTag(path: string, value: number | string): void {
+    if (value === 'empty') {
+      console.log(`删除标签: ${path}`);
+    } else {
+      console.log(`更新标签: ${path} = ${value}`);
+    }
     characterService.updatePlayerTag(path, value);
   }
 

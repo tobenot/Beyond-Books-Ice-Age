@@ -1,0 +1,58 @@
+[
+  {
+    "id": "crystal_humanoid_basic",
+    "name": "晶体人形",
+    "description": "由熵减力量凝结而成的人形生物,浑身覆盖着蓝色晶体。",
+    "faction": "晶体生物",
+    "baseStats": {
+      "hp": 100,
+      "maxHp": 100,
+      "mp": 50,
+      "maxMp": 50,
+      "sp": 80,
+      "maxSp": 80,
+      "strength": 12,
+      "agility": 10,
+      "intelligence": 8,
+      "constitution": 10,
+      "wisdom": 8,
+      "charisma": 6
+    },
+    "levelGrowth": {
+      "hp": 20,
+      "maxHp": 20,
+      "mp": 10,
+      "maxMp": 10,
+      "sp": 15,
+      "maxSp": 15,
+      "strength": 2,
+      "agility": 2,
+      "intelligence": 1,
+      "constitution": 2,
+      "wisdom": 1,
+      "charisma": 1
+    },
+    "skills": ["crystal_slash", "crystal_shield"],
+    "ai": {
+      "type": "aggressive",
+      "params": {
+        "preferredTargets": ["player"]
+      }
+    },
+    "rewards": {
+      "exp": 50,
+      "items": [
+        {
+          "id": "蓝色晶体",
+          "chance": 0.8,
+          "amount": 2
+        },
+        {
+          "id": "结晶核心",
+          "chance": 0.3,
+          "amount": 1
+        }
+      ]
+    }
+  }
+] 

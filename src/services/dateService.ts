@@ -9,8 +9,8 @@ class DateService {
   private readonly defaultTimeConsumption = 3;
 
   constructor() {
-    this.currentDate = new Date(2019, 7, 12, 10, 0, 0); // August 12, 2019
-    this.endDate = new Date(2020, 6, 7, 10, 0, 0); // July 7, 2020
+    this.currentDate = new Date(12, 7, 12, 10, 0, 0); // August 12, 2019
+    this.endDate = new Date(13, 6, 7, 10, 0, 0); // July 7, 2020
     this.daysPassed = 0;
   }
 

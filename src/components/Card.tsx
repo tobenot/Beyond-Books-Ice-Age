@@ -10,7 +10,7 @@ import { TypewriterText } from './TypewriterText';
 
 interface CardProps {
   card: CardType;
-  onChoice: (choice: Choice) => void;
+  onChoice: (choice: Choice) => Promise<void>;
 }
 
 // 扩展基础的选项接口
@@ -60,7 +60,7 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
     loadIllustration();
   }, [card]);
 
-  const handleChoice = (choice: Choice) => {
+  const handleChoice = async (choice: Choice) => {
     console.log('选择选项开始:', choice.text);
     setSelectedChoice(choice);
     
@@ -77,22 +77,36 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
       cardService.consumeCard(card);
     }
     
-    // 构建结果文本 - 移除多余的换行和空格
+    // 构建结果文本
     let text = `<div><i>${choice.text}</i><p>${choice.description}</p></div>`;
-    
-    // 使用specialMechanismService处理占位符
     const processedText = specialMechanismService.replacePlaceholders(text);
     setResultText(processedText);
-    setShowContinueButton(true);
+    
+    // 等待特殊机制处理完成后再清空当前卡牌
+    if (choice.specialMechanism) {
+      console.log('开始处理特殊机制:', choice.specialMechanism);
+      try {
+        await specialMechanismService.handleSpecialMechanism(
+          choice.specialMechanism,
+          choice,
+          card
+        );
+        console.log('特殊机制处理完成');
+      } catch (error) {
+        console.error('特殊机制处理失败:', error);
+        return;
+      }
+    }
 
-    // 选择完就立即清空当前卡牌
+    // 特殊机制处理完成后再清空当前卡牌
     console.log('清空当前卡片');
     cardService.setCurrentCard(null);
     
+    setShowContinueButton(true);
     console.log('选择选项完成');
   };
 
-  const handleContinue = () => {
+  const handleContinue = async () => {
     console.log('点击继续按钮');
     if (selectedChoice) {
       console.log('处理选择后续:', selectedChoice.text);
@@ -103,7 +117,13 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
       setShowContinueButton(false);
       
       console.log('调用onChoice回调');
-      onChoice(selectedChoice);
+      try {
+        // 等待选择处理完成
+        await onChoice(selectedChoice);
+        console.log('选择处理完成');
+      } catch (error) {
+        console.error('选择处理失败:', error);
+      }
     }
   };
 
@@ -208,50 +228,57 @@ export const Card: React.FC<CardProps> = ({ card, onChoice }) => {
           />
         </div>
 
-        {/* 文字内容容器 */}
-        <div className="w-full flex flex-col">
-          <div className="flex justify-between items-center">
-            <h2 className="text-[1.8vh] font-bold mb-[0.5vh]">{card.name}</h2>
-            <button
-              onClick={() => setTypewriterEnabled(!typewriterEnabled)}
-              className="w-[2.4vh] h-[2.4vh] flex items-center justify-center hover:bg-navy-blue hover:bg-opacity-80 rounded-full transition-colors"
-              title={`${typewriterEnabled ? '关闭' : '开启'}打字效果`}
-            >
-              {typewriterEnabled ? '✍️' : '📃'}
-            </button>
-          </div>
-          
-          <TypewriterText
-            text={processedDescription}
-            enabled={typewriterEnabled && isReady}
-            className="text-[1.6vh] mb-[0.8vh] whitespace-pre-line flex-grow overflow-y-auto"
-          />
-          
-          {/* 选项区域 */}
-          {!selectedChoice ? (
-            <div className="choices space-y-[0.5vh]">
-              {renderChoices()}
-            </div>
-          ) : (
-            <div>
+        {/* 标题和打字机控制按钮 */}
+        <div className="flex justify-between items-center mb-[0.5vh]">
+          <h2 className="text-[1.8vh] font-bold">{card.name}</h2>
+          <button
+            onClick={() => setTypewriterEnabled(!typewriterEnabled)}
+            className="w-[2.4vh] h-[2.4vh] flex items-center justify-center hover:bg-navy-blue hover:bg-opacity-80 rounded-full transition-colors"
+            title={`${typewriterEnabled ? '关闭' : '开启'}打字效果`}
+          >
+            {typewriterEnabled ? '✍️' : '📃'}
+          </button>
+        </div>
+
+        {/* 下半部分左右分栏 */}
+        <div className="flex gap-[0.8vh] h-[30vh]">
+          {/* 左侧文字内容 */}
+          <div className="flex-1 overflow-y-auto">
+            {!selectedChoice ? (
+              <TypewriterText
+                text={processedDescription}
+                enabled={typewriterEnabled && isReady}
+                className="text-[1.6vh] whitespace-pre-line"
+              />
+            ) : (
               <TypewriterText
                 text={resultText}
                 enabled={typewriterEnabled}
-                className="result-text mb-[0.8vh] whitespace-pre-line text-[1.6vh]"
+                className="result-text whitespace-pre-line text-[1.6vh]"
                 isHtml={true}
               />
-              {showContinueButton && (
+            )}
+          </div>
+
+          {/* 右侧选项列表 */}
+          <div className="w-[40%] flex flex-col">
+            {!selectedChoice ? (
+              <div className="choices space-y-[0.5vh] overflow-y-auto">
+                {renderChoices()}
+              </div>
+            ) : (
+              showContinueButton && (
                 <button
                   onClick={handleContinue}
-                  className="w-full p-[0.8vh] text-[1.6vh] bg-moss-green hover:bg-opacity-80 rounded"
+                  className="w-full p-[0.8vh] text-[1.6vh] bg-moss-green hover:bg-opacity-80 rounded mt-auto"
                 >
                   {dateService.getCardTimeConsumption(card) > 0 
                     ? `过了${dateService.getCardTimeConsumption(card)}时间` 
                     : '继续'}
                 </button>
-              )}
-            </div>
-          )}
+              )
+            )}
+          </div>
         </div>
       </div>
     </div>

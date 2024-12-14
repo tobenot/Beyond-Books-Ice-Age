@@ -77,17 +77,33 @@ class CharacterService {
     const keys = tagPath.split('.');
     let current: any = this.characterTags[characterId];
     
-    // 递归创建路径
+    // 如果值是 'empty'，则删除该标签
+    if (value === 'empty') {
+      // 遍历到倒数第二层
+      for (let i = 0; i < keys.length - 1; i++) {
+        const key = keys[i];
+        if (!current[key]) return;
+        current = current[key];
+      }
+      
+      // 删除最后一层的键
+      const lastKey = keys[keys.length - 1];
+      if (current[lastKey] !== undefined) {
+        console.log(`删除标签 ${tagPath} (${characterId})`);
+        delete current[lastKey];
+      }
+      return;
+    }
+
+    // 正常设置值的逻辑保持不变...
     for (let i = 0; i < keys.length - 1; i++) {
       const key = keys[i];
-      // 如果是第一级,确保是 CharacterTags 中定义的类别
       if (i === 0 && !current[key]) {
         if (!['状态', '位置', '装备', '物品', '技能', '对话', '记忆', '目标'].includes(key)) {
           console.warn(`Creating new top-level tag category: ${key}`);
         }
         current[key] = {};
       }
-      // 如果是更深层级,直接创建对象
       else if (!(key in current)) {
         current[key] = {};
       }
@@ -103,7 +119,7 @@ class CharacterService {
       current[lastKey] = value;
     }
 
-    console.log(`Updated tag ${tagPath} for character ${characterId}:`, {
+    console.log(`更新标签 ${tagPath} (${characterId}):`, {
       path: tagPath,
       value: current[lastKey],
       fullPath: this.getCharacterTagValue(characterId, tagPath)

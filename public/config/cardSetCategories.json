@@ -2,7 +2,7 @@
   {
     "id": "base",
     "name": "基础内容",
-    "description": "包含主要剧情线和基础互动。从冬眠中醒来后的初始剧情，与复苏队和冰河派的初次接触，以及在废土世界中生存的基本选项。",
+    "description": "包含主要剧情线和基础互动。在废土世界中生存的基本选项。",
     "cardSets": [
       {
         "id": "基础",
@@ -10,7 +10,14 @@
         "description": "游戏的基础内容",
         "path": "base.json",
         "required": true
-      },
+      }
+    ]
+  },
+  {
+    "id": "start",
+    "name": "开头剧情",
+    "description": "包含从冬眠中醒来后的初始剧情，与复苏队和冰河派的初次接触。",
+    "cardSets": [
       {
         "id": "开局",
         "name": "开局卡包",
@@ -44,6 +51,20 @@
         "name": "霜隐剧情",
         "description": "包含冰河派霜隐的剧情",
         "path": "ShuangYin.json",
+        "required": true
+      }
+    ]
+  },
+  {
+    "id": "combat",
+    "name": "战斗系统",
+    "description": "包含所有战斗相关的卡牌。",
+    "cardSets": [
+      {
+        "id": "战斗",
+        "name": "战斗卡包",
+        "description": "战斗系统的所有卡牌",
+        "path": "main.json",
         "required": true
       }
     ]

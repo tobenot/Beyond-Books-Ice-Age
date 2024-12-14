@@ -1,0 +1,196 @@
+[
+  {
+    "id": "combat_main",
+    "name": "你的回合",
+    "type": "combat",
+    "cardSet": "战斗",
+    "description": "{{combatDescription}}\n\n{{actorDescription}}",
+    "baseWeight": 1.0,
+    "mustDraw": true,
+    "priority": 2024,
+    "illustration": "{{actorIllustration}}",
+    "requireTags": {
+      "战斗.状态": "进行中",
+      "战斗.当前行动者": "player"
+    },
+    "choices": [
+      {
+        "text": "攻击",
+        "effects": [
+          "战斗.选择.类型.attack"
+        ],
+        "specialMechanism": "showTargetPanel",
+        "description": "选择攻击目标"
+      },
+      {
+        "text": "防御",
+        "effects": [
+          "战斗.选择.类型.defend"
+        ],
+        "specialMechanism": "executeCombatAction",
+        "description": "进入防御姿态"
+      },
+      {
+        "text": "技能",
+        "effects": [
+          "战斗.选择.类型.skill"
+        ],
+        "specialMechanism": "showSkillPanel",
+        "description": "使用战斗技能"
+      },
+      {
+        "text": "道具",
+        "effects": [
+          "战斗.选择.类型.item"
+        ],
+        "specialMechanism": "showItemPanel",
+        "description": "使用战斗道具"
+      },
+      {
+        "text": "逃跑",
+        "effects": [
+          "战斗.选择.类型.escape"
+        ],
+        "specialMechanism": "combatEscape",
+        "description": "尝试逃离战斗"
+      }
+    ]
+  },
+  {
+    "id": "combat_target_select",
+    "name": "选择目标",
+    "type": "combat",
+    "cardSet": "战斗",
+    "description": "选择{{actionType}}目标:\n\n{{targetList}}",
+    "baseWeight": 1.0,
+    "mustDraw": true,
+    "priority": 2025,
+    "illustration": "{{actorIllustration}}",
+    "debug": true,
+    "requireTags": {
+      "战斗.状态": "进行中",
+      "战斗.当前行动者": "player",
+      "战斗.选择.目标范围": "!empty"
+    },
+    "choices": [
+      {
+        "text": "{{targetName}}",
+        "effects": [
+          "战斗.选择.目标.{{targetId}}"
+        ],
+        "specialMechanism": "executeCombatAction",
+        "description": "对 {{targetName}} 使用{{actionName}}"
+      },
+      {
+        "text": "返回",
+        "effects": [
+          "战斗.选择.类型.empty",
+          "战斗.选择.目标.empty",
+          "战斗.选择.技能.empty",
+          "战斗.选择.道具.empty"
+        ],
+        "description": "返回上一步"
+      }
+    ]
+  },
+  {
+    "id": "combat_action_result",
+    "name": "战斗行动结果",
+    "type": "combat",
+    "cardSet": "战斗",
+    "description": "{{actionResult}}\n\n{{targetStatus}}",
+    "baseWeight": 1.0,
+    "mustDraw": true,
+    "priority": 2030,
+    "debug": true,
+    "illustration": "{{targetIllustration}}",
+    "requireTags": {
+      "战斗.状态": "进行中",
+      "战斗.行动结果": "!empty"
+    },
+    "choices": [
+      {
+        "text": "继续",
+        "effects": [
+          "战斗.行动结果.empty"
+        ],
+        "specialMechanism": "nextCombatTurn",
+        "description": "进入下一个回合"
+      }
+    ]
+  },
+  {
+    "id": "combat_end",
+    "name": "战斗结束",
+    "type": "combat",
+    "cardSet": "战斗",
+    "description": "{{combatResult}}\n\n获得物品:\n{{rewardItems}}\n\n获得经验值: {{rewardExp}}",
+    "baseWeight": 1.0,
+    "mustDraw": true,
+    "priority": 2035,
+    "illustration": "{{resultIllustration}}",
+    "requireTags": {
+      "战斗.状态": "结算"
+    },
+    "choices": [
+      {
+        "text": "继续",
+        "effects": [
+          "战斗.状态.empty",
+          "战斗.ID.empty"
+        ],
+        "description": "离开战斗"
+      }
+    ]
+  },
+  {
+    "id": "observe_wasteland",
+    "name": "观察废土",
+    "type": "event",
+    "cardSet": "基础",
+    "description": "这片荒野已经被熵减力量彻底改变。扭曲的建筑残骸和蓝色的几何状结晶随处可见，偶尔能看到一些机器人的残骸。\n\n空气中弥漫着金属的味道，远处不时传来奇怪的声响。这里危险重重，但也蕴藏着各种有价值的资源。",
+    "baseWeight": 0.1,
+    "mustDraw":true,
+    "priority": 80,
+    "illustration": "loc_wasteland",
+"requireTags": {
+    },
+    "choices": [
+        {
+            "text": "调查可疑的晶体",
+            "effects": [
+                "状态.精力.-5",
+                "战斗.ID.crystal_encounter_1",
+                "战斗.类型.random",
+                "战斗.状态.进行中"
+            ],
+            "specialMechanism": "startCombat",
+            "description": "那些蓝色的晶体似乎在移动..."
+        }
+    ]
+},
+  {
+    "id": "combat_ai_choice",
+    "name": "其他人行动",
+    "type": "combat",
+    "cardSet": "战斗",
+    "description": "{{combatDescription}}\n\n{{actorDescription}}",
+    "baseWeight": 1.0,
+    "mustDraw": true,
+    "priority": 2007,
+    "autoSelect": true,
+    "illustration": "{{actorIllustration}}",
+    "requireTags": {
+      "战斗.状态": "进行中",
+      "战斗.当前行动者": "!empty"
+    },
+    "choices": [
+      {
+        "text": "{{aiActionChoice}}",
+        "effects": [],
+        "specialMechanism": "executeCombatAIAction",
+        "description": "等待行动结果..."
+      }
+    ]
+  }
+] 

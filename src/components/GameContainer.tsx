@@ -109,22 +109,12 @@ export const GameContainer: React.FC = () => {
     }
   };
 
-  const handleChoice = (choice: Choice) => {
+  const handleChoice = async (choice: Choice) => {
     console.log('GameContainer处理选择开始:', choice);
     if (!currentCard) return;
 
     // 更新标签显示
     setTags(characterService.getPlayer()?.tags || tags);
-
-    // 处理特殊机制
-    if (choice.specialMechanism) {
-      console.log('处理特殊机制:', choice.specialMechanism);
-      specialMechanismService.handleSpecialMechanism(
-        choice.specialMechanism,
-        choice,
-        currentCard
-      );
-    }
 
     // 更新时间
     const timeConsumption = dateService.getCardTimeConsumption(currentCard);
