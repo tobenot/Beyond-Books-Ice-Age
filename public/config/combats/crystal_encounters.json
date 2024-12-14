@@ -10,5 +10,100 @@
         "count": 1
       }
     ]
+  },
+  {
+    "id": "crystal_wolf_pack",
+    "name": "晶狼群袭击",
+    "description": "一群晶狼从废墟中窜出,向你发起攻击!",
+    "entities": [
+      {
+        "id": "crystal_wolf",
+        "level": 1,
+        "count": 2
+      }
+    ],
+    "rewards": {
+      "exp": 100
+    }
+  },
+  {
+    "id": "entropy_slime_encounter",
+    "name": "遭遇熵减史莱姆",
+    "description": "一团蓝色的不定形物质正在吞噬周围的废墟...",
+    "entities": [
+      {
+        "id": "entropy_slime",
+        "level": 1,
+        "count": 1
+      }
+    ],
+    "rewards": {
+      "exp": 50
+    }
+  },
+  {
+    "id": "crystal_golem_guard",
+    "name": "遭遇晶化巨人",
+    "description": "一个巨大的晶体生物挡住了去路!",
+    "entities": [
+      {
+        "id": "crystal_golem",
+        "level": 1,
+        "count": 1
+      }
+    ],
+    "rewards": {
+      "exp": 120
+    }
+  },
+  {
+    "id": "crystal_swarm_attack",
+    "name": "虫群来袭",
+    "description": "大量的晶体虫群从废墟中涌出!",
+    "entities": [
+      {
+        "id": "crystal_swarm",
+        "level": 1,
+        "count": 3
+      }
+    ],
+    "rewards": {
+      "exp": 100
+    }
+  },
+  {
+    "id": "crystal_sentinel_patrol",
+    "name": "哨卫巡逻",
+    "description": "两个晶哨卫正在巡视这片区域。",
+    "entities": [
+      {
+        "id": "crystal_sentinel", 
+        "level": 1,
+        "count": 2
+      }
+    ],
+    "rewards": {
+      "exp": 90
+    }
+  },
+  {
+    "id": "crystal_hive_defense",
+    "name": "晶巢防御",
+    "description": "一个巨大的晶巢正在不断产生新的晶体生物!",
+    "entities": [
+      {
+        "id": "crystal_hive",
+        "level": 1,
+        "count": 1
+      },
+      {
+        "id": "crystal_swarm",
+        "level": 1,
+        "count": 2
+      }
+    ],
+    "rewards": {
+      "exp": 150
+    }
   }
 ] 

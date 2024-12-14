@@ -1,0 +1,196 @@
+[
+  {
+    "id": "encounter_crystal_wolves",
+    "name": "晶狼来袭",
+    "type": "event",
+    "cardSet": "基础",
+    "description": "你听到周围传来低沉的嚎叫声,几双发着蓝光的眼睛在废墟中若隐若现...",
+    "baseWeight": 0.3,
+    "illustration": "crystal_wolf",
+    "requireTags": {
+      "位置.当前地点": "wasteland"
+    },
+    "choices": [
+      {
+        "text": "准备战斗",
+        "effects": [
+          "状态.精力.-5",
+          "战斗.ID.crystal_wolf_pack",
+          "战斗.类型.random",
+          "战斗.状态.进行中"
+        ],
+        "specialMechanism": "startCombat",
+        "description": "晶狼群从废墟中冲了出来!"
+      },
+      {
+        "text": "试图躲避",
+        "effects": [
+          "状态.精力.-10"
+        ],
+        "description": "你躲进了一个狭小的缝隙中..."
+      }
+    ]
+  },
+  {
+    "id": "encounter_entropy_slime",
+    "name": "危险的物质",
+    "type": "event",
+    "cardSet": "基础",
+    "description": "你发现前方的废墟正在被一种蓝色的物质吞噬,那些被吞噬的物质正在逐渐结晶化...",
+    "baseWeight": 0.2,
+    "illustration": "entropy_slime",
+    "requireTags": {
+      "位置.当前地点": "wasteland"
+    },
+    "choices": [
+      {
+        "text": "研究它",
+        "effects": [
+          "状态.精力.-5",
+          "战斗.ID.entropy_slime_encounter",
+          "战斗.类型.random",
+          "战斗.状态.进行中"
+        ],
+        "specialMechanism": "startCombat",
+        "description": "那团物质注意到了你的存在!"
+      },
+      {
+        "text": "远离它",
+        "effects": [
+          "状态.精力.-5"
+        ],
+        "description": "这东西太危险了,还是不要靠近为好。"
+      }
+    ]
+  },
+  {
+    "id": "encounter_crystal_golem",
+    "name": "庞大的身影",
+    "type": "event",
+    "cardSet": "基础",
+    "description": "远处有个巨大的身影正在缓慢移动,它的身体似乎完全由晶体构成...",
+    "baseWeight": 0.15,
+    "illustration": "crystal_golem",
+    "requireTags": {
+      "位置.当前地点": "wasteland"
+    },
+    "choices": [
+      {
+        "text": "正面迎战",
+        "effects": [
+          "状态.精力.-10",
+          "战斗.ID.crystal_golem_guard",
+          "战斗.类型.random",
+          "战斗.状态.进行中"
+        ],
+        "specialMechanism": "startCombat",
+        "description": "晶化巨人发现了你的存在!"
+      },
+      {
+        "text": "绕道而行",
+        "effects": [
+          "状态.精力.-15"
+        ],
+        "description": "你花了些时间找到了一条安全的路线。"
+      }
+    ]
+  },
+  {
+    "id": "encounter_crystal_swarm",
+    "name": "晶体虫群",
+    "type": "event",
+    "cardSet": "基础",
+    "description": "你听到周围传来奇怪的嗡鸣声,无数微小的蓝色晶体正在聚集...",
+    "baseWeight": 0.25,
+    "illustration": "crystal_swarm",
+    "requireTags": {
+      "位置.当前地点": "wasteland"
+    },
+    "choices": [
+      {
+        "text": "迎战",
+        "effects": [
+          "状态.精力.-5",
+          "战斗.ID.crystal_swarm_attack",
+          "战斗.类型.random",
+          "战斗.状态.进行中"
+        ],
+        "specialMechanism": "startCombat",
+        "description": "晶体虫群发起了攻击!"
+      },
+      {
+        "text": "快速撤离",
+        "effects": [
+          "状态.精力.-10",
+          "状态.生命值.-5"
+        ],
+        "description": "你拼命奔跑,虫群紧随其后..."
+      }
+    ]
+  },
+  {
+    "id": "encounter_crystal_sentinels",
+    "name": "哨卫巡逻",
+    "type": "event",
+    "cardSet": "基础",
+    "description": "两个浮空的晶体生物正在巡视这片区域,它们似乎在搜索什么...",
+    "baseWeight": 0.2,
+    "illustration": "crystal_sentinel",
+    "requireTags": {
+      "位置.当前地点": "wasteland"
+    },
+    "choices": [
+      {
+        "text": "主动出击",
+        "effects": [
+          "状态.精力.-5",
+          "战斗.ID.crystal_sentinel_patrol",
+          "战斗.类型.random",
+          "战斗.状态.进行中"
+        ],
+        "specialMechanism": "startCombat",
+        "description": "晶哨卫发现了你的位置!"
+      },
+      {
+        "text": "躲避",
+        "effects": [
+          "状态.精力.-8"
+        ],
+        "description": "你躲在掩体后面,等待它们离开..."
+      }
+    ]
+  },
+  {
+    "id": "encounter_crystal_hive",
+    "name": "发现晶巢",
+    "type": "event",
+    "cardSet": "基础",
+    "description": "你发现了一个巨大的晶体结构,它正在不断产生新的晶体生物...",
+    "baseWeight": 0.15,
+    "illustration": "crystal_hive",
+    "requireTags": {
+      "位置.当前地点": "wasteland"
+    },
+    "choices": [
+      {
+        "text": "摧毁晶巢",
+        "effects": [
+          "状态.精力.-10",
+          "战斗.ID.crystal_hive_defense",
+          "战斗.类型.random",
+          "战斗.状态.进行中"
+        ],
+        "specialMechanism": "startCombat",
+        "description": "晶巢开始召唤防御者!"
+      },
+      {
+        "text": "标记位置",
+        "effects": [
+          "状态.精力.-5",
+          "记忆.晶巢位置.1"
+        ],
+        "description": "你在地图上标记了这个危险区域。"
+      }
+    ]
+  }
+] 

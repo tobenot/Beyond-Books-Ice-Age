@@ -54,5 +54,331 @@
         }
       ]
     }
+  },
+  {
+    "id": "crystal_wolf",
+    "name": "晶狼",
+    "description": "被熵减力量改造的狼,身体部分结晶化。行动敏捷,攻击凶猛。",
+    "faction": "晶体生物",
+    "baseStats": {
+      "hp": 80,
+      "maxHp": 80,
+      "mp": 30,
+      "maxMp": 30,
+      "sp": 100,
+      "maxSp": 100,
+      "strength": 14,
+      "agility": 16,
+      "intelligence": 6,
+      "constitution": 8,
+      "wisdom": 8,
+      "charisma": 4
+    },
+    "levelGrowth": {
+      "hp": 15,
+      "maxHp": 15,
+      "mp": 5,
+      "maxMp": 5,
+      "sp": 10,
+      "maxSp": 10,
+      "strength": 3,
+      "agility": 4,
+      "intelligence": 1,
+      "constitution": 2,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "skills": ["crystal_bite", "howl"],
+    "ai": {
+      "type": "aggressive",
+      "params": {
+        "preferredTargets": ["player", "revival_team"]
+      }
+    },
+    "rewards": {
+      "exp": 40,
+      "items": [
+        {
+          "id": "晶化兽皮",
+          "chance": 0.7,
+          "amount": 1
+        },
+        {
+          "id": "晶化獠牙",
+          "chance": 0.4,
+          "amount": 1
+        }
+      ]
+    }
+  },
+  {
+    "id": "entropy_slime",
+    "name": "熵减史莱姆",
+    "description": "由熵减力量凝结而成的不定形生物,能吸收并转化周围的物质。",
+    "faction": "晶体生物",
+    "baseStats": {
+      "hp": 120,
+      "maxHp": 120,
+      "mp": 60,
+      "maxMp": 60,
+      "sp": 50,
+      "maxSp": 50,
+      "strength": 8,
+      "agility": 6,
+      "intelligence": 12,
+      "constitution": 14,
+      "wisdom": 10,
+      "charisma": 4
+    },
+    "levelGrowth": {
+      "hp": 25,
+      "maxHp": 25,
+      "mp": 15,
+      "maxMp": 15,
+      "sp": 5,
+      "maxSp": 5,
+      "strength": 1,
+      "agility": 1,
+      "intelligence": 3,
+      "constitution": 3,
+      "wisdom": 2,
+      "charisma": 0
+    },
+    "skills": ["absorb", "split"],
+    "ai": {
+      "type": "defensive",
+      "params": {
+        "healThreshold": 0.5
+      }
+    },
+    "rewards": {
+      "exp": 35,
+      "items": [
+        {
+          "id": "熵减精华",
+          "chance": 0.6,
+          "amount": 2
+        }
+      ]
+    }
+  },
+  {
+    "id": "crystal_golem",
+    "name": "晶化巨人",
+    "description": "由大量晶体聚合而成的巨型生物,行动缓慢但防御力极强。",
+    "faction": "晶体生物", 
+    "baseStats": {
+      "hp": 200,
+      "maxHp": 200,
+      "mp": 40,
+      "maxMp": 40,
+      "sp": 60,
+      "maxSp": 60,
+      "strength": 18,
+      "agility": 4,
+      "intelligence": 6,
+      "constitution": 20,
+      "wisdom": 6,
+      "charisma": 4
+    },
+    "levelGrowth": {
+      "hp": 40,
+      "maxHp": 40,
+      "mp": 5,
+      "maxMp": 5,
+      "sp": 10,
+      "maxSp": 10,
+      "strength": 4,
+      "agility": 0,
+      "intelligence": 1,
+      "constitution": 5,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "skills": ["crystal_smash", "crystallize"],
+    "ai": {
+      "type": "defensive",
+      "params": {
+        "guardThreshold": 0.3
+      }
+    },
+    "rewards": {
+      "exp": 80,
+      "items": [
+        {
+          "id": "巨型晶核",
+          "chance": 0.4,
+          "amount": 1
+        },
+        {
+          "id": "晶化碎片",
+          "chance": 0.9,
+          "amount": 3
+        }
+      ]
+    }
+  },
+  {
+    "id": "crystal_swarm",
+    "name": "晶体虫群",
+    "description": "由大量微小的晶体生物组成的集群,能够快速移动并分散攻击。",
+    "faction": "晶体生物",
+    "baseStats": {
+      "hp": 60,
+      "maxHp": 60,
+      "mp": 20,
+      "maxMp": 20,
+      "sp": 100,
+      "maxSp": 100,
+      "strength": 8,
+      "agility": 14,
+      "intelligence": 4,
+      "constitution": 6,
+      "wisdom": 4,
+      "charisma": 2
+    },
+    "levelGrowth": {
+      "hp": 10,
+      "maxHp": 10,
+      "mp": 5,
+      "maxMp": 5,
+      "sp": 15,
+      "maxSp": 15,
+      "strength": 1,
+      "agility": 3,
+      "intelligence": 0,
+      "constitution": 1,
+      "wisdom": 0,
+      "charisma": 0
+    },
+    "skills": ["swarm_attack", "scatter"],
+    "ai": {
+      "type": "aggressive",
+      "params": {
+        "preferredTargets": ["player", "revival_team"]
+      }
+    },
+    "rewards": {
+      "exp": 30,
+      "items": [
+        {
+          "id": "微型晶核",
+          "chance": 0.9,
+          "amount": 3
+        }
+      ]
+    }
+  },
+  {
+    "id": "crystal_sentinel",
+    "name": "晶哨卫",
+    "description": "由大型晶体构成的浮空生物,能发射晶体射线进行远程攻击。",
+    "faction": "晶体生物",
+    "baseStats": {
+      "hp": 90,
+      "maxHp": 90,
+      "mp": 80,
+      "maxMp": 80,
+      "sp": 70,
+      "maxSp": 70,
+      "strength": 6,
+      "agility": 8,
+      "intelligence": 14,
+      "constitution": 8,
+      "wisdom": 12,
+      "charisma": 4
+    },
+    "levelGrowth": {
+      "hp": 15,
+      "maxHp": 15,
+      "mp": 20,
+      "maxMp": 20,
+      "sp": 10,
+      "maxSp": 10,
+      "strength": 1,
+      "agility": 1,
+      "intelligence": 3,
+      "constitution": 1,
+      "wisdom": 2,
+      "charisma": 0
+    },
+    "skills": ["crystal_beam", "energy_shield"],
+    "ai": {
+      "type": "defensive",
+      "params": {
+        "shieldThreshold": 0.4
+      }
+    },
+    "rewards": {
+      "exp": 45,
+      "items": [
+        {
+          "id": "能量晶核",
+          "chance": 0.6,
+          "amount": 1
+        },
+        {
+          "id": "晶化碎片",
+          "chance": 0.8,
+          "amount": 2
+        }
+      ]
+    }
+  },
+  {
+    "id": "crystal_hive",
+    "name": "晶巢",
+    "description": "能够不断产生小型晶体生物的巨大晶体结构。",
+    "faction": "晶体生物",
+    "baseStats": {
+      "hp": 150,
+      "maxHp": 150,
+      "mp": 100,
+      "maxMp": 100,
+      "sp": 0,
+      "maxSp": 0,
+      "strength": 4,
+      "agility": 0,
+      "intelligence": 10,
+      "constitution": 16,
+      "wisdom": 8,
+      "charisma": 4
+    },
+    "levelGrowth": {
+      "hp": 30,
+      "maxHp": 30,
+      "mp": 20,
+      "maxMp": 20,
+      "sp": 0,
+      "maxSp": 0,
+      "strength": 0,
+      "agility": 0,
+      "intelligence": 2,
+      "constitution": 4,
+      "wisdom": 1,
+      "charisma": 0
+    },
+    "skills": ["spawn_crystals", "area_crystallize"],
+    "ai": {
+      "type": "support",
+      "params": {
+        "spawnInterval": 3
+      }
+    },
+    "rewards": {
+      "exp": 70,
+      "items": [
+        {
+          "id": "巨型晶核",
+          "chance": 0.5,
+          "amount": 1
+        },
+        {
+          "id": "微型晶核",
+          "chance": 1.0,
+          "amount": 5
+        }
+      ]
+    }
   }
 ] 
