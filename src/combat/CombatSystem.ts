@@ -280,6 +280,11 @@ export class CombatSystem {
   public async executeAction(actor: Combatant, action: CombatAction): Promise<void> {
     console.log(`执行行动: ${actor.name} 使用 ${action.type}`);
     
+    // 更新行动状态标签
+    characterService.updatePlayerTag('战斗.行动状态', 'executing');
+    characterService.updatePlayerTag('战斗.行动类型', action.type);
+    characterService.updatePlayerTag('战斗.行动目标', action.targetId || '');
+    
     switch (action.type) {
       case 'attack':
         if (action.targetId) {
@@ -436,7 +441,7 @@ export class CombatSystem {
     console.log('战斗已清除');
   }
 
-  // 添加获取战斗��位的方法
+  // 添加获取战斗单位的方法
   getCombatants(): Combatant[] {
     return this.combatantManager.getAllCombatants();
   }
@@ -448,19 +453,12 @@ export class CombatSystem {
 
   // 获取战斗描述
   getDescription(): string {
-    const allCombatants = this.combatantManager.getAllCombatants();
     let description = '';
 
-    // 分阵营显示战斗单位
-    const factions = new Map<string, Combatant[]>();
-    allCombatants.forEach(combatant => {
-      if (!factions.has(combatant.faction)) {
-        factions.set(combatant.faction, []);
-      }
-      factions.get(combatant.faction)!.push(combatant);
-    });
+    description += this.getActorDescription();
+    description += '\n';
 
-    // 先描述环境
+    // 2. 然后是环境描述
     const locationId = characterService.getPlayerTagValue('位置.当前地点') as string;
     switch (locationId) {
       case 'wasteland':
@@ -476,11 +474,18 @@ export class CombatSystem {
         description += '战斗在这片被熵减影响的土地上展开。\n\n';
     }
 
-    // 描述各方势力
+    // 3. 最后是各方势力描述
+    const allCombatants = this.combatantManager.getAllCombatants();
+    const factions = new Map<string, Combatant[]>();
+    allCombatants.forEach(combatant => {
+      if (!factions.has(combatant.faction)) {
+        factions.set(combatant.faction, []);
+      }
+      factions.get(combatant.faction)!.push(combatant);
+    });
+
     factions.forEach((combatants, faction) => {
       description += `${this.getFactionDisplayName(faction)}:\n`;
-      
-      // 描述每个战斗单位的状态
       combatants.forEach(combatant => {
         description += this.getCombatantStatusDescription(combatant) + '\n';
       });
@@ -496,9 +501,7 @@ export class CombatSystem {
     
     let desc = `当前行动角色: ${this.currentActor.name}\n`;
     desc += `生命值: ${this.currentActor.stats.hp}/${this.currentActor.stats.maxHp}\n`;
-    desc += `魔法值: ${this.currentActor.stats.mp}/${this.currentActor.stats.maxMp}\n`;
-    desc += `体力值: ${this.currentActor.stats.sp}/${this.currentActor.stats.maxSp}\n`;
-    
+
     if (this.currentActor.status.isDefending) {
       desc += '状态: 防御中\n';
     }
@@ -611,7 +614,7 @@ export class CombatSystem {
   private getFactionDisplayName(faction: string): string {
     switch (faction) {
       case '玩家':
-        return '你的队伍';
+        return '你';
       case '复苏队':
         return '复苏队成员';
       case '晶体生物':

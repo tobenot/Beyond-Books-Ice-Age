@@ -4,7 +4,7 @@
     "name": "你的回合",
     "type": "combat",
     "cardSet": "战斗",
-    "description": "{{combatDescription}}\n\n{{actorDescription}}",
+    "description": "{{combatDescription}}",
     "baseWeight": 1.0,
     "mustDraw": true,
     "priority": 2024,
@@ -115,8 +115,8 @@
           "战斗.行动结果.empty"
         ],
         "specialMechanism": "nextCombatTurn",
-        "description": "进入下一个回合",
-        "skipContinue": true
+        "skipContinue": true,
+        "description": "skipContinue了，这段文本不显示"
       }
     ]
   },
@@ -175,7 +175,7 @@
     "name": "其他人行动",
     "type": "combat",
     "cardSet": "战斗",
-    "description": "{{combatDescription}}\n\n{{actorDescription}}",
+    "description": "{{combatDescription}}",
     "baseWeight": 1.0,
     "mustDraw": true,
     "priority": 2007,
@@ -186,11 +186,11 @@
     },
     "choices": [
       {
-        "text": "{{aiActionChoice}}",
+        "text": "ta的行动是……",
         "effects": [],
         "specialMechanism": "executeCombatAIAction",
         "skipContinue":true,
-        "description": "等待行动结果..."
+        "description": "skipContinue了，这段文本不显示"
       }
     ]
   }

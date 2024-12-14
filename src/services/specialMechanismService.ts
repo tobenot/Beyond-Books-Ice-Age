@@ -109,6 +109,57 @@ class SpecialMechanismService {
         characterService.getPlayerTagValue('战斗.选择.类型') as string
       );
       return targets.map(t => t.id).join('|');
+    },
+    actionResult: () => {
+      const actionType = characterService.getPlayerTagValue('战斗.行动类型');
+      const targetId = characterService.getPlayerTagValue('战斗.行动目标');
+      const actor = combatSystem.getCurrentActor();
+      const target = combatSystem.getCombatant(targetId as string);
+      
+      if (!actor || !actionType) return '';
+      
+      switch (actionType) {
+        case 'attack':
+          return `${actor.name} 对 ${target?.name || '???'} 发起攻击！`;
+        case 'defend':
+          return `${actor.name} 进入防御姿态。`;
+        case 'skill':
+          const skillId = characterService.getPlayerTagValue('战斗.选择.技能');
+          return `${actor.name} 使用了 ${skillId || '???'} 技能！`;
+        case 'item':
+          const itemId = characterService.getPlayerTagValue('战斗.选择.道具');
+          return `${actor.name} 使用了 ${itemId || '???'}！`;
+        default:
+          return `${actor.name} 正在行动...`;
+      }
+    },
+    targetStatus: () => {
+      const targetId = characterService.getPlayerTagValue('战斗.行动目标');
+      const target = combatSystem.getCombatant(targetId as string);
+      if (!target) return '';
+
+      let status = `${target.name} - HP: ${target.stats.hp}/${target.stats.maxHp}\n`;
+      
+      if (target.status.isDefending) {
+        status += '处于防御状态\n';
+      }
+      if (target.status.buffs.length > 0) {
+        status += `增益效果: ${target.status.buffs.map(b => b.type).join(', ')}\n`;
+      }
+      if (target.status.debuffs.length > 0) {
+        status += `减益效果: ${target.status.debuffs.map(b => b.type).join(', ')}\n`;
+      }
+
+      return status;
+    },
+    targetIllustration: () => {
+      const targetId = characterService.getPlayerTagValue('战斗.行动目标');
+      const target = combatSystem.getCombatant(targetId as string);
+      return target ? `combat_${target.id}` : 'default_combat';
+    },
+    actorIllustration: () => {
+      const actor = combatSystem.getCurrentActor();
+      return actor ? `combat_${actor.id}` : 'default_combat';
     }
   };
 
