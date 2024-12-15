@@ -23,6 +23,11 @@ export const TargetPanel: React.FC<TargetPanelProps> = ({ onClose, onSelect }) =
     const possibleTargets = combatSystem.getPossibleTargets(type);
     console.log('Possible targets:', possibleTargets);
     setTargets(possibleTargets);
+
+    // 自动选择第一个可用目标
+    if (possibleTargets.length > 0) {
+      setSelectedTarget(possibleTargets[0].id);
+    }
   }, []);
 
   // 当选中目标变化时更新立绘
