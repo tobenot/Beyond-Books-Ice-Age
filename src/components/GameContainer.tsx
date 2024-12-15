@@ -14,6 +14,7 @@ import { CharacterPanel } from './CharacterPanel';
 import { characterService } from '../services/characterService';
 import { tagService } from '../services/tagService';
 import { createDefaultTags } from '../utils/defaultTags';
+import { MirrorMenu } from './MirrorMenu';
 
 
 export const GameContainer: React.FC = () => {
@@ -28,6 +29,7 @@ export const GameContainer: React.FC = () => {
   const [locations, setLocations] = useState({});
   const [showSaveMenu, setShowSaveMenu] = useState(false);
   const [showInventory, setShowInventory] = useState(false);
+  const [showMirrorMenu, setShowMirrorMenu] = useState(false);
 
   useEffect(() => {
     const initGame = async () => {
@@ -221,6 +223,30 @@ export const GameContainer: React.FC = () => {
     setCurrentCard(newCard);
   };
 
+  // 添加处理照镜子的函数
+  const handleMirrorClick = () => {
+    characterService.updatePlayerTag('目标.照镜子', '1');
+    
+    // 检查当前卡是否是观察卡
+    const currentCard = cardService.getCurrentCard();
+    if (currentCard?.id.startsWith('observe_')) {
+      // 如果是观察卡,直接跳过
+      skipCurrentCard();
+    }
+  };
+
+  // 添加事件监听
+  useEffect(() => {
+    const handleShowMirrorMenu = (event: CustomEvent) => {
+      setShowMirrorMenu(true);
+    };
+
+    window.addEventListener('showMirrorMenu', handleShowMirrorMenu as EventListener);
+    return () => {
+      window.removeEventListener('showMirrorMenu', handleShowMirrorMenu as EventListener);
+    };
+  }, []);
+
   if (showMainMenu) {
     return (
       <MainMenu 
@@ -235,23 +261,32 @@ export const GameContainer: React.FC = () => {
       {/* 左侧面板 */}
       <div className="panel-container">
         <div className="panel-content">
-          <LocationSelector locations={locations} onSkipCard={skipCurrentCard} />
-          <div className="mt-4">
-            <button
-              onClick={() => setShowSaveMenu(true)}
-              className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
-            >
-              存档/读档
-            </button>
-          </div>
-          <div className="mt-4">
+          <div className="mb-4">
             <button
               onClick={() => setShowInventory(true)}
               className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
             >
-              物品/装备
+              📦 物品/装备
             </button>
           </div>
+          <div className="mb-4">
+            <button
+              onClick={handleMirrorClick}
+              className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
+            >
+              🧊 照镜子
+            </button>
+          </div>
+          <div className="mb-4">
+            <button
+              onClick={() => setShowSaveMenu(true)}
+              className="w-full p-2 bg-sky-blue hover:bg-opacity-80 rounded"
+            >
+              💾 存档/读档
+            </button>
+          </div>
+          
+          <LocationSelector locations={locations} onSkipCard={skipCurrentCard} />
         </div>
       </div>
 
@@ -328,6 +363,9 @@ export const GameContainer: React.FC = () => {
             <InventoryPanel />
           </div>
         </div>
+      )}
+      {showMirrorMenu && (
+        <MirrorMenu onClose={() => setShowMirrorMenu(false)} />
       )}
     </>
   );

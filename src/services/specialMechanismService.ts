@@ -582,6 +582,23 @@ class SpecialMechanismService {
   async showItemPanel(_choice: Choice, _card: Card): Promise<void> {
     // TODO: 实现道具选择面板
   }
+
+  // 添加 showMirrorMenu 机制处理
+  async showMirrorMenu(_choice: Choice, _card: Card): Promise<void> {
+    // 发送事件显示镜子菜单
+    window.dispatchEvent(new CustomEvent('showMirrorMenu', { 
+      detail: { 
+        // 暂时全部解锁
+        unlockedVariants: [
+          'default',
+          'female_young',
+          'female_mature', 
+          'female_elder',
+          'male_young'
+        ]
+      }
+    }));
+  }
 }
 
 export const specialMechanismService = new SpecialMechanismService(); 
