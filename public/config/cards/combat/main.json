@@ -157,32 +157,6 @@
     ]
   },
   {
-    "id": "observe_wasteland",
-    "name": "观察废土",
-    "type": "event",
-    "cardSet": "基础",
-    "description": "这片荒野已经被熵减力量彻底改变。扭曲的建筑残骸和蓝色的几何状结晶随处可见，偶尔能看到一些机器人的残骸。\n\n空气中弥漫着金属的味道，远处不时传来奇怪的声响。这里危险重重，但也蕴藏着各种有价值的资源。",
-    "baseWeight": 0.1,
-    "mustDraw":true,
-    "priority": 80,
-    "illustration": "loc_wasteland",
-"requireTags": {
-    },
-    "choices": [
-        {
-            "text": "调查可疑的晶体",
-            "effects": [
-                "状态.精力.-5",
-                "战斗.ID.crystal_encounter_1",
-                "战斗.类型.random",
-                "战斗.状态.进行中"
-            ],
-            "specialMechanism": "startCombat",
-            "description": "那些蓝色的晶体似乎在移动..."
-        }
-    ]
-},
-  {
     "id": "combat_ai_choice",
     "name": "其他人行动",
     "type": "combat",

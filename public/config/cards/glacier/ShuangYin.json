@@ -6,7 +6,7 @@
         "cardSet": "基础",
         "description": "霜隐身着改装的战术装备,体表生长着几块蓝色的几何状晶体。她的眼神中透露着坚定与狂热。",
         "baseWeight": 10.0,
-        "illustration": "shuangYin",
+        "illustration": "{{interactCharIllustration}}",
         "requireTags": {
             "目标.交谈角色": "shuangYin"
         },
@@ -36,7 +36,7 @@
         "cardSet": "基础",
         "description": "霜隐激动地解释着她的理念,晶体在说话时闪烁着微光。",
         "baseWeight": 10.0,
-        "illustration": "shuangYin",
+        "illustration": "{{interactCharIllustration}}",
         "requireTags": {
             "目标.交谈角色": "shuangYin",
             "对话.霜隐.目标": "开启"

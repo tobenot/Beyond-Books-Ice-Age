@@ -8,7 +8,7 @@
         "baseWeight": 10.0,
         "mustDraw": true,
         "priority": 1001,
-        "illustration": "suYuQing",
+        "illustration": "{{interactCharIllustration}}",
         "requireTags": {
             "目标.交谈角色": "suYuQing"
         },
@@ -60,7 +60,7 @@
         "baseWeight": 20.0,
         "priority": 1002,
         "mustDraw": true,
-        "illustration": "suYuQing",
+        "illustration": "{{interactCharIllustration}}",
         "requireTags": {
             "目标.交谈角色": "suYuQing",
             "对话.苏雨晴.基本情况": ">0"
@@ -88,7 +88,7 @@
         "baseWeight": 20.0,
         "priority": 1002,
         "mustDraw": true,
-        "illustration": "suYuQing",
+        "illustration": "{{interactCharIllustration}}",
         "requireTags": {
             "目标.交谈角色": "suYuQing",
             "对话.苏雨晴.复苏队信息": ">0"
@@ -114,7 +114,7 @@
         "baseWeight": 20.0,
         "priority": 1002,
         "mustDraw": true,
-        "illustration": "suYuQing",
+        "illustration": "{{interactCharIllustration}}",
         "requireTags": {
             "目标.交谈角色": "suYuQing",
             "对话.苏雨晴.熵减世界信息": ">0"

@@ -66,7 +66,7 @@
         "baseWeight": 10.0,
         "mustDraw": true,
         "priority": 200,
-        "illustration": "{{charIllustration}}",
+        "illustration": "{{interactCharIllustration}}",
         "requireTags": {
             "目标.交互角色": "!empty"
         },
@@ -271,6 +271,63 @@
                 "effects": [],
                 "specialMechanism": "gameOver",
                 "description": "游戏结束:复苏队结局"
+            }
+        ]
+    },
+    {
+        "id": "look_in_mirror",
+        "name": "照镜子",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你很容易找到一个非常光滑的表面，来仔细端详自己，但是随着你把手放在“镜子”上面，其中的影像似乎有些模糊不定...",
+        "baseWeight": 10.0,
+        "mustDraw": true,
+        "priority": 200,
+        "illustration": "{{playerIllustration}}",
+        "requireTags": {
+            "目标.照镜子": "1"
+        },
+        "choices": [
+            {
+                "text": "改变形态",
+                "effects": [
+                    "目标.照镜子.empty",
+                    "目标.照镜子结果.1"
+                ],
+                "specialMechanism": "showMirrorMenu",
+                "description": "这时候你深刻地感觉到你确实是异能者，所谓的真正的人类...\n你感觉镜子里的人在向你走过来...不对，那个就是我..."
+            },
+            {
+                "text": "离开",
+                "effects": [
+                    "目标.照镜子.empty"
+                ],
+                "description": "你并没有在意它。"
+            }
+        ]
+    },
+    {
+        "id": "look_in_mirror_change",
+        "name": "照镜子",
+        "type": "event",
+        "cardSet": "基础",
+        "description": "你用你的异能稳定住了镜子后的影像，现在你意识到你已经变成了镜子中的样子。",
+        "baseWeight": 10.0,
+        "mustDraw": true,
+        "priority": 200,
+        "debug": true,
+        "illustration": "{{playerIllustration}}",
+        "requireTags": {
+            "目标.照镜子结果": ">0"
+        },
+        "choices": [
+            {
+                "text": "很好",
+                "effects": [
+                    "目标.照镜子结果.empty"
+                ],
+                "skipContinue": true,
+                "description": "skipContinue了，这段文本不显示"
             }
         ]
     }
