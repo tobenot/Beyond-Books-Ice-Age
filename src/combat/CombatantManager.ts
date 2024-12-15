@@ -102,6 +102,7 @@ export class CombatantManager {
     stats: CombatStats & { baseInitiative?: number };
     skills: string[];
     status: CombatStatus;
+    illustration?: string;
     ai?: {
       type: string;
       params?: Record<string, any>;
@@ -120,9 +121,11 @@ export class CombatantManager {
       stats,
       skills: config.skills,
       status: config.status,
+      illustration: config.illustration,
       ai: config.ai ? this.createAI(config.ai) : undefined
     };
 
+    console.log(`CombatantManager: 创建实体 ${config.id} 的立绘设置为:`, config.illustration);
     this.combatants.set(config.id, combatant);
     return combatant;
   }

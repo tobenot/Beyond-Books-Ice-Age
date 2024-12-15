@@ -3,6 +3,8 @@
     "id": "crystal_humanoid_basic",
     "name": "晶体人形",
     "description": "由熵减力量凝结而成的人形生物,浑身覆盖着蓝色晶体。",
+    "illustration": "ent_crystal_humanoid_basic",
+    "illustrationVariants": 3,
     "faction": "晶体生物",
     "baseStats": {
       "hp": 100,
@@ -59,6 +61,7 @@
     "id": "crystal_wolf",
     "name": "晶狼",
     "description": "被熵减力量改造的狼,身体部分结晶化。行动敏捷,攻击凶猛。",
+    "illustration": "crystal_wolf",
     "faction": "晶体生物",
     "baseStats": {
       "hp": 80,
@@ -115,6 +118,7 @@
     "id": "entropy_slime",
     "name": "熵减史莱姆",
     "description": "由熵减力量凝结而成的不定形生物,能吸收并转化周围的物质。",
+    "illustration": "entropy_slime",
     "faction": "晶体生物",
     "baseStats": {
       "hp": 120,
@@ -166,6 +170,7 @@
     "id": "crystal_golem",
     "name": "晶化巨人",
     "description": "由大量晶体聚合而成的巨型生物,行动缓慢但防御力极强。",
+    "illustration": "crystal_golem",
     "faction": "晶体生物", 
     "baseStats": {
       "hp": 200,
@@ -222,6 +227,7 @@
     "id": "crystal_swarm",
     "name": "晶体虫群",
     "description": "由大量微小的晶体生物组成的集群,能够快速移动并分散攻击。",
+    "illustration": "crystal_swarm",
     "faction": "晶体生物",
     "baseStats": {
       "hp": 60,
@@ -273,6 +279,7 @@
     "id": "crystal_sentinel",
     "name": "晶哨卫",
     "description": "由大型晶体构成的浮空生物,能发射晶体射线进行远程攻击。",
+    "illustration": "crystal_sentinel",
     "faction": "晶体生物",
     "baseStats": {
       "hp": 90,
@@ -329,6 +336,7 @@
     "id": "crystal_hive",
     "name": "晶巢",
     "description": "能够不断产生小型晶体生物的巨大晶体结构。",
+    "illustration": "crystal_hive",
     "faction": "晶体生物",
     "baseStats": {
       "hp": 150,

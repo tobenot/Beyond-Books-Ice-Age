@@ -154,15 +154,25 @@ export class CombatSystem {
     }
 
     console.log(`当前行动者: ${actor.name} (${actor.id})`);
+    console.log('行动者立绘信息:', actor.illustration);
     this.currentActor = actor;
 
     if (actor.id === 'player') {
       console.log('玩家回合 - 等待玩家输入');
+      console.log('设置玩家立绘标签: player');
       characterService.updatePlayerTag('战斗.当前行动者', 'player');
+      characterService.updatePlayerTag('战斗.当前立绘', 'player');
     } else {
       console.log('AI回合 - 等待玩家确认');
-      // 设置当前行动者,触发AI选择卡
+      console.log(`设置实体立绘标签: ${actor.illustration || 'default'}`);
+      // 设置当前行动者和立绘
       characterService.updatePlayerTag('战斗.当前行动者', actor.id);
+      characterService.updatePlayerTag('战斗.当前立绘', actor.illustration || 'default');
+      
+      // 验证标签是否设置成功
+      const currentIllustration = characterService.getPlayerTagValue('战斗.当前立绘');
+      console.log('验证立绘标签设置:', currentIllustration);
+      
       characterService.updatePlayerTag('战斗.行动状态', 'thinking');
     }
   }
@@ -410,6 +420,14 @@ export class CombatSystem {
         }
       }
       console.log(`实体 ${entityId} 的属性计算完成: ${JSON.stringify(stats)}`);
+      console.log('实体立绘配置:', entityData.illustration);
+      // 处理立绘变体
+      let illustration = entityData.illustration;
+      if (entityData.illustrationVariants && entityData.illustrationVariants > 1) {
+        const variant = Math.floor(Math.random() * entityData.illustrationVariants) + 1;
+        illustration = `${entityData.illustration}_${variant}`;
+        console.log(`选择立绘变体: ${illustration}`);
+      }
       
       this.combatantManager.createFromEntity({
         id: entityId,
@@ -422,8 +440,11 @@ export class CombatSystem {
           buffs: [],
           debuffs: []
         },
+        illustration,
         ai: entityData.ai
       });
+
+      console.log(`实体 ${entityId} 创建完成,立绘设置为: ${illustration}`);
     } catch (error) {
       console.error(`Failed to create entity ${entityId}:`, error);
       throw error;
@@ -591,7 +612,7 @@ export class CombatSystem {
     } else if (hpPercent > 50) {
       desc += '受了一些伤';
     } else if (hpPercent > 20) {
-      desc += '伤势严重';
+      desc += '伤势��重';
     } else {
       desc += '命悬一线';
     }

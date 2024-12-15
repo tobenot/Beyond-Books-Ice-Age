@@ -22,6 +22,7 @@ export interface Combatant {
   stats: CombatStats;
   skills: string[];
   status: CombatStatus;
+  illustration?: string;
   ai?: CombatAI;
 }
 
@@ -98,6 +99,8 @@ export interface EntityData {
   baseStats: CombatStats;
   levelGrowth: Record<keyof CombatStats, number>;
   skills: string[];
+  illustration: string;
+  illustrationVariants?: number; // 添加立绘变体数量配置
   ai?: {
     type: string;
     params?: Record<string, any>;

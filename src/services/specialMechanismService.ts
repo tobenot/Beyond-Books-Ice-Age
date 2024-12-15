@@ -155,11 +155,19 @@ class SpecialMechanismService {
     targetIllustration: () => {
       const targetId = characterService.getPlayerTagValue('战斗.行动目标');
       const target = combatSystem.getCombatant(targetId as string);
-      return target ? `combat_${target.id}` : 'default_combat';
+      console.log('targetIllustration - 目标ID:', targetId);
+      console.log('targetIllustration - 目标立绘:', target?.illustration);
+      const illustration = target ? (target.illustration || 'default') : 'default_combat';
+      console.log('targetIllustration - 返回立绘:', illustration);
+      return illustration;
     },
     actorIllustration: () => {
       const actor = combatSystem.getCurrentActor();
-      return actor ? `combat_${actor.id}` : 'default_combat';
+      console.log('actorIllustration - 当前行动者:', actor?.name);
+      console.log('actorIllustration - 立绘信息:', actor?.illustration);
+      const illustration = actor ? (actor.illustration || 'default') : 'default_combat';
+      console.log('actorIllustration - 返回立绘:', illustration);
+      return illustration;
     }
   };
 
