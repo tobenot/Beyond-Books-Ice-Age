@@ -35,21 +35,15 @@ export class CombatSystem {
   }
 
   // 检查两个阵营的关系
-  private getFactionRelation(faction1: string, faction2: string): 'friendly' | 'hostile' | 'neutral' {
-    console.log(`Checking relation between ${faction1} and ${faction2}`);
-    
+  public getFactionRelation(faction1: string, faction2: string): 'friendly' | 'hostile' | 'neutral' {
     // 同阵营一定是友好的
-    if (faction1 === faction2) {
-      console.log('Same faction - friendly');
-      return 'friendly';
-    }
+    if (faction1 === faction2) return 'friendly';
 
     const relation = this.factionRelations.find(
       r => (r.faction1 === faction1 && r.faction2 === faction2) ||
            (r.faction1 === faction2 && r.faction2 === faction1)
     );
 
-    console.log('Found relation:', relation);
     return relation?.relation || 'neutral';
   }
 
@@ -138,42 +132,28 @@ export class CombatSystem {
 
   // 处理回合
   async processTurn(): Promise<void> {
-    console.log('开始处理回合');
-    
     if (this.checkCombatEnd()) {
-      console.log('战斗结束,进入结算');
-      characterService.updatePlayerTag('战斗.状态', '结算');
-      return;
+        console.log('[Combat] 战斗结束,进入结算');
+        characterService.updatePlayerTag('战斗.状态', '结算');
+        return;
     }
 
     const actor = this.getNextActor();
     if (!actor) {
-      console.log('没有可行动的角色,开始新回合');
-      await this.startNewRound();
-      return;
+        console.log('[Combat] 开始新回合');
+        await this.startNewRound();
+        return;
     }
 
-    console.log(`当前行动者: ${actor.name} (${actor.id})`);
-    console.log('行动者立绘信息:', actor.illustration);
     this.currentActor = actor;
 
     if (actor.id === 'player') {
-      console.log('玩家回合 - 等待玩家输入');
-      console.log('设置玩家立绘标签: player');
-      characterService.updatePlayerTag('战斗.当前行动者', 'player');
-      characterService.updatePlayerTag('战斗.当前立绘', 'player');
+        characterService.updatePlayerTag('战斗.当前行动者', 'player');
+        characterService.updatePlayerTag('战斗.当前立绘', 'player');
     } else {
-      console.log('AI回合 - 等待玩家确认');
-      console.log(`设置实体立绘标签: ${actor.illustration || 'default'}`);
-      // 设置当前行动者和立绘
-      characterService.updatePlayerTag('战斗.当前行动者', actor.id);
-      characterService.updatePlayerTag('战斗.当前立绘', actor.illustration || 'default');
-      
-      // 验证标签是否设置成功
-      const currentIllustration = characterService.getPlayerTagValue('战斗.当前立绘');
-      console.log('验证立绘标签设置:', currentIllustration);
-      
-      characterService.updatePlayerTag('战斗.行动状态', 'thinking');
+        characterService.updatePlayerTag('战斗.当前行动者', actor.id);
+        characterService.updatePlayerTag('战斗.当前立绘', actor.illustration || 'default');
+        characterService.updatePlayerTag('战斗.行动状态', 'thinking');
     }
   }
 
@@ -194,7 +174,6 @@ export class CombatSystem {
     // 如果是玩家角色或没有AI配置，跳过AI执行
     if (actor.faction === '玩家' || !actor.ai) {
       console.log(`Skipping AI execution for ${actor.name} (${actorId})`);
-      // 直接进入下一回合
       this.turnState.currentTurnIndex++;
       if (this.turnState.currentTurnIndex >= this.turnState.turnOrder.length) {
         this.turnState.currentTurnIndex = 0;
@@ -209,15 +188,28 @@ export class CombatSystem {
       const action = await actor.ai.decideAction();
       console.log(`${actor.name} 决定执行: ${action.type}`);
 
-      // 2. 更新行动状态
+      // 2. 如果是攻击行动且没有指定目标，自动选择一个敌人
+      if (action.type === 'attack' && (!action.targetId || action.targetId === 'enemy')) {
+        const enemy = this.combatantManager.getSingleEnemy(actor.faction);
+        if (enemy) {
+          action.targetId = enemy.id;
+          console.log(`自动选择攻击目标: ${enemy.name}`);
+        } else {
+          console.log('没有找到可攻击的目标');
+          // 如果没有敌人可攻击，改为防御
+          action.type = 'defend';
+        }
+      }
+
+      // 3. 更新行动状态
       characterService.updatePlayerTag('战斗.行动状态', 'executing');
       characterService.updatePlayerTag('战斗.行动类型', action.type);
       characterService.updatePlayerTag('战斗.行动目标', action.targetId || '');
 
-      // 3. 执行行动
+      // 4. 执行行动
       await this.executeAction(actor, action);
 
-      // 4. 更新行动结果标签,这会触发结果展示卡
+      // 5. 更新行动结果标签
       let resultDesc = '';
       switch (action.type) {
         case 'attack':
@@ -235,9 +227,6 @@ export class CombatSystem {
           break;
       }
       characterService.updatePlayerTag('战斗.行动结果', resultDesc);
-
-      // 注意:不需要在这里调用 processTurn
-      // 而是在结果卡的 nextCombatTurn 机制中处理
 
     } catch (error) {
       console.error('AI action execution failed:', error);
@@ -327,52 +316,36 @@ export class CombatSystem {
   // 初始化战斗
   async initCombat(combatId: string, locationId: string): Promise<void> {
     try {
-      console.log(`初始化战斗: combatId=${combatId}, locationId=${locationId}`);
+      console.log(`[Combat] 初始化战斗: ${combatId} @ ${locationId}`);
       
-      // 1. 加载战斗配置
       const combatConfig = await this.loadCombatConfig(combatId);
       if (!combatConfig) throw new Error(`Combat config ${combatId} not found`);
-      console.log(`战斗配置加载成功: ${combatConfig}`);
 
-      // 2. 清空之前的战斗单位
       this.combatantManager.clear();
-      console.log('清空之前的战斗单位');
-
-      // 3. 添加玩家到战斗
       this.combatantManager.createFromCharacter('player');
-      console.log('玩家已添加到战斗');
 
-      // 4. 添加当前地点的友方角色到战斗
       const locationCharacters = characterService.getCharactersAtLocation(locationId)
         .filter(char => char.faction === '复苏队' && !characterService.isPlayer(char.id));
-      console.log(`当前地点的友方角色: ${locationCharacters.map(char => char.id).join(', ')}`);
       
       for (const char of locationCharacters) {
         this.combatantManager.createFromCharacter(char.id);
-        console.log(`友方角色 ${char.id} 已添加到战斗`);
       }
 
-      // 5. 创建战斗实体
       for (const entity of combatConfig.entities) {
         for (let i = 0; i < entity.count; i++) {
           const entityId = `${entity.id}_${i}`;
           await this.createCombatEntity(entityId, entity);
-          console.log(`战斗实体 ${entityId} 已创建`);
         }
       }
 
       this.currentCombatId = combatId;
-      console.log(`战斗初始化完成: currentCombatId=${this.currentCombatId}`);
-
-      // 设置战斗状态为进行中
       characterService.updatePlayerTag('战斗.状态', '进行中');
       
-      // 开始第一个回合
-      console.log('开始第一个回合');
+      console.log('[Combat] 战斗初始化完成,开始第一回合');
       await this.startNewRound();
 
     } catch (error) {
-      console.error('Failed to initialize combat:', error);
+      console.error('[Combat] 初始化战斗失败:', error);
       this.endCombat();
       throw error;
     }
@@ -612,7 +585,7 @@ export class CombatSystem {
     } else if (hpPercent > 50) {
       desc += '受了一些伤';
     } else if (hpPercent > 20) {
-      desc += '伤势��重';
+      desc += '伤势严重';
     } else {
       desc += '命悬一线';
     }

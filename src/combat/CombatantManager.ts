@@ -1,5 +1,6 @@
 import { Combatant, CombatStats, CombatStatus, CombatAI } from './types';
 import { characterService } from '../services/characterService';
+import { combatSystem } from './CombatSystem';
 
 export class CombatantManager {
   private combatants: Map<string, Combatant> = new Map();
@@ -40,7 +41,17 @@ export class CombatantManager {
     let ai: CombatAI | undefined;
     if (character.faction !== '玩家') {
       if (character.faction === '复苏队') {
+        // 暂时给一个攻击性强的AI
         ai = {
+          type: 'aggressive',
+          decideAction: async () => {
+            return {
+              type: 'attack',
+              targetId: 'enemy'
+            };
+          }
+        };
+        /*ai = {
           type: 'support',
           decideAction: async () => {
             // 复苏队 AI 倾向于支援和防御
@@ -62,7 +73,7 @@ export class CombatantManager {
               };
             }
           }
-        };
+        };*/
       } else if (character.faction === '冰河派') {
         ai = {
           type: 'aggressive',
@@ -125,7 +136,7 @@ export class CombatantManager {
       ai: config.ai ? this.createAI(config.ai) : undefined
     };
 
-    console.log(`CombatantManager: 创建实体 ${config.id} 的立绘设置为:`, config.illustration);
+    console.log(`[Combat] 创建实体 ${config.id}, 立绘: ${config.illustration}`);
     this.combatants.set(config.id, combatant);
     return combatant;
   }
@@ -195,5 +206,40 @@ export class CombatantManager {
   // 清空所有战斗单位
   clear(): void {
     this.combatants.clear();
+  }
+
+  // 获取单个敌人目标
+  getSingleEnemy(actorFaction: string): Combatant | undefined {
+    // 获取所有敌对阵营且存活的战斗单位
+    const enemies = Array.from(this.combatants.values()).filter(c => 
+      combatSystem.getFactionRelation(actorFaction, c.faction) === 'hostile' && // 使用 CombatSystem 的阵营关系判断
+      c.stats.hp > 0 // 存活
+    );
+
+    // 如果有敌人，随机返回一个
+    if (enemies.length > 0) {
+      const randomIndex = Math.floor(Math.random() * enemies.length);
+      return enemies[randomIndex];
+    }
+
+    return undefined;
+  }
+
+  // 获取单个友军目标
+  getSingleAlly(actorFaction: string): Combatant | undefined {
+    // 获取所有友好阵营且存活的战斗单位
+    const allies = Array.from(this.combatants.values()).filter(c => 
+      (combatSystem.getFactionRelation(actorFaction, c.faction) === 'friendly' || // 使用 CombatSystem 的阵营关系判断
+       c.faction === actorFaction) && // 同阵营
+      c.stats.hp > 0 // 存活
+    );
+
+    // 如果有友军，随机返回一个
+    if (allies.length > 0) {
+      const randomIndex = Math.floor(Math.random() * allies.length);
+      return allies[randomIndex];
+    }
+
+    return undefined;
   }
 } 

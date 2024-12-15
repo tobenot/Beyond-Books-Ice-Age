@@ -35,6 +35,10 @@
         "effects": [
           "战斗.选择.类型.skill"
         ],
+        "requireTags": {
+          "系统.技能": "已开启"
+        },
+        "disabledDisplay": "技能系统制作中",
         "specialMechanism": "showSkillPanel",
         "description": "使用战斗技能"
       },
@@ -43,6 +47,10 @@
         "effects": [
           "战斗.选择.类型.item"
         ],
+        "requireTags": {
+          "系统.道具": "已开启"
+        },
+        "disabledDisplay": "道具系统制作中",
         "specialMechanism": "showItemPanel",
         "description": "使用战斗道具"
       },
@@ -51,6 +59,10 @@
         "effects": [
           "战斗.选择.类型.escape"
         ],
+        "requireTags": {
+          "系统.逃跑": "已开启"
+        },
+        "disabledDisplay": "逃跑系统制作中",
         "specialMechanism": "combatEscape",
         "description": "尝试逃离战斗"
       }
