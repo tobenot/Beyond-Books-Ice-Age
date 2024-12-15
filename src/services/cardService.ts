@@ -7,7 +7,19 @@ class CardService {
   private recentDrawnCards: string[] = [];
   private consumedCards: string[] = [];
   private currentCard: Card | null = null;
-  private activeCardSets: Set<string> = new Set(import.meta.env.MODE === 'development' ? ['base','recoveryTeam','glacier','combat'] : ['base','start','recoveryTeam','glacier','combat']);
+  private activeCardSets: Set<string> = new Set(
+    (() => {
+      console.log('ENV CHECK:', {
+        VITE_INCLUDE_START_PACK: import.meta.env.VITE_INCLUDE_START_PACK,
+        MODE: import.meta.env.MODE,
+        DEV: import.meta.env.DEV,
+        PROD: import.meta.env.PROD
+      });
+      return import.meta.env.VITE_INCLUDE_START_PACK === 'false'
+        ? ['base','recoveryTeam','glacier','combat']
+        : ['base','start','recoveryTeam','glacier','combat'];
+    })()
+  );
 
   async loadCardData(): Promise<void> {
     try {
@@ -64,7 +76,7 @@ class CardService {
   }
 
   private canDrawCard(card: Card): boolean {
-    const isDebug = card.debug === true;
+    const isDebug = (card as any).debug === true;
     
     // 检查日期限制
     if (card.dateRestrictions) {
@@ -136,8 +148,7 @@ class CardService {
       
       // 如果是检查布尔值（比如死亡状态）
       if (value === 'true' || value === 'false') {
-        const expectedValue = value === 'true';
-        const result = npcTagValue === expectedValue;
+        const result = String(npcTagValue) === value;
         debugLog(`Check NPC ${npcId} ${tagPath.join('.')} is ${value}`, result);
         return result;
       }
@@ -281,7 +292,7 @@ class CardService {
     console.log('设置当前卡片:', {
       cardId: card?.id,
       autoSelect: card?.autoSelect,
-      hasChoices: card?.choices?.length > 0
+      hasChoices: card?.choices ? card.choices.length > 0 : false
     });
     this.currentCard = card;
   }
